@@ -12,8 +12,10 @@
         app:pstsTextAllCaps="true"
         android:layout_width="match_parent"
         android:textSize="14sp"
-        android:background="@android:color/white"
-        android:textColor="@color/pinch"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        app:pstsDividerColor="@color/colorAccent"
+        app:pstsIndicatorColor="@color/colorPrimaryDark"
         android:layout_height="48dp" />
 
     <android.support.v4.view.ViewPager

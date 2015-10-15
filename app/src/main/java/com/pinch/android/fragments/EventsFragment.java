@@ -1,6 +1,7 @@
 package com.pinch.android.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.pinch.android.EventDetailsActivity;
 import com.pinch.android.R;
 import com.pinch.android.adapters.EventsArrayAdapter;
 
@@ -46,6 +49,13 @@ public class EventsFragment extends Fragment {
         mEventsArray = new ArrayList<>();
         mEventsAdapter = new EventsArrayAdapter(getActivity(), mEventsArray);
         mLvEvents.setAdapter(mEventsAdapter);
+        mLvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), EventDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void populateEvents() {
