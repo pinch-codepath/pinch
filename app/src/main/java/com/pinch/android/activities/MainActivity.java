@@ -10,6 +10,10 @@ import com.pinch.android.adapters.EventsFragmentPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ViewPager mVPager;
+    private EventsFragmentPagerAdapter mEventsPagerAdapter;
+    private PagerSlidingTabStrip mTabStrip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager() {
-        ViewPager vPager = (ViewPager) findViewById(R.id.viewpager);
-        vPager.setAdapter(new EventsFragmentPagerAdapter(getSupportFragmentManager(), this));
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabStrip.setViewPager(vPager);
+        mVPager = (ViewPager) findViewById(R.id.viewpager);
+        mEventsPagerAdapter = new EventsFragmentPagerAdapter(getSupportFragmentManager(), this);
+        mVPager.setAdapter(mEventsPagerAdapter);
+        mTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        mTabStrip.setViewPager(mVPager);
     }
-
 }

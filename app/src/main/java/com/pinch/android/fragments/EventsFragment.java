@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class EventsFragment extends Fragment {
 
-    private View mFragmentView;
+    protected View mFragmentView;
     protected ArrayList<String> mEventsArray;
     protected EventsArrayAdapter mEventsAdapter;
     protected ListView mLvEvents;
@@ -36,15 +36,17 @@ public class EventsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_events, container, false);
-
-        setupViewObjects();
-        setupSwipeToRefresh();
-        populateEvents();
-
+        setupFragment();
         return mFragmentView;
     }
 
-    private void setupViewObjects() {
+    protected void setupFragment() {
+        setupViewObjects();
+        setupSwipeToRefresh();
+        populateEvents();
+    }
+
+    protected void setupViewObjects() {
         mLvEvents = (ListView) mFragmentView.findViewById(R.id.lvEvents);
         mEventsArray = new ArrayList<>();
         mEventsAdapter = new EventsArrayAdapter(getActivity(), mEventsArray);

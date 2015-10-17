@@ -4,4 +4,31 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="distance_array">
+        <item>Any</item>
+        <item>5 miles</item>
+        <item>10 miles</item>
+        <item>25 miles</item>
+        <item>50 miles</item>
+    </string-array>
+
+    <string-array name="events_array">
+        <item>Any</item>
+        <item>Type1</item>
+        <item>Type2</item>
+        <item>Type3</item>
+        <item>Type4</item>
+    </string-array>
+
+    <string-array name="skills_array">
+        <item>Any</item>
+        <item>Skill1</item>
+        <item>Skill2</item>
+        <item>Skill3</item>
+        <item>Skill4</item>
+    </string-array>
+    <string name="title_activity_search_filters">SearchFiltersActivity</string>
+
+
 </resources>

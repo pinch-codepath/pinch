@@ -28,6 +28,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pinch.android.activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".activities.SearchFiltersActivity"
+            android:label="@string/title_activity_search_filters"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pinch.android.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
