@@ -1,5 +1,6 @@
 package com.pinch.android.activities;
 
+import android.content.Intent;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +20,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-public class SearchFiltersActivity extends AppCompatActivity implements
-        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener,
-        com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener {
+public class SearchFiltersActivity extends AppCompatActivity {
 
     DatePickerDialog fromDateDialog;
     DatePickerDialog toDateDialog;
@@ -36,6 +36,20 @@ public class SearchFiltersActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_filters);
 
+        setupDateTimePickers();
+
+        Button btSearch = (Button) findViewById(R.id.btSearch);
+        btSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent();
+                setResult(200, searchIntent);
+                finish();
+            }
+        });
+    }
+
+    private void setupDateTimePickers() {
         tvFromDate = (TextView) findViewById(R.id.tvFromDate);
         tvToDate = (TextView) findViewById(R.id.tvToDate);
         tvFromTime = (TextView) findViewById(R.id.tvFromTime);
@@ -46,7 +60,12 @@ public class SearchFiltersActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
                 fromDateDialog = DatePickerDialog.newInstance(
-                        SearchFiltersActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+                                tvFromDate.setText(month + "/" + day + "/" + year);
+                            }
+                        },
                         now.get(Calendar.YEAR),
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH)
@@ -60,7 +79,12 @@ public class SearchFiltersActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
                 toDateDialog = DatePickerDialog.newInstance(
-                        SearchFiltersActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+                                tvToDate.setText(month + "/" + day + "/" + year);
+                            }
+                        },
                         now.get(Calendar.YEAR),
                         now.get(Calendar.MONTH),
                         now.get(Calendar.DAY_OF_MONTH)
@@ -74,7 +98,12 @@ public class SearchFiltersActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
                 fromTimeDialog = TimePickerDialog.newInstance(
-                        SearchFiltersActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(RadialPickerLayout radialPickerLayout, int hour, int minute) {
+                                tvFromTime.setText(hour + ":" + minute);
+                            }
+                        },
                         now.get(Calendar.HOUR),
                         now.get(Calendar.MINUTE),
                         android.text.format.DateFormat.is24HourFormat(getApplicationContext())
@@ -88,7 +117,12 @@ public class SearchFiltersActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
                 toTimeDialog = TimePickerDialog.newInstance(
-                        SearchFiltersActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(RadialPickerLayout radialPickerLayout, int hour, int minute) {
+                                tvToTime.setText(hour + ":" + minute);
+                            }
+                        },
                         now.get(Calendar.HOUR),
                         now.get(Calendar.MINUTE),
                         android.text.format.DateFormat.is24HourFormat(getApplicationContext())
@@ -96,21 +130,5 @@ public class SearchFiltersActivity extends AppCompatActivity implements
                 toTimeDialog.show(getFragmentManager(), "Timepickerdialog");
             }
         });
-    }
-
-    @Override
-    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int date) {
-        if(datePickerDialog == fromDateDialog) {
-            tvFromDate.setText(month + "/" + date + "/" + year);
-        }
-        if(datePickerDialog == toDateDialog) {
-            tvToDate.setText(month + "/" + date + "/" + year);
-        }
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hour, int minute) {
-        tvFromTime.setText(hour + ":" + minute);
-
     }
 }
