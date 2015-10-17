@@ -111,4 +111,125 @@
         android:layout_below="@+id/llSkill" >
     </View>
 
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/divider3"
+        android:layout_margin="10dp"
+        android:id="@+id/llDate">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Date"
+            android:id="@+id/tvDate" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tvDate"
+            android:id="@+id/tvFromDate"
+            android:hint="From" />
+
+        <TextView
+            android:id="@+id/dash1"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignBottom="@+id/tvFromDate"
+            android:layout_toRightOf="@+id/tvFromDate"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:layout_alignBottom="@+id/tvFromDate"
+            android:layout_toRightOf="@+id/dash1"
+            android:id="@+id/tvToDate"
+            android:hint="To" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="#d1d1d1"
+        android:layout_below="@+id/llDate" >
+    </View>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/divider4"
+        android:layout_margin="10dp"
+        android:id="@+id/llTime">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Time"
+            android:id="@+id/tvTime" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tvTime"
+            android:id="@+id/tvFromTime"
+            android:hint="From" />
+
+        <TextView
+            android:id="@+id/dash2"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignBottom="@+id/tvFromTime"
+            android:layout_toRightOf="@+id/tvFromTime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="10dp"
+            android:layout_alignBottom="@+id/tvFromTime"
+            android:layout_toRightOf="@+id/dash2"
+            android:id="@+id/tvToTime"
+            android:hint="To" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="#d1d1d1"
+        android:layout_below="@+id/llTime" >
+    </View>
 </RelativeLayout>
