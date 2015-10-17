@@ -71,13 +71,13 @@ public class OrganizationEndpoint {
             Entity entity = Organization.toEntity(organization);
             key = datastoreService.put(entity);
             txn.commit();
+            if(key != null) {
+                organization.setId(key.getId());
+            }
         } finally {
             if (txn.isActive()) {
                 txn.rollback();
             }
-        }
-        if(key != null) {
-            organization.setId(key.getId());
         }
         return organization;
     }

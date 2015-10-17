@@ -8,7 +8,7 @@ public class InsertEvent {
     public static void main(String[] args) throws IOException {
         Event event = new Event();
         event.setTitle("HelloWorld");
-        Event returnedEvent = Endpoints.getInstance().eventEndpoint.insert(event).execute();
+        Event returnedEvent = Endpoints.getInstance().eventEndpoint.insert(5076495651307520L, event).execute();
         if(returnedEvent != null) {
                 System.out.println(returnedEvent.getId());
         }
