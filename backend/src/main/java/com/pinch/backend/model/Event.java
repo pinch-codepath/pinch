@@ -17,8 +17,8 @@ public class Event {
     private Date endTime;
     private String url;
 
-    public static Entity toEntity(Event event) {
-        Entity entity = new Entity(Constants.EVENT);
+    public static Entity toEntity(Key parentKey, Event event) {
+        Entity entity = new Entity(Constants.EVENT, parentKey);
         String title = event.getTitle();
         if(title != null) {
             entity.setProperty("title", title);
