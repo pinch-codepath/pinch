@@ -8,17 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.pinch.android.R;
+import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.util.List;
 
-public class EventsArrayAdapter extends ArrayAdapter<String> {
+public class EventsArrayAdapter extends ArrayAdapter<Event> {
 
     public enum RowType {
         DATE,
         EVENT
     }
 
-    public EventsArrayAdapter(Context context, List<String> events) {
+    public EventsArrayAdapter(Context context, List<Event> events) {
         super(context, R.layout.item_event, events);
     }
 
@@ -58,6 +59,7 @@ public class EventsArrayAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         int type = getItemViewType(position);
+        Event event = getItem(position);
         if (type == RowType.DATE.ordinal()) {
             return getDateView(position, convertView, parent);
         } else if (type == RowType.EVENT.ordinal()) {

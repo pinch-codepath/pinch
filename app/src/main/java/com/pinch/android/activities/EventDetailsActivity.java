@@ -1,4 +1,4 @@
-package com.pinch.android;
+package com.pinch.android.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pinch.android.R;
 import com.pinch.android.adapters.EventsArrayAdapter;
 import com.squareup.picasso.Picasso;
 

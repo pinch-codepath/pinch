@@ -15,16 +15,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.pinch.android.EventDetailsActivity;
+import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.R;
 import com.pinch.android.adapters.EventsArrayAdapter;
+import com.pinch.android.remote.GetOpenEventsTask;
+import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EventsFragment extends Fragment {
 
     protected View mFragmentView;
-    protected ArrayList<String> mEventsArray;
+    protected ArrayList<Event> mEventsArray;
     protected EventsArrayAdapter mEventsAdapter;
     protected ListView mLvEvents;
 
@@ -61,11 +64,14 @@ public class EventsFragment extends Fragment {
     }
 
     private void populateEvents() {
-        for (int i = 0; i < 20; i++) {
-            mEventsArray.add(String.valueOf(i));
-            mEventsAdapter.notifyDataSetChanged();
-        }
-        mSwipeContainer.setRefreshing(false);
+        new GetOpenEventsTask(new GetOpenEventsTask.GetOpenEventsResultsListener() {
+            @Override
+            public void onEventsFetched(List<Event> events) {
+                mEventsArray.addAll(events);
+                mEventsAdapter.notifyDataSetChanged();
+                mSwipeContainer.setRefreshing(false);
+            }
+        }).execute();
     }
 
     private void setupSwipeToRefresh() {
@@ -95,4 +101,5 @@ public class EventsFragment extends Fragment {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
+
 }
