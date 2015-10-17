@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <!-- ****************************
+    ************* Bullet ************
+    ********************************* -->
+    <TextView
+        android:id="@+id/tvBullet"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center|bottom"
+        android:text="•"
+        android:textSize="50dp"
+        android:textColor="@color/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/llTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvBullet"
+        android:layout_toRightOf="@id/tvBullet"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical"
+        android:weightSum="4">
+
+        <!-- *********************************
+         ************ Time From **************
+         ************************************** -->
+
+        <TextView
+            android:id="@+id/tvTimeFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:text="7:00 am -"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- *********************************
+         ************ Time To ****************
+         ************************************** -->
+
+        <TextView
+            android:id="@+id/tvTimeTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="9:00 am"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- *********************************
+         ************ Empty ******************
+         ************************************** -->
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="" />
+
+        <!-- *********************************
+         ************ Hours ******************
+         ************************************** -->
+
+        <TextView
+            android:id="@+id/tvHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2 hrs"
+            android:textSize="11sp"
+            android:textColor="#45040203" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvBullet"
+        android:layout_toRightOf="@id/llTime"
+        android:layout_marginLeft="25dp"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <!-- *********************************
+         ************ Event Name *************
+         ************************************** -->
+
+        <TextView
+            android:id="@+id/tvEventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold"
+            android:text="Serve Breakfast to the Elderly" />
+
+        <!-- *********************************
+         ************ Non profit *************
+         ************************************** -->
+
+        <TextView
+            android:id="@+id/tvNonProfit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="Curry Senior Center" />
+
+        <!-- *********************************
+         ************ Location ***************
+         ************************************** -->
+
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="#45040203"
+            android:text="Civic Center, SF" />
+
+    </LinearLayout>
+
+</RelativeLayout>
