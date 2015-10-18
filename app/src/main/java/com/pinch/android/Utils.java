@@ -30,4 +30,9 @@ public class Utils {
          return sdf.format(dateTime.getValue());
     }
 
+    public static String getDateString(DateTime dateTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        return sdf.format(dateTime.getValue());
+    }
+
 }
