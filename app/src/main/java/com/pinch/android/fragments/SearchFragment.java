@@ -11,15 +11,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.pinch.android.R;
+import com.pinch.android.SearchFilters;
 import com.pinch.android.activities.SearchFiltersActivity;
 
-public class SearchFiltersFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
     private View mFragmentView;
     private static final int REQUEST_CODE = 194;
     private static final int RESULT_OK = 200;
+    private SearchFilters searchFilters;
 
-    public SearchFiltersFragment() {}
+    public SearchFragment() {}
 
     @Nullable
     @Override
@@ -35,16 +37,19 @@ public class SearchFiltersFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent searchIntent = new Intent(getActivity(), SearchFiltersActivity.class);
+                searchIntent.putExtra("filters", searchFilters);
                 startActivityForResult(searchIntent, REQUEST_CODE);
             }
         });
+        searchFilters = new SearchFilters();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            //populate list
-            Toast.makeText(getActivity(), "FILTERED RESULTS", Toast.LENGTH_LONG).show();
+            searchFilters = data.getParcelableExtra("filters");
+            //populate list with the search filters
+            Toast.makeText(getActivity(), "UPDATING RESULTS", Toast.LENGTH_LONG).show();
         }
     }
 }

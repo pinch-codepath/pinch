@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.pinch.android.fragments.EventsFragment;
-import com.pinch.android.fragments.SearchFiltersFragment;
+import com.pinch.android.fragments.SearchFragment;
 
 public class EventsFragmentPagerAdapter extends FragmentPagerAdapter{
 
@@ -29,7 +29,7 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter{
             return new EventsFragment();
         }
         else if(position == 1) {
-            return new SearchFiltersFragment();
+            return new SearchFragment();
         }
         else {
             return null;
