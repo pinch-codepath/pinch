@@ -16,6 +16,12 @@ public class Event {
     private Date startTime;
     private Date endTime;
     private String url;
+    private String addressStreet;
+    private String addressCity;
+    private String addressState;
+    private Long addressZip;
+    private String addressNeighborhood;
+
 
     public static Entity toEntity(Key parentKey, Event event) {
         Entity entity = new Entity(Constants.EVENT, parentKey);
@@ -34,6 +40,26 @@ public class Event {
         Date endTime = event.getEndTime();
         if(endTime != null) {
             entity.setProperty("endTime", endTime);
+        }
+        String addressStreet = event.getAddressStreet();
+        if(addressStreet != null) {
+            entity.setProperty("addressStreet", addressStreet);
+        }
+        String addressCity = event.getAddressCity();
+        if(addressCity != null) {
+            entity.setProperty("addressCity", addressCity);
+        }
+        String addressState = event.getAddressState();
+        if(addressState != null) {
+            entity.setProperty("addressState", addressState);
+        }
+        Long addressZip = event.getAddressZip();
+        if(addressStreet != null) {
+            entity.setProperty("addressZip", addressZip);
+        }
+        String addressNeighborhood = event.getAddressNeighborhood();
+        if(addressStreet != null) {
+            entity.setProperty("addressNeighborhood", addressNeighborhood);
         }
         return entity;
     }
@@ -59,6 +85,26 @@ public class Event {
         Object endTime = entity.getProperty("endTime");
         if (endTime != null) {
             event.setEndTime((Date) endTime);
+        }
+        Object addressStreet = entity.getProperty("addressStreet");
+        if (addressStreet != null) {
+            event.setAddressStreet((String) addressStreet);
+        }
+        Object addressState = entity.getProperty("addressState");
+        if (addressState != null) {
+            event.setAddressState((String) addressState);
+        }
+        Object addressCity = entity.getProperty("addressCity");
+        if (addressCity != null) {
+            event.setAddressCity((String) addressCity);
+        }
+        Object addressZip = entity.getProperty("addressZip");
+        if (addressZip != null) {
+            event.setAddressZip((Long) addressZip);
+        }
+        Object addressNeighborhood = entity.getProperty("addressNeighborhood");
+        if (addressNeighborhood != null) {
+            event.setAddressNeighborhood((String) addressNeighborhood);
         }
         return event;
     }
@@ -118,5 +164,45 @@ public class Event {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getAddressStreet() {
+        return addressStreet;
+    }
+
+    public void setAddressStreet(String addressStreet) {
+        this.addressStreet = addressStreet;
+    }
+
+    public String getAddressCity() {
+        return addressCity;
+    }
+
+    public void setAddressCity(String addressCity) {
+        this.addressCity = addressCity;
+    }
+
+    public String getAddressState() {
+        return addressState;
+    }
+
+    public void setAddressState(String addressState) {
+        this.addressState = addressState;
+    }
+
+    public Long getAddressZip() {
+        return addressZip;
+    }
+
+    public void setAddressZip(Long addressZip) {
+        this.addressZip = addressZip;
+    }
+
+    public String getAddressNeighborhood() {
+        return addressNeighborhood;
+    }
+
+    public void setAddressNeighborhood(String addressNeighborhood) {
+        this.addressNeighborhood = addressNeighborhood;
     }
 }

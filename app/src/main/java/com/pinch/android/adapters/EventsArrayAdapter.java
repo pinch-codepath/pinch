@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.pinch.android.R;
+import com.pinch.android.Utils;
 import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.util.List;
@@ -59,7 +60,6 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         int type = getItemViewType(position);
-        Event event = getItem(position);
         if (type == RowType.DATE.ordinal()) {
             return getDateView(position, convertView, parent);
         } else if (type == RowType.EVENT.ordinal()) {
@@ -70,6 +70,7 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
     }
 
     private View getEventView(int position, View convertView, ViewGroup parent) {
+        Event event = getItem(position);
         EventViewHolder eventViewHolder;
         if (convertView == null) {
             eventViewHolder = new EventViewHolder();
@@ -84,6 +85,14 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         } else {
             eventViewHolder = (EventViewHolder) convertView.getTag();
         }
+
+//      eventViewHolder.tvHours.setText();
+        eventViewHolder.tvTimeFrom.setText(Utils.getTimeString(event.getStartTime()) + " -");
+        eventViewHolder.tvTimeTo.setText(Utils.getTimeString(event.getEndTime()));
+        eventViewHolder.tvLocation.setText(event.getAddressNeighborhood() + ", " + Utils.getCityShort(event.getAddressCity()));
+        eventViewHolder.tvEventName.setText(event.getTitle());
+//        eventViewHolder.tvNonProfit.setText();
+
         return convertView;
     }
 
