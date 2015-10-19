@@ -3,6 +3,7 @@ package com.pinch.backend.model;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 
+import java.util.Comparator;
 import java.util.Date;
 
 public class Event {
@@ -26,39 +27,39 @@ public class Event {
     public static Entity toEntity(Key parentKey, Event event) {
         Entity entity = new Entity(Constants.EVENT, parentKey);
         String title = event.getTitle();
-        if(title != null) {
+        if (title != null) {
             entity.setProperty("title", title);
         }
         String description = event.getDescription();
-        if(description != null) {
+        if (description != null) {
             entity.setProperty("description", description);
         }
         Date startTime = event.getStartTime();
-        if(startTime != null) {
+        if (startTime != null) {
             entity.setProperty("startTime", startTime);
         }
         Date endTime = event.getEndTime();
-        if(endTime != null) {
+        if (endTime != null) {
             entity.setProperty("endTime", endTime);
         }
         String addressStreet = event.getAddressStreet();
-        if(addressStreet != null) {
+        if (addressStreet != null) {
             entity.setProperty("addressStreet", addressStreet);
         }
         String addressCity = event.getAddressCity();
-        if(addressCity != null) {
+        if (addressCity != null) {
             entity.setProperty("addressCity", addressCity);
         }
         String addressState = event.getAddressState();
-        if(addressState != null) {
+        if (addressState != null) {
             entity.setProperty("addressState", addressState);
         }
         Long addressZip = event.getAddressZip();
-        if(addressStreet != null) {
+        if (addressStreet != null) {
             entity.setProperty("addressZip", addressZip);
         }
         String addressNeighborhood = event.getAddressNeighborhood();
-        if(addressStreet != null) {
+        if (addressStreet != null) {
             entity.setProperty("addressNeighborhood", addressNeighborhood);
         }
         return entity;
@@ -205,4 +206,11 @@ public class Event {
     public void setAddressNeighborhood(String addressNeighborhood) {
         this.addressNeighborhood = addressNeighborhood;
     }
+
+    public static final Comparator<Event> COMPARE_START_TIME =
+            new Comparator<Event>() {
+                public int compare(Event e1, Event e2) {
+                    return e2.getStartTime().compareTo(e1.getStartTime());
+                }
+            };
 }

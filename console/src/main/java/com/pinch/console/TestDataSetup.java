@@ -4,7 +4,6 @@ import com.google.api.client.util.DateTime;
 
 import com.pinch.backend.eventEndpoint.EventEndpoint;
 import com.pinch.backend.eventEndpoint.model.Event;
-import com.pinch.backend.eventEndpoint.model.Address;
 import com.pinch.backend.organizationEndpoint.OrganizationEndpoint;
 import com.pinch.backend.organizationEndpoint.model.GeoPt;
 import com.pinch.backend.organizationEndpoint.model.Organization;
