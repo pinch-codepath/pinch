@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.astuetz.PagerSlidingTabStrip;
 import com.pinch.android.R;
 import com.pinch.android.fragments.EventsFragment;
-import com.pinch.android.fragments.ProfileFragment;
+import com.pinch.android.fragments.UserProfileFragment;
 import com.pinch.android.fragments.SearchFragment;
 
 public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
@@ -43,7 +43,7 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
             return new SearchFragment();
         }
         else {
-            return new ProfileFragment();
+            return new UserProfileFragment();
         }
     }
 

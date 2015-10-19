@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 
 import com.pinch.android.R;
 
-import org.w3c.dom.UserDataHandler;
-
-public class ProfileFragment extends Fragment{
+public class UserProfileFragment extends Fragment{
 
     private View mFragmentView;
 
