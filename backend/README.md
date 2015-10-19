@@ -8,8 +8,6 @@
 -> https://cloud.google.com/appengine/articles/modeling (modeling)
 -> https://cloud.google.com/appengine/docs/java/datastore/queries?hl=en (queries)
 -> https://cloud.google.com/appengine/docs/java/datastore/geosearch?hl=en (geo search)
--> http://www.war-worlds.com/blog/2013/06/switched-away-from-app-engine-couldnt-be-happier (appengine)
--> https://news.ycombinator.com/item?id=3431132 (appengine)
 
 ## Exploring the API 
 
