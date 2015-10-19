@@ -8,10 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
-        android:layout_margin="10dp"
         android:elevation="2dp"
         android:id="@+id/svEvents"
-        android:queryHint="Keywords">
+        android:queryHint="Keywords"
+        android:background="@color/colorPrimary">
     </SearchView>
 
     <android.support.v4.widget.SwipeRefreshLayout
