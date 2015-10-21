@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.pinch.backend.api.EventEndpoint,com.pinch.backend.api.OrganizationEndpoint</param-value>
+            <param-value>
+                com.pinch.backend.api.EventEndpoint,com.pinch.backend.api.OrganizationEndpoint,com.pinch.backend.api.ImageEndpoint
+            </param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>com.pinch.backend.servlet.Upload</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Serve</servlet-name>
+        <servlet-class>com.pinch.backend.servlet.Serve</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Serve</servlet-name>
+        <url-pattern>/serve</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

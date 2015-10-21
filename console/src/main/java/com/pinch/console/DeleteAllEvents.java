@@ -13,7 +13,7 @@ public class DeleteAllEvents {
         List<Event> events = endpoint.getAll().execute().getItems();
         if(events != null) {
             for (Event event: events){
-                endpoint.delete(event.getOrganization().getId(), event.getId()).execute();
+                endpoint.delete(event.getId()).execute();
             }
         }
     }

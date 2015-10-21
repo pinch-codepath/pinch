@@ -1,20 +1,27 @@
 package com.pinch.backend.model;
 
+import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import java.util.Comparator;
 import java.util.Date;
 
 public class Event {
 
-    // TODO: skills, images
-
     private Long id;
     private String title;
     private String description;
     private Organization organization;
     private Date startTime;
+    public static final Comparator<Event> COMPARE_START_TIME =
+            new Comparator<Event>() {
+                public int compare(Event e1, Event e2) {
+                    return e2.getStartTime().compareTo(e1.getStartTime());
+                }
+            };
     private Date endTime;
     private String url;
     private String addressStreet;
@@ -23,9 +30,19 @@ public class Event {
     private Long addressZip;
     private String addressNeighborhood;
 
+    public static Event fromEntity(DatastoreService datastore, Entity entity) throws EntityNotFoundException {
+        Long organizationId = (Long) entity.getProperty("organizationId");
+        Key orgKey = KeyFactory.createKey(Constants.ORGANIZATION, organizationId);
+        Entity parentEntity = datastore.get(orgKey);
+        Organization organization = Organization.fromEntity(parentEntity);
+        Event event = Event.fromEntity(entity);
+        event.setOrganization(organization);
+        return event;
+    }
 
-    public static Entity toEntity(Key parentKey, Event event) {
-        Entity entity = new Entity(Constants.EVENT, parentKey);
+    public static Entity toEntity(long organizationId, Event event) {
+        Entity entity = new Entity(Constants.EVENT);
+        entity.setProperty("organizationId", organizationId);
         String title = event.getTitle();
         if (title != null) {
             entity.setProperty("title", title);
@@ -158,7 +175,6 @@ public class Event {
         this.description = description;
     }
 
-
     public String getUrl() {
         return url;
     }
@@ -206,11 +222,4 @@ public class Event {
     public void setAddressNeighborhood(String addressNeighborhood) {
         this.addressNeighborhood = addressNeighborhood;
     }
-
-    public static final Comparator<Event> COMPARE_START_TIME =
-            new Comparator<Event>() {
-                public int compare(Event e1, Event e2) {
-                    return e2.getStartTime().compareTo(e1.getStartTime());
-                }
-            };
 }

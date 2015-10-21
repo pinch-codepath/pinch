@@ -10,29 +10,34 @@ public class Organization {
     private String name;
     private String address;
     private PhoneNumber phoneNumber;
+    private String displayUrl;
     private GeoPt location;
     private String url;
 
     public static Entity toEntity(Organization organization) {
         Entity entity = new Entity(Constants.ORGANIZATION);
         String name = organization.getName();
-        if(name != null) {
+        if (name != null) {
             entity.setProperty("name", name);
         }
         String address = organization.getAddress();
-        if(address != null) {
+        if (address != null) {
             entity.setProperty("address", address);
         }
         PhoneNumber phoneNumber = organization.getPhoneNumber();
-        if(phoneNumber != null) {
+        if (phoneNumber != null) {
             entity.setProperty("phoneNumber", phoneNumber);
         }
+        String displayUrl = organization.getDisplayUrl();
+        if (displayUrl != null) {
+            entity.setProperty("displayUrl", displayUrl);
+        }
         GeoPt location = organization.getLocation();
-        if(location != null) {
+        if (location != null) {
             entity.setProperty("location", location);
         }
         String url = organization.getUrl();
-        if(url != null) {
+        if (url != null) {
             entity.setProperty("url", url);
         }
         return entity;
@@ -51,6 +56,10 @@ public class Organization {
         Object address = entity.getProperty("address");
         if (address != null) {
             organization.setAddress((String) address);
+        }
+        Object displayUrl = entity.getProperty("displayUrl");
+        if (displayUrl != null) {
+            organization.setDisplayUrl((String) displayUrl);
         }
         Object phoneNumber = entity.getProperty("phoneNumber");
         if (address != null) {
@@ -114,5 +123,13 @@ public class Organization {
 
     public void setPhoneNumber(PhoneNumber phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getDisplayUrl() {
+        return displayUrl;
+    }
+
+    public void setDisplayUrl(String displayUrl) {
+        this.displayUrl = displayUrl;
     }
 }
