@@ -29,6 +29,8 @@
         <item>Skill4</item>
     </string-array>
     <string name="title_activity_search_filters">SearchFiltersActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="facebook_app_id">446541765541034</string>
 
 
 </resources>
