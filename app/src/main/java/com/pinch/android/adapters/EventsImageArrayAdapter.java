@@ -50,8 +50,8 @@ public class EventsImageArrayAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-//        viewHolder.ivEventImage.setImageResource(0);
-//        Picasso.with(getContext()).load(event.getImageUrl()).resize(getContext().getResources().getDisplayMetrics().widthPixels, 0).into(viewHolder.ivEventImage);
+        viewHolder.ivEventImage.setImageResource(0);
+        Picasso.with(getContext()).load(event.getOrganization().getDisplayUrl()).resize(getContext().getResources().getDisplayMetrics().widthPixels, 0).into(viewHolder.ivEventImage);
 
         viewHolder.tvEventTitle.setText(event.getTitle());
         viewHolder.tvEventDate.setText(Utils.getDateString(event.getStartTime()));

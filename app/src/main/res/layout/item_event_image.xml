@@ -9,7 +9,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/colorAccent" />
+        android:background="@color/colorAccent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -19,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@android:color/black"
-        android:alpha="0.2"/>
+        android:alpha="0.4"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,6 +68,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="15dp"
-        android:src="@drawable/ic_action_fav_gray" />
+        android:layout_margin="15dp" />
 </RelativeLayout>
