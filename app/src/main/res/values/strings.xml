@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">android</string>
+    <string name="app_name">Pinch</string>
     <string name="title_activity_event_details">EventDetailsActivity</string>
 
     <string name="hello_world">Hello world!</string>
