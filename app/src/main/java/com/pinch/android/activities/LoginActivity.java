@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         if(AccessToken.getCurrentAccessToken() != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            this.finish();
         }
     }
 
@@ -66,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         if(AccessToken.getCurrentAccessToken() != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            this.finish();
         }
     }
 
