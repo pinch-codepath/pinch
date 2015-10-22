@@ -6,9 +6,9 @@ http://www.pinch-in.com/
 
 The following **required** functionality is completed:
 
-* [ ] Display list of volunteering opportunities - month & day view
-* [ ] Filter by city, current location, time, type of org, non-profit name
-* [ ] Detail view of each opportunity
+* [x] Display list of volunteering opportunities - month & day view
+* [x] Filter by city, current location, time, type of org, non-profit name
+* [x] Detail view of each opportunity
 * [ ] Sign-up for an opportunity
 * [ ] View the opportunities  
 * [ ] Checkin that you have arrived at the event
@@ -24,6 +24,9 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
+## Sprint 1 GIF walkthrough
+
+<img src='https://github.com/pinch-codepath/pinch/blob/master/demos/sprint1.gif' />
 
 ## UI Wireframes with navigation flows
 
