@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- ****************************
+         ****** Fragment Title  *****
+         **************************** -->
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="@dimen/event_detail_margin_bottom"
+        android:gravity="center"
+        android:text="Address"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- *********************************
+     **************  Street  *************
+     ************************************** -->
+
+    <TextView
+        android:id="@+id/tvStreet"
+        android:layout_below="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Street"
+        android:textSize="@dimen/event_create_edit_text_size" />
+
+    <EditText
+        android:id="@+id/etStreet"
+        android:layout_below="@+id/tvStreet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="50"
+        android:layout_marginBottom="@dimen/event_detail_margin_bottom"
+        android:layout_alignLeft="@+id/tvStreet"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/event_create_edit_text_size"
+        android:background="#50c5c5c5"
+        android:padding="8dp" />
+
+    <!-- *********************************
+     **************  Neighborhood   ******
+     ************************************** -->
+
+    <TextView
+        android:id="@+id/tvNeighborhood"
+        android:layout_below="@+id/etStreet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Neighborhood"
+        android:textSize="@dimen/event_create_edit_text_size" />
+
+    <EditText
+        android:id="@+id/etNeighborhood"
+        android:layout_below="@+id/tvNeighborhood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="20"
+        android:layout_marginBottom="@dimen/event_detail_margin_bottom"
+        android:layout_alignLeft="@+id/tvStreet"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/event_create_edit_text_size"
+        android:background="#50c5c5c5"
+        android:padding="8dp" />
+
+    <!-- *********************************
+         ************   City   ***********
+         ********************************* -->
+
+    <TextView
+        android:id="@+id/tvCity"
+        android:layout_below="@+id/etNeighborhood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="City"
+        android:textSize="@dimen/event_create_edit_text_size" />
+
+    <EditText
+        android:id="@+id/etCity"
+        android:layout_below="@+id/tvCity"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:maxLength="25"
+        android:layout_marginBottom="@dimen/event_detail_margin_bottom"
+        android:layout_alignLeft="@+id/tvStreet"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/event_create_edit_text_size"
+        android:background="#50c5c5c5"
+        android:padding="8dp" />
+
+    <!-- *********************************
+         **************  State   *********
+         ********************************* -->
+    <TextView
+        android:id="@+id/tvState"
+        android:layout_below="@+id/etNeighborhood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvCity"
+        android:layout_toRightOf="@id/etCity"
+        android:layout_marginLeft="10dp"
+        android:text="State"
+        android:textSize="@dimen/event_create_edit_text_size" />
+
+    <EditText
+        android:id="@+id/etState"
+        android:layout_below="@+id/tvState"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvState"
+        android:maxLength="2"
+        android:layout_marginBottom="@dimen/event_detail_margin_bottom"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/event_create_edit_text_size"
+        android:background="#50c5c5c5"
+        android:padding="8dp" />
+
+    <!-- *******************************
+         ************* Zip  ************
+         ******************************* -->
+
+    <TextView
+        android:id="@+id/tvZip"
+        android:layout_below="@+id/etNeighborhood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvCity"
+        android:layout_toRightOf="@id/etState"
+        android:layout_marginLeft="10dp"
+        android:text="Zip"
+        android:textSize="@dimen/event_create_edit_text_size" />
+
+    <EditText
+        android:id="@+id/etZip"
+        android:layout_below="@+id/tvZip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvZip"
+        android:layout_alignRight="@+id/etStreet"
+        android:maxLength="5"
+        android:layout_marginBottom="@dimen/event_detail_margin_bottom"
+        android:textSize="@dimen/event_create_edit_text_size"
+        android:background="#50c5c5c5"
+        android:padding="8dp" />
+
+    <!-- *******************************
+         ************* Buttons  ********
+         ******************************* -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:weightSum="2"
+        android:layout_below="@+id/etCity"
+        android:layout_alignLeft="@+id/etCity"
+        android:layout_alignRight="@+id/etZip"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/event_detail_margin_bottom">
+
+    <Button
+        android:id="@+id/btnOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textSize="@dimen/event_create_edit_text_size"
+        android:background="@color/colorPrimary"
+        android:minHeight="30dp"/>
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Cancel"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textSize="@dimen/event_create_edit_text_size"
+        android:background="@color/colorPrimary"
+        android:minHeight="30dp"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

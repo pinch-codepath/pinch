@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.pinch.android.R;
+import com.pinch.android.fragments.EventCreateFragment;
 import com.pinch.android.fragments.EventsFragment;
 import com.pinch.android.fragments.SearchFragment;
 import com.pinch.android.fragments.UserProfileFragment;
@@ -46,7 +47,7 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
             return new UserProfileFragment();
         }
         else {
-            return new SearchFragment();
+            return new EventCreateFragment();
         }
     }
 
