@@ -35,4 +35,6 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:1.5.4'
     //Facebook SDK
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+    //Material Design
+    compile 'com.android.support:design:23.1.0'
 }
