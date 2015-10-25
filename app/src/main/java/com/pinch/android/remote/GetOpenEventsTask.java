@@ -1,11 +1,7 @@
 package com.pinch.android.remote;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.widget.ProgressBar;
 
-import com.pinch.android.adapters.EventsArrayAdapter;
 import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.io.IOException;

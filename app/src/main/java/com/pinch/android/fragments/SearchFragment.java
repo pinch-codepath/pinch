@@ -2,6 +2,11 @@ package com.pinch.android.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -9,21 +14,25 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pinch.android.R;
 import com.pinch.android.SearchFilters;
 import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.activities.SearchFiltersActivity;
-import com.pinch.android.adapters.EventsArrayAdapter;
 import com.pinch.android.adapters.EventsImageArrayAdapter;
-import com.pinch.android.remote.GetOpenEventsTask;
+import com.pinch.android.remote.GetFilteredEventsTask;
 import com.pinch.backend.eventEndpoint.model.Event;
+import com.pinch.backend.eventEndpoint.model.GeoPt;
+import com.pinch.backend.eventEndpoint.model.Search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +58,7 @@ public class SearchFragment extends Fragment {
         mFragmentView = inflater.inflate(R.layout.fragment_search_filters, container, false);
         setupViewObjects();
         setupSwipeToRefresh();
-//        populateEvents();
+        populateEvents();
         return mFragmentView;
     }
 
@@ -111,14 +120,28 @@ public class SearchFragment extends Fragment {
     }
 
     private void populateEvents() {
-        new GetOpenEventsTask(new GetOpenEventsTask.GetOpenEventsResultsListener() {
+        Search search = new Search();
+
+        search.setText(searchFilters.getKeyword());
+        search.setCurrentLocation(getLocation());
+        search.setDistanceInMeters((int) (searchFilters.getDistance() * 1609.34));
+        if(searchFilters.getKeyword().equals("")) {
+            search.setText(null);
+        }
+        search.setStartTime(searchFilters.getFromDateTime());
+        search.setEndTime(searchFilters.getToDateTime());
+
+        new GetFilteredEventsTask(new GetFilteredEventsTask.GetFilteredEventsResultsListener() {
             @Override
             public void onEventsFetched(List<Event> events) {
-                mEventsArray.addAll(events);
+                mEventsArray.clear();
+                if(events != null && events.size() > 0) {
+                    mEventsArray.addAll(events);
+                }
                 mEventsAdapter.notifyDataSetChanged();
                 mSwipeContainer.setRefreshing(false);
             }
-        }).execute();
+        }).execute(search);
     }
 
     public Boolean isNetworkAvailable() {
@@ -126,5 +149,21 @@ public class SearchFragment extends Fragment {
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+    private GeoPt getLocation() {
+        GeoPt geoPt = new GeoPt();
+
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;     // Or use LocationManager.GPS_PROVIDER
+
+        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+
+        if(lastKnownLocation != null) {
+            geoPt.setLatitude((float) lastKnownLocation.getLatitude());
+            geoPt.setLongitude((float) lastKnownLocation.getLongitude());
+            Toast.makeText(getContext(), "Location: " + geoPt.getLatitude() + ", " + geoPt.getLongitude(), Toast.LENGTH_LONG).show();
+        }
+        return geoPt;
     }
 }

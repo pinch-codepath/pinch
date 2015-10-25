@@ -17,6 +17,41 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp"
+            android:id="@+id/llKeyword">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Keywords"
+                android:id="@+id/tvKeywordsLabel" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/etKeywords"
+                android:layout_marginTop="10dp"
+                android:hint="Enter keywords like city, event type etc." >
+            </EditText>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider0"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="#d1d1d1"
+            android:layout_below="@+id/llKeyword" >
+        </View>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/divider0"
+            android:layout_margin="10dp"
             android:id="@+id/llDistance">
 
             <TextView
@@ -175,71 +210,10 @@
             android:layout_below="@+id/llDate" >
         </View>
 
-        <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/divider4"
-            android:layout_margin="10dp"
-            android:id="@+id/llTime">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Time"
-                android:id="@+id/tvTime" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/tvTime"
-                android:id="@+id/tvFromTime"
-                android:hint="From" />
-
-            <TextView
-                android:id="@+id/dash2"
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_alignBottom="@+id/tvFromTime"
-                android:layout_toRightOf="@+id/tvFromTime"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black"
-                android:layout_marginTop="10dp"
-                android:layout_alignBottom="@+id/tvFromTime"
-                android:layout_toRightOf="@+id/dash2"
-                android:id="@+id/tvToTime"
-                android:hint="To" />
-
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/divider5"
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:background="#d1d1d1"
-            android:layout_below="@+id/llTime" >
-        </View>
-
         <Button
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@+id/divider5"
+            android:layout_below="@+id/divider4"
             android:layout_marginTop="80dp"
             android:id="@+id/btSearch"
             android:background="@color/colorPrimaryDark"
