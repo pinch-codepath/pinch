@@ -3,17 +3,23 @@ package com.pinch.android;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.api.client.util.DateTime;
+
 import java.util.Calendar;
 import java.util.Date;
 
 public class SearchFilters implements Parcelable {
 
+    String keyword;
     Calendar fromCalendar;
     Calendar toCalendar;
     int distanceSpinnerIndex;
     int eventTypeSpinnerIndex;
     int skillsRequiredSpinnerIndex;
 
+    private int[] distanceArray = {-1, 5, 10, 15, 20};
+    private String[] eventTypeArray = {"", "EventType1", "EventType2", "EventType3", "EventType4"};
+    private String[] skillsArray = {"", "Skill1", "Skill2", "Skill3", "Skill4"};
 
     @Override
     public int describeContents() {
@@ -22,6 +28,7 @@ public class SearchFilters implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.keyword);
         dest.writeSerializable(this.fromCalendar);
         dest.writeSerializable(this.toCalendar);
         dest.writeInt(this.distanceSpinnerIndex);
@@ -30,9 +37,26 @@ public class SearchFilters implements Parcelable {
     }
 
     public SearchFilters() {
+        keyword = "";
+
+        this.fromCalendar = Calendar.getInstance();
+        fromCalendar.set(Calendar.HOUR, 0);
+        fromCalendar.set(Calendar.MINUTE, 0);
+        fromCalendar.set(Calendar.SECOND, 0);
+
+        this.toCalendar = Calendar.getInstance();
+        toCalendar.set(Calendar.YEAR, toCalendar.get(Calendar.YEAR) + 1);
+        toCalendar.set(Calendar.HOUR, 23);
+        toCalendar.set(Calendar.MINUTE, 59);
+        toCalendar.set(Calendar.SECOND, 59);
+
+        distanceSpinnerIndex = 0;
+        eventTypeSpinnerIndex = 0;
+        skillsRequiredSpinnerIndex = 0;
     }
 
-    public SearchFilters(Calendar fromCalendar, Calendar toCalendar, int distanceSpinnerIndex, int eventTypeSpinnerIndex, int skillsRequiredSpinnerIndex) {
+    public SearchFilters(String keyword, Calendar fromCalendar, Calendar toCalendar, int distanceSpinnerIndex, int eventTypeSpinnerIndex, int skillsRequiredSpinnerIndex) {
+        this.keyword = keyword;
         this.fromCalendar = fromCalendar;
         this.toCalendar = toCalendar;
         this.distanceSpinnerIndex = distanceSpinnerIndex;
@@ -41,6 +65,7 @@ public class SearchFilters implements Parcelable {
     }
 
     protected SearchFilters(Parcel in) {
+        this.keyword = in.readString();
         this.fromCalendar = (Calendar) in.readSerializable();
         this.toCalendar = (Calendar) in.readSerializable();
         this.distanceSpinnerIndex = in.readInt();
@@ -57,6 +82,14 @@ public class SearchFilters implements Parcelable {
             return new SearchFilters[size];
         }
     };
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public Calendar getFromCalendar() {
         return fromCalendar;
@@ -96,6 +129,27 @@ public class SearchFilters implements Parcelable {
 
     public void setSkillsRequiredSpinnerIndex(int skillsRequiredSpinnerIndex) {
         this.skillsRequiredSpinnerIndex = skillsRequiredSpinnerIndex;
+    }
+
+
+    public int getDistance() {
+        return distanceArray[distanceSpinnerIndex];
+    }
+
+    public String getEventType() {
+        return eventTypeArray[eventTypeSpinnerIndex];
+    }
+
+    public String getSkill() {
+        return skillsArray[skillsRequiredSpinnerIndex];
+    }
+
+    public DateTime getFromDateTime() {
+        return new DateTime(fromCalendar.getTime());
+    }
+
+    public DateTime getToDateTime() {
+        return new DateTime(toCalendar.getTime());
     }
 
 }
