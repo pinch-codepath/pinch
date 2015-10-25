@@ -17,8 +17,13 @@ import com.pinch.android.remote.HasSignedUpForEventTask;
 import com.pinch.android.remote.RemoveEventSignUpTask;
 import com.pinch.backend.signUpEndpoint.model.SignUp;
 import com.squareup.picasso.Picasso;
+import com.pinch.backend.eventEndpoint.model.Event;
 
 import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceLongFromKey;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class EventDetailsActivity extends AppCompatActivity
         implements FacebookLoginDialog.FacebookLoginDialogListener,
@@ -37,10 +42,45 @@ public class EventDetailsActivity extends AppCompatActivity
     private boolean signedUp;
     private SignUp signUp;
 
+    Event e;
+
+    private long eventId;
+    private String eventTitle;
+    private String eventDescription;
+    private String eventAddressStreet;
+    private String eventAddressCity;
+    private String eventAddressState;
+    private String eventAddressNeighborhood;
+    private Long eventAddressZip;
+    private String eventSkill1;
+    private String eventSkill2;
+    private String eventSkill3;
+    private String eventUrl;
+    private Date eventStartTime;
+    private Date eventEndTime;
+    private String eventOrgName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
+        eventId = (Long) getIntent().getLongExtra("eventId", 0);
+        eventTitle = (String)getIntent().getStringExtra("eventTitle");
+        eventDescription = (String)getIntent().getStringExtra("eventDescription");
+        eventAddressStreet = (String)getIntent().getStringExtra("eventAddressStreet");
+        eventAddressCity = (String)getIntent().getStringExtra("eventAddressCity");
+        eventAddressState = (String)getIntent().getStringExtra("eventAddressState");
+        eventAddressNeighborhood = (String)getIntent().getStringExtra("eventAddressNeighborHood");
+        eventAddressZip = (Long)getIntent().getLongExtra("eventAddressZip", 0);
+        eventSkill1 = (String)getIntent().getStringExtra("eventSkill1");
+        eventSkill2 = (String)getIntent().getStringExtra("eventSkill2");
+        eventSkill3 = (String)getIntent().getStringExtra("eventSkill3");
+        eventUrl = (String)getIntent().getStringExtra("eventUrl");
+//        eventStartTime = (Date)getIntent().getD
+//        eventEndTime = (Date)getIntent().getStringExtra("eventTitle");
+        eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
+
+
         setupViewObjects();
     }
 
@@ -53,6 +93,10 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvAddressLine2 = (TextView) findViewById(R.id.tvAddressLine2);
         mTvRequirements = (TextView) findViewById(R.id.tvRequirements);
         mTvEventDescription = (TextView) findViewById(R.id.tvEventDescription);
+
+        mTvEventName.setText(this.eventTitle);
+        mTvEventDescription.setText(this.eventDescription);
+
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -78,7 +122,7 @@ public class EventDetailsActivity extends AppCompatActivity
         signUp = new SignUp();
         Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));
         signUp.setUserId(userId);
-        signUp.setEventId(getEventId());
+        signUp.setEventId(eventId);
 
         new HasSignedUpForEventTask(this).execute(signUp);
     }
@@ -89,10 +133,6 @@ public class EventDetailsActivity extends AppCompatActivity
         } else {
             new EventSignUpTask(this).execute(signUp);
         }
-    }
-
-    private long getEventId() {
-        return 4505676780929024L;
     }
 
     private void openFacebookLoginDialog() {
