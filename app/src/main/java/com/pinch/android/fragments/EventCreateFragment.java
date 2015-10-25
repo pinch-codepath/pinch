@@ -1,7 +1,11 @@
 package com.pinch.android.fragments;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,12 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.view.View.OnClickListener;
 
 import com.pinch.android.R;
+import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
 //import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -47,12 +55,12 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
 
     TextView tvPhoto;
 
-    Calendar calendar;
-    Calendar fromCalendar;
-    Calendar toCalendar;
+    Calendar dateCalendar;
+    Calendar timeFromCalendar;
+    Calendar timeToCalendar;
     DatePickerDialog dateDialog;
-    TimePickerDialog toTimeDialog;
-    TimePickerDialog fromTimeDialog;
+    TimePickerDialog timeToDialog;
+    TimePickerDialog timeFromDialog;
 
 
     public EventCreateFragment() {}
@@ -63,7 +71,6 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
         fragmentView = inflater.inflate(R.layout.fragment_event_create, container, false);
         setupViews();
         setupListener();
-        //setupDateTimePickers();
         return fragmentView;
     }
 
@@ -79,92 +86,40 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
     }
 
     protected void setupListener() {
-//        etAddress.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                FragmentManager fm = getFragmentManager();
-//                AddressDialogFragment addressDialog = AddressDialogFragment.newInstance();
-//                addressDialog.setTargetFragment(get, 1);
-//                addressDialog.show(fm, "activity_compose");
-//            }
-//        });
         etAddress.setOnClickListener(this);
         etSkills.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         tvTimeFrom.setOnClickListener(this);
         tvTimeTo.setOnClickListener(this);
+        tvPhoto.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        FragmentManager fm = getFragmentManager();
-
         switch (v.getId()) {
 
             case R.id.etAddress:
-                AddressDialogFragment addressDialog = AddressDialogFragment.newInstance();
-                addressDialog.setTargetFragment(this, 1);
-                addressDialog.show(fm, "activity_compose");
+                showAddressDialog();
                 break;
 
             case R.id.etSkills:
-                SkillsDialogFragment skillsDialog = SkillsDialogFragment.newInstance();
-                skillsDialog.setTargetFragment(this, 1);
-                skillsDialog.show(fm, "activity_compose");
+                showSkillsDialog();
                 break;
 
             case R.id.tvDate:
-
-                if (calendar == null) {
-                    calendar = Calendar.getInstance();
-                }
-
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                dateDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Calendar newDate = Calendar.getInstance();
-                        newDate.set(year, monthOfYear, dayOfMonth);
-                        tvDate.setText(new SimpleDateFormat("MM/dd").format(newDate.getTime()));
-                    }
-                }, year, month, day);
-
-                dateDialog.show();
-
+                showDateDialog();
                 break;
 
             case R.id.tvTimeFrom:
+                showTimeFromDialog();
+                break;
 
-                if (calendar == null) {
-                    calendar = Calendar.getInstance();
-                }
+            case R.id.tvTimeTo:
+                showTimeToDialog();
+                break;
 
-                if (fromCalendar == null) {
-                    fromCalendar = Calendar.getInstance();
-
-                }
-
-                int hour = calendar.get(Calendar.HOUR);
-                int min = calendar.get(Calendar.MINUTE);
-
-                fromTimeDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hour, int minute) {
-                        fromCalendar.set(
-                                calendar.get(Calendar.YEAR),
-                                calendar.get(Calendar.MONTH),
-                                calendar.get(Calendar.DATE),
-                                hour,
-                                minute
-                        );
-                        tvTimeFrom.setText(hour + ":" + minute);
-
-                    }
-                }, hour, min, true);
-
-                fromTimeDialog.show();
+            case R.id.tvPhoto:
+                uploadPhoto();
                 break;
 
             default:
@@ -173,9 +128,23 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
 
     }
 
+    public void showAddressDialog() {
+        FragmentManager fm = getFragmentManager();
+        AddressDialogFragment addressDialog = AddressDialogFragment.newInstance();
+        addressDialog.setTargetFragment(this, 1);
+        addressDialog.show(fm, "activity_compose");
+    }
+
     public void onFinishAddressDialog(String street, String city, String state, String zip, String neighborhood) {
         String address = street + " (" + neighborhood + "), " + city + ", " + state + ", " + zip;
         etAddress.setText(address);
+    }
+
+    public void showSkillsDialog() {
+        FragmentManager fm = getFragmentManager();
+        SkillsDialogFragment skillsDialog = SkillsDialogFragment.newInstance();
+        skillsDialog.setTargetFragment(this, 1);
+        skillsDialog.show(fm, "activity_compose");
     }
 
     public void onFinishSkillsDialog(String skill1, String skill2, String skill3) {
@@ -183,5 +152,138 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
         etSkills.setText(skills);
     }
 
+    public void showDateDialog() {
+        if (dateCalendar == null) {
+            dateCalendar = Calendar.getInstance();
+        }
+
+        int year = dateCalendar.get(Calendar.YEAR);
+        int month = dateCalendar.get(Calendar.MONTH);
+        int day = dateCalendar.get(Calendar.DAY_OF_MONTH);
+
+        dateDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                dateCalendar.set(year, monthOfYear, dayOfMonth);
+                tvDate.setText(new SimpleDateFormat("MM/dd").format(dateCalendar.getTime()));
+            }
+        }, year, month, day);
+
+        dateDialog.show();
+    }
+
+    public void showTimeFromDialog() {
+        if (dateCalendar == null) {
+            dateCalendar = Calendar.getInstance();
+        }
+        if (timeFromCalendar == null) {
+            timeFromCalendar = Calendar.getInstance();
+        }
+        int hour = timeFromCalendar.get(Calendar.HOUR);
+        int min = timeFromCalendar.get(Calendar.MINUTE);
+
+        timeFromDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hour, int minute) {
+                timeFromCalendar.set(
+                        dateCalendar.get(Calendar.YEAR),
+                        dateCalendar.get(Calendar.MONTH),
+                        dateCalendar.get(Calendar.DATE),
+                        hour,
+                        minute
+                );
+                tvTimeFrom.setText(hour + ":" + minute);
+
+            }
+        }, hour, min, true);
+
+        timeFromDialog.show();
+    }
+
+    public void showTimeToDialog() {
+        if (dateCalendar == null) {
+            dateCalendar = Calendar.getInstance();
+        }
+        if (timeToCalendar == null) {
+            timeToCalendar = Calendar.getInstance();
+        }
+        int hour = timeToCalendar.get(Calendar.HOUR);
+        int min = timeToCalendar.get(Calendar.MINUTE);
+
+        timeToDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hour, int minute) {
+                timeToCalendar.set(
+                        dateCalendar.get(Calendar.YEAR),
+                        dateCalendar.get(Calendar.MONTH),
+                        dateCalendar.get(Calendar.DATE),
+                        hour,
+                        minute
+                );
+                tvTimeTo.setText(hour + ":" + minute);
+
+            }
+        }, hour, min, true);
+
+        timeToDialog.show();
+    }
+
+    public void uploadPhoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 100);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        Bitmap selectedImage = null;
+        Uri photoUri = data.getData();
+        try {
+            selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
+        } catch (Exception e) {
+
+        }
+        if (selectedImage == null) {
+            return;
+        }
+
+        /************************
+         * Create Image View
+         ************************/
+        ImageView ivPic = new ImageView(getContext());
+        ivPic.setId(R.id.ivPic);
+        /************************
+         * Set Layout Params
+         * ************************/
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.etTitle);
+        params.addRule(RelativeLayout.BELOW, R.id.tvOrgName);
+       // params.width = 100;
+        params.height = 100;
+        params.bottomMargin = 15;
+        /************************
+         * Add View
+         * ************************/
+        RelativeLayout topLayout = (RelativeLayout) fragmentView.findViewById(R.id.topLayout);
+        topLayout.addView(ivPic, params);
+        /************************
+         * Set Pic
+         * ************************/
+        ivPic.setImageBitmap(selectedImage);
+        /************************
+         * Adjust rest of the content
+         * ************************/
+        RelativeLayout.LayoutParams llParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        llParams.addRule(RelativeLayout.BELOW, 0);
+        llParams.addRule(RelativeLayout.BELOW, R.id.ivPic);
+        llParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        TextView tvTitle = (TextView) fragmentView.findViewById(R.id.tvTitle);
+        tvTitle.setLayoutParams(llParams);
+    }
 
 }
