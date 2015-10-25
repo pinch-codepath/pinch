@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.facebook.FacebookSdk;
 import com.pinch.android.R;
 import com.pinch.android.adapters.EventsFragmentPagerAdapter;
 
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         if(getSupportActionBar() != null) {
