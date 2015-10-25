@@ -123,13 +123,12 @@ public class SearchFragment extends Fragment {
         Search search = new Search();
 
         search.setText(searchFilters.getKeyword());
-        search.setCurrentLocation(getLocation());
-        search.setDistanceInMeters((int) (searchFilters.getDistance() * 1609.34));
-        if(searchFilters.getKeyword().equals("")) {
-            search.setText(null);
+        if(searchFilters.getDistance() > 0) {
+            search.setCurrentLocation(getLocation());
+            search.setDistanceInMeters((int) (searchFilters.getDistance() * 1609.34));
         }
         search.setStartTime(searchFilters.getFromDateTime());
-        search.setEndTime(searchFilters.getToDateTime());
+//        search.setEndTime(searchFilters.getToDateTime());
 
         new GetFilteredEventsTask(new GetFilteredEventsTask.GetFilteredEventsResultsListener() {
             @Override

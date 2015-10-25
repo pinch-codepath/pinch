@@ -168,7 +168,7 @@ public class EventEndpoint {
             events.add(Event.fromEntity(datastore, entity));
         }
 
-        if (search.getText() != null) {
+        if (search.getText() != null && search.getText() != "") {
             Set<Long> eventIds = new HashSet<>();
             Results<ScoredDocument> scoredDocuments = EVENT_INDEX.retrieveDocuments(search.getText());
             for (ScoredDocument document : scoredDocuments) {
