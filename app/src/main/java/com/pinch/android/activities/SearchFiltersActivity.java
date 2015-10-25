@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,10 +30,9 @@ public class SearchFiltersActivity extends AppCompatActivity {
     Calendar toCalendar;
 
     //views
+    EditText etKeywords;
     TextView tvFromDate;
     TextView tvToDate;
-    TextView tvFromTime;
-    TextView tvToTime;
     Spinner spinnerDistance;
     Spinner spinnerEvent;
     Spinner spinnerSkills;
@@ -40,9 +40,6 @@ public class SearchFiltersActivity extends AppCompatActivity {
     //pickers
     DatePickerDialog fromDateDialog;
     DatePickerDialog toDateDialog;
-    TimePickerDialog fromTimeDialog;
-    TimePickerDialog toTimeDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +55,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent searchIntent = new Intent();
                 filters = new SearchFilters(
+                        etKeywords.getText().toString(),
                         fromCalendar,
                         toCalendar,
                         spinnerDistance.getSelectedItemPosition(),
@@ -73,27 +71,25 @@ public class SearchFiltersActivity extends AppCompatActivity {
     private void setupViewObjects() {
         filters = getIntent().getParcelableExtra("filters");
 
-        tvFromDate = (TextView) findViewById(R.id.tvFromDate);
-        tvToDate = (TextView) findViewById(R.id.tvToDate);
-        tvFromTime = (TextView) findViewById(R.id.tvFromTime);
-        tvToTime = (TextView) findViewById(R.id.tvToTime);
+        etKeywords = (EditText) findViewById(R.id.etKeywords);
         spinnerDistance = (Spinner) findViewById(R.id.spinnerDistance);
         spinnerEvent = (Spinner) findViewById(R.id.spinnerEvent);
         spinnerSkills = (Spinner) findViewById(R.id.spinnerSkills);
+        tvFromDate = (TextView) findViewById(R.id.tvFromDate);
+        tvToDate = (TextView) findViewById(R.id.tvToDate);
 
-        if(filters.getFromCalendar() != null) {
-            fromCalendar = filters.getFromCalendar();
-            tvFromDate.setText(fromCalendar.get(Calendar.MONTH) + "/" + fromCalendar.get(Calendar.DATE) + "/" + fromCalendar.get(Calendar.YEAR));
-            tvFromTime.setText(fromCalendar.get(Calendar.HOUR) + ":" + fromCalendar.get(Calendar.MINUTE));
-        }
-        if(filters.getToCalendar() != null) {
-            toCalendar = filters.getToCalendar();
-            tvToDate.setText(toCalendar.get(Calendar.MONTH) + "/" + toCalendar.get(Calendar.DATE) + "/" + toCalendar.get(Calendar.YEAR));
-            tvToTime.setText(toCalendar.get(Calendar.HOUR) + ":" + toCalendar.get(Calendar.MINUTE));
-        }
+        etKeywords.setText(filters.getKeyword());
         spinnerDistance.setSelection(filters.getDistanceSpinnerIndex());
         spinnerEvent.setSelection(filters.getEventTypeSpinnerIndex());
         spinnerSkills.setSelection(filters.getSkillsRequiredSpinnerIndex());
+        if(filters.getFromCalendar() != null) {
+            fromCalendar = filters.getFromCalendar();
+            tvFromDate.setText((fromCalendar.get(Calendar.MONTH)+1) + "/" + fromCalendar.get(Calendar.DATE) + "/" + fromCalendar.get(Calendar.YEAR));
+        }
+        if(filters.getToCalendar() != null) {
+            toCalendar = filters.getToCalendar();
+            tvToDate.setText((toCalendar.get(Calendar.MONTH)+1) + "/" + toCalendar.get(Calendar.DATE) + "/" + toCalendar.get(Calendar.YEAR));
+        }
     }
 
     private void setupDateTimePickers() {
@@ -108,7 +104,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
                                 fromCalendar.set(year, month, day);
-                                tvFromDate.setText(month + "/" + day + "/" + year);
+                                tvFromDate.setText((month+1) + "/" + day + "/" + year);
                             }
                         },
                         fromCalendar.get(Calendar.YEAR),
@@ -130,7 +126,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
                                 toCalendar.set(year, month, day);
-                                tvToDate.setText(month + "/" + day + "/" + year);
+                                tvToDate.setText((month+1) + "/" + day + "/" + year);
                             }
                         },
                         toCalendar.get(Calendar.YEAR),
@@ -138,62 +134,6 @@ public class SearchFiltersActivity extends AppCompatActivity {
                         toCalendar.get(Calendar.DAY_OF_MONTH)
                 );
                 toDateDialog.show(getFragmentManager(), "Datepickerdialog");
-            }
-        });
-
-        tvFromTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(fromCalendar == null) {
-                    fromCalendar = Calendar.getInstance();
-                }
-                fromTimeDialog = TimePickerDialog.newInstance(
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(RadialPickerLayout radialPickerLayout, int hour, int minute) {
-                                fromCalendar.set(
-                                        fromCalendar.get(Calendar.YEAR),
-                                        fromCalendar.get(Calendar.MONTH),
-                                        fromCalendar.get(Calendar.DATE),
-                                        hour,
-                                        minute
-                                );
-                                tvFromTime.setText(hour + ":" + minute);
-                            }
-                        },
-                        fromCalendar.get(Calendar.HOUR),
-                        fromCalendar.get(Calendar.MINUTE),
-                        android.text.format.DateFormat.is24HourFormat(getApplicationContext())
-                );
-                fromTimeDialog.show(getFragmentManager(), "Timepickerdialog");
-            }
-        });
-
-        tvToTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(toCalendar == null) {
-                    toCalendar = Calendar.getInstance();
-                }
-                toTimeDialog = TimePickerDialog.newInstance(
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(RadialPickerLayout radialPickerLayout, int hour, int minute) {
-                                toCalendar.set(
-                                        toCalendar.get(Calendar.YEAR),
-                                        toCalendar.get(Calendar.MONTH),
-                                        toCalendar.get(Calendar.DATE),
-                                        hour,
-                                        minute
-                                );
-                                tvToTime.setText(hour + ":" + minute);
-                            }
-                        },
-                        toCalendar.get(Calendar.HOUR),
-                        toCalendar.get(Calendar.MINUTE),
-                        android.text.format.DateFormat.is24HourFormat(getApplicationContext())
-                );
-                toTimeDialog.show(getFragmentManager(), "Timepickerdialog");
             }
         });
     }
