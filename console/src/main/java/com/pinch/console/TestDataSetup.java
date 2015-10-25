@@ -36,6 +36,7 @@ public class TestDataSetup {
         Address a3 = new Address ("201 8th Street", "San Francisco", "CA", 94103, "SOMA");
         Address a4 = new Address ("480 Ellis St", "San Francisco", "CA", 94102, "Tenderloin");
 
+        Skills s1 = new Skills ("Cooking", "Cleaning", "Changing Diapers");
 
         insertEvent(orgId1,
                 "Serve Breakfast To The Elderly",
@@ -44,7 +45,7 @@ public class TestDataSetup {
                         "day of your choice.",
                 "10/26/2015 06:30:00",
                 "10/26/2015 09:00:00",
-                a1);
+                a1, s1);
 
         insertEvent(orgId3,
                 "Community Cleanup",
@@ -53,117 +54,117 @@ public class TestDataSetup {
                         "We recommend bringing your own refillable bottle.",
                 "10/26/2015 13:00:00",
                 "10/26/2015 16:00:00",
-                a2);
+                a2, s1);
 
         insertEvent(orgId2,
                 "Serve Breakfast To The Elderly",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
                 "10/26/2015 07:00:00",
                 "10/26/2015 09:00:00",
-                a3);
+                a3, s1);
 
         insertEvent(orgId3,
                 "Serve Breakfast",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
                 "10/26/2015 07:00:00",
                 "10/26/2015 09:00:00",
-                a1);
+                a1, s1);
 
         insertEvent(orgId4,
                 "Help setup event for school",
                 "Join other volunteers and help K to College prepare for their 5th Annual Assembly Event. Set-up will take place at the International House in the Chevron Auditorium. We will set-up tables, chairs, signage, and boxes in preparation for the next day where volunteers will assemble 3,500 school supply kits and dental kits that will be given to every child eligible for the free & reduced lunch plan.",
                 "10/26/2015 07:00:00",
                 "10/26/2015 09:00:00",
-                a1);
+                a1, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
                 "10/26/2015 09:00:00",
                 "10/26/2015 12:00:00",
-                a2);
+                a2, s1);
 
         insertEvent(orgId4,
                 "Serve Lunch",
                 "Serving a meal in the Daily Free Meals Program can be a transformative experience. This program requires 85 volunteers each day to fill the breakfast, prep, lunch and dinner shifts, 364 days a year. With your help we can serve up to 2400 meals per day to our community. Volunteers assist with everything from serving food and bussing tables, to handing out silverware and condiments. Be prepared to roll up your sleeves, break a sweat, and make some beautiful human connections!",
                 "10/26/2015 11:00:00",
                 "10/26/2015 14:00:00",
-                a3);
+                a3, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
                 "10/27/2015 12:30:00",
                 "10/27/2015 15:30:00",
-                a4);
+                a4, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
                 "10/27/2015 14:00:00",
                 "10/27/2015 16:00:00",
-                a1);
+                a1, s1);
 
         insertEvent(orgId4,
                 "Serve Dinner",
                 "Serving a meal in the Daily Free Meals Program can be a transformative experience. This program requires 85 volunteers each day to fill the breakfast, prep, lunch and dinner shifts, 364 days a year. With your help we can serve up to 2400 meals per day to our community. Volunteers assist with everything from serving food and bussing tables, to handing out silverware and condiments. Be prepared to roll up your sleeves, break a sweat, and make some beautiful human connections!",
                 "10/27/2015 15:00:00",
                 "10/27/2015 17:30:00",
-                a2);
+                a2, s1);
 
         insertEvent(orgId2,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
                 "10/27/2015 16:30:00",
                 "10/27/2015 18:00:00",
-                a1);
+                a1, s1);
 
         insertEvent(orgId3,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
                 "10/28/2015 16:30:00",
                 "10/28/2015 18:00:00",
-                a3);
+                a3, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
                 "10/28/2015 18:00:00",
                 "10/28/2015 20:00:00",
-                a1);
+                a1, s1);
 
         insertEvent(orgId4,
                 "Serve Dinner",
                 "Serving a meal in the Daily Free Meals Program can be a transformative experience. This program requires 85 volunteers each day to fill the breakfast, prep, lunch and dinner shifts, 364 days a year. With your help we can serve up to 2400 meals per day to our community. Volunteers assist with everything from serving food and bussing tables, to handing out silverware and condiments. Be prepared to roll up your sleeves, break a sweat, and make some beautiful human connections!",
                 "10/28/2015 15:00:00",
                 "10/28/2015 17:30:00",
-                a2);
+                a2, s1);
 
         insertEvent(orgId2,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
                 "10/28/2015 16:30:00",
                 "10/28/2015 18:00:00",
-                a1);
+                a1, s1);
 
         insertEvent(orgId6,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
                 "10/28/2015 16:30:00",
                 "10/28/2015 18:00:00",
-                a4);
+                a4, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
                 "10/29/2015 18:00:00",
                 "10/29/2015 20:00:00",
-                a3);
+                a3, s1);
     }
 
     private static DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
-    private static void insertEvent(long orgId1, String title, String description, String startTime, String endTime, Address address) throws IOException, ParseException {
+    private static void insertEvent(long orgId1, String title, String description, String startTime, String endTime, Address address, Skills skills) throws IOException, ParseException {
         Event event = new Event();
         event.setTitle(title);
         event.setDescription(description);
@@ -174,8 +175,11 @@ public class TestDataSetup {
         event.setAddressState(address.getState());
         event.setAddressZip(address.getZip());
         event.setAddressNeighborhood(address.getNeighborhood());
+        event.setSkill1(skills.getSkill1());
+        event.setSkill2(skills.getSkill2());
+        event.setSkill3(skills.getSkill3());
         Event returnedEvent = eventEndpoint.insert(orgId1, event).execute();
-        if(returnedEvent != null) {
+        if (returnedEvent != null) {
             System.out.println("Inserted event: " + returnedEvent);
         }
     }
@@ -276,4 +280,40 @@ public class TestDataSetup {
 
     }
 
+    // Can later be made into a composite object within events.
+    public static class Skills {
+        private String skill1;
+        private String skill2;
+        private String skill3;
+
+        public String getSkill1() {
+            return skill1;
+        }
+
+        public void setSkill1(String skill1) {
+            this.skill1 = skill1;
+        }
+
+        public String getSkill2() {
+            return skill2;
+        }
+
+        public void setSkill2(String skill2) {
+            this.skill2 = skill2;
+        }
+
+        public String getSkill3() {
+            return skill3;
+        }
+
+        public void setSkill3(String skill3) {
+            this.skill3 = skill3;
+        }
+
+        Skills(String skill1, String skill2, String skill3) {
+            this.skill1 = skill1;
+            this.skill2 = skill2;
+            this.skill3 = skill3;
+        }
+    }
 }

@@ -30,6 +30,11 @@ public class Event {
     private Long addressZip;
     private String addressNeighborhood;
 
+    private String skill1;
+    private String skill2;
+    private String skill3;
+
+
     public static Event fromEntity(DatastoreService datastore, Entity entity) throws EntityNotFoundException {
         Long organizationId = (Long) entity.getProperty("organizationId");
         Key orgKey = KeyFactory.createKey(Constants.ORGANIZATION, organizationId);
@@ -79,6 +84,18 @@ public class Event {
         if (addressStreet != null) {
             entity.setProperty("addressNeighborhood", addressNeighborhood);
         }
+        String skill1 = event.getSkill1();
+        if (skill1 != null) {
+            entity.setProperty("skill1", skill1);
+        }
+        String skill2 = event.getSkill2();
+        if (skill2 != null) {
+            entity.setProperty("skill2", skill2);
+        }
+        String skill3 = event.getSkill3();
+        if (skill3 != null) {
+            entity.setProperty("skill3", skill3);
+        }
         return entity;
     }
 
@@ -123,6 +140,18 @@ public class Event {
         Object addressNeighborhood = entity.getProperty("addressNeighborhood");
         if (addressNeighborhood != null) {
             event.setAddressNeighborhood((String) addressNeighborhood);
+        }
+        Object skill1 = entity.getProperty("skill1");
+        if (skill1 != null) {
+            event.setSkill1((String) skill1);
+        }
+        Object skill2 = entity.getProperty("skill2");
+        if (skill2 != null) {
+            event.setSkill2((String) skill2);
+        }
+        Object skill3 = entity.getProperty("skill3");
+        if (skill3 != null) {
+            event.setSkill3((String) skill3);
         }
         return event;
     }
@@ -222,4 +251,29 @@ public class Event {
     public void setAddressNeighborhood(String addressNeighborhood) {
         this.addressNeighborhood = addressNeighborhood;
     }
+
+    public String getSkill1() {
+        return skill1;
+    }
+
+    public void setSkill1(String skill1) {
+        this.skill1 = skill1;
+    }
+
+    public String getSkill2() {
+        return skill2;
+    }
+
+    public void setSkill2(String skill2) {
+        this.skill2 = skill2;
+    }
+
+    public String getSkill3() {
+        return skill3;
+    }
+
+    public void setSkill3(String skill3) {
+        this.skill3 = skill3;
+    }
+
 }
