@@ -1,9 +1,6 @@
 package com.pinch.android.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,25 +12,25 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.R;
+import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.adapters.EventsArrayAdapter;
-import com.pinch.android.remote.GetOpenEventsTask;
+import com.pinch.android.util.Network;
 import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class EventsFragment extends Fragment {
+public abstract class EventsFragment extends Fragment {
 
     protected View mFragmentView;
     protected ArrayList<Event> mEventsArray;
     protected EventsArrayAdapter mEventsAdapter;
     protected ListView mLvEvents;
 
-    private SwipeRefreshLayout mSwipeContainer;
+    protected SwipeRefreshLayout mSwipeContainer;
 
-    public EventsFragment() {}
+    public EventsFragment() {
+    }
 
     @Nullable
     @Override
@@ -48,6 +45,8 @@ public class EventsFragment extends Fragment {
         setupSwipeToRefresh();
         populateEvents();
     }
+
+    abstract void populateEvents();
 
     protected void setupViewObjects() {
         mLvEvents = (ListView) mFragmentView.findViewById(R.id.lvEvents);
@@ -79,43 +78,28 @@ public class EventsFragment extends Fragment {
         });
     }
 
-    private void populateEvents() {
-        new GetOpenEventsTask(new GetOpenEventsTask.GetOpenEventsResultsListener() {
-            @Override
-            public void onEventsFetched(List<Event> events) {
-                mEventsArray.addAll(events);
-                mEventsAdapter.notifyDataSetChanged();
-                mSwipeContainer.setRefreshing(false);
-            }
-        }).execute();
-    }
 
     private void setupSwipeToRefresh() {
         mSwipeContainer = (SwipeRefreshLayout) mFragmentView.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (isNetworkAvailable()) {
-                    populateEvents();
-                } else {
-                    mSwipeContainer.setRefreshing(false);
-                    Toast.makeText(getActivity(), "Please check your internet connection!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+                                                 @Override
+                                                 public void onRefresh() {
+                                                     if (Network.isAvailable(EventsFragment.this.getContext())) {
+                                                         populateEvents();
+                                                     } else {
+                                                         mSwipeContainer.setRefreshing(false);
+                                                         Toast.makeText(getActivity(), "Please check your internet connection!", Toast.LENGTH_LONG).show();
+                                                     }
+                                                 }
+                                             }
+
+        );
         // Configure the refreshing colors
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-    }
-
-    public Boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
 }

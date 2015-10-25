@@ -1,33 +1,35 @@
 package com.pinch.android.activities;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.pinch.android.R;
-import com.pinch.android.adapters.EventsArrayAdapter;
 import com.pinch.android.dialogs.FacebookLoginDialog;
+import com.pinch.android.remote.EventSignUpTask;
+import com.pinch.android.remote.HasSignedUpForEventTask;
+import com.pinch.android.remote.RemoveEventSignUpTask;
+import com.pinch.backend.signUpEndpoint.model.SignUp;
 import com.squareup.picasso.Picasso;
 import com.pinch.backend.eventEndpoint.model.Event;
 
+import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceLongFromKey;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class EventDetailsActivity extends AppCompatActivity implements FacebookLoginDialog.FacebookLoginDialogListener {
+public class EventDetailsActivity extends AppCompatActivity
+        implements FacebookLoginDialog.FacebookLoginDialogListener,
+        EventSignUpTask.EventSignUpTaskResultListener,
+        RemoveEventSignUpTask.RemoveEventSignUpTaskResultListener,
+        HasSignedUpForEventTask.HasSignedUpForEventResultListener{
 
     private ImageView mIvPic;
     private Button mBtnSignUp;
@@ -37,6 +39,8 @@ public class EventDetailsActivity extends AppCompatActivity implements FacebookL
     private TextView mTvAddressLine1;
     private TextView mTvAddressLine2;
     private TextView mTvRequirements;
+    private boolean signedUp;
+    private SignUp signUp;
 
     Event e;
 
@@ -114,10 +118,21 @@ public class EventDetailsActivity extends AppCompatActivity implements FacebookL
         String imageUrl = "https://style.codeforamerica.org/media/images/big-data.jpg";
 //        mIvPic.setImageResource(0);
         Picasso.with(this).load(imageUrl).fit().centerCrop().into(mIvPic);
+
+        signUp = new SignUp();
+        Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));
+        signUp.setUserId(userId);
+        signUp.setEventId(eventId);
+
+        new HasSignedUpForEventTask(this).execute(signUp);
     }
 
     private void onSignupButtonClicked() {
-        Toast.makeText(getApplicationContext(), "Sign Up", Toast.LENGTH_SHORT).show();
+        if(signedUp) {
+            new RemoveEventSignUpTask(this).execute(signUp);
+        } else {
+            new EventSignUpTask(this).execute(signUp);
+        }
     }
 
     private void openFacebookLoginDialog() {
@@ -130,6 +145,28 @@ public class EventDetailsActivity extends AppCompatActivity implements FacebookL
     public void onLoginSuccess() {
         if(AccessToken.getCurrentAccessToken() != null) {
             onSignupButtonClicked();
+        }
+    }
+
+    @Override
+    public void onEventSignUp(SignUp signUp) {
+        mBtnSignUp.setText("Signed Up!!");
+        signedUp = true;
+        Toast.makeText(getApplicationContext(), "Signed Up!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRemoveEventSignUp() {
+        mBtnSignUp.setText("Sign Up");
+        signedUp = false;
+        Toast.makeText(getApplicationContext(), "Remove sign up!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onHasSignUpResult(boolean signedUp) {
+        this.signedUp = signedUp;
+        if(signedUp) {
+            mBtnSignUp.setText("Signed Up!!");
         }
     }
 }

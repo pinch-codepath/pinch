@@ -1,7 +1,5 @@
 package com.pinch.android.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +14,8 @@ import com.facebook.AccessToken;
 import com.pinch.android.R;
 import com.pinch.android.dialogs.FacebookLoginDialog;
 import com.squareup.picasso.Picasso;
+
+import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceStringFromKey;
 
 
 public class UserProfileFragment extends Fragment {
@@ -46,27 +46,19 @@ public class UserProfileFragment extends Fragment {
         if(ivProfilePic != null) {
             Picasso.with(getContext())
                     .load("https://graph.facebook.com/"
-                            + getSharedPreferenceFromKey(getString(R.string.user_id))
+                            + getSharedPreferenceStringFromKey(getContext(), getString(R.string.auth_source_id))
                             + "/picture?width=" +
                             String.valueOf(getContext().getResources().getDisplayMetrics().widthPixels))
                     .into(ivProfilePic);
         }
-        tvProfileName.setText(getSharedPreferenceFromKey(getString(R.string.user_name)));
-        tvProfileLocation.setText(getSharedPreferenceFromKey(getString(R.string.user_location)));
-        tvProfileBio.setText(getSharedPreferenceFromKey(getString(R.string.user_bio)));
+        tvProfileName.setText(getSharedPreferenceStringFromKey(getContext(), getString(R.string.user_name)));
+        tvProfileLocation.setText(getSharedPreferenceStringFromKey(getContext(), getString(R.string.user_location)));
+        tvProfileBio.setText(getSharedPreferenceStringFromKey(getContext(), getString(R.string.user_bio)));
     }
 
     private void openFacebookLoginDialog() {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FacebookLoginDialog facebookLoginDialog = FacebookLoginDialog.newInstance();
         facebookLoginDialog.show(fm, "dialog_login_facebook");
-    }
-
-    private String getSharedPreferenceFromKey(String key) {
-        String value;
-        SharedPreferences sharedPref = getContext().getSharedPreferences(
-                getString(R.string.shared_preference_file_key), Context.MODE_PRIVATE);
-        value = sharedPref.getString(key, "");
-        return value;
     }
 }

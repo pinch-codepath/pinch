@@ -8,6 +8,8 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.pinch.backend.eventEndpoint.EventEndpoint;
 import com.pinch.backend.imageEndpoint.ImageEndpoint;
 import com.pinch.backend.organizationEndpoint.OrganizationEndpoint;
+import com.pinch.backend.signUpEndpoint.SignUpEndpoint;
+import com.pinch.backend.userEndpoint.UserEndpoint;
 import java.io.IOException;
 
 public class Endpoints {
@@ -56,4 +58,28 @@ public class Endpoints {
                 }
             });
     public ImageEndpoint imageEndpoint = imageEndpointBuilder.build();
+
+    private UserEndpoint.Builder userEndpointBuilder = new UserEndpoint.Builder(new ApacheHttpTransport(),
+            new JacksonFactory(),
+            null)
+            .setRootUrl("https://pinch-1097.appspot.com/_ah/api/")
+            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                @Override
+                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                }
+            });
+    public UserEndpoint userEndpoint = userEndpointBuilder.build();
+
+    private SignUpEndpoint.Builder signupEndpointBuilder = new SignUpEndpoint.Builder(new ApacheHttpTransport(),
+            new JacksonFactory(),
+            null)
+            .setRootUrl("https://pinch-1097.appspot.com/_ah/api/")
+            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                @Override
+                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                }
+            });
+    public SignUpEndpoint signUpEndpoint = signupEndpointBuilder.build();
 }

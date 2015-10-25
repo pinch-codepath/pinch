@@ -6,7 +6,11 @@
         <init-param>
             <param-name>services</param-name>
             <param-value>
-                com.pinch.backend.api.EventEndpoint,com.pinch.backend.api.OrganizationEndpoint,com.pinch.backend.api.ImageEndpoint
+                com.pinch.backend.api.EventEndpoint,
+                com.pinch.backend.api.OrganizationEndpoint,
+                com.pinch.backend.api.ImageEndpoint,
+                com.pinch.backend.api.UserEndpoint,
+                com.pinch.backend.api.SignUpEndpoint,
             </param-value>
         </init-param>
     </servlet>
