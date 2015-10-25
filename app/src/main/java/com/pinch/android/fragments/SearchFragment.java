@@ -2,10 +2,7 @@ package com.pinch.android.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,15 +10,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.pinch.android.R;
@@ -30,6 +24,7 @@ import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.activities.SearchFiltersActivity;
 import com.pinch.android.adapters.EventsImageArrayAdapter;
 import com.pinch.android.remote.GetFilteredEventsTask;
+import com.pinch.android.util.Network;
 import com.pinch.backend.eventEndpoint.model.Event;
 import com.pinch.backend.eventEndpoint.model.GeoPt;
 import com.pinch.backend.eventEndpoint.model.Search;
@@ -94,7 +89,7 @@ public class SearchFragment extends Fragment {
         mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isNetworkAvailable()) {
+                if (Network.isAvailable(SearchFragment.this.getContext())) {
                     populateEvents();
                 } else {
                     mSwipeContainer.setRefreshing(false);
@@ -141,13 +136,6 @@ public class SearchFragment extends Fragment {
                 mSwipeContainer.setRefreshing(false);
             }
         }).execute(search);
-    }
-
-    public Boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 
     private GeoPt getLocation() {

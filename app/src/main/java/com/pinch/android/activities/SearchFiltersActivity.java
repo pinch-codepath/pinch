@@ -1,26 +1,18 @@
 package com.pinch.android.activities;
 
 import android.content.Intent;
-import android.os.Debug;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pinch.android.R;
 import com.pinch.android.SearchFilters;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 
 public class SearchFiltersActivity extends AppCompatActivity {

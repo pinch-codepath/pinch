@@ -1,12 +1,11 @@
 package com.pinch.android;
 
+import com.google.api.client.util.DateTime;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.api.client.util.DateTime;
-
 import java.util.Calendar;
-import java.util.Date;
 
 public class SearchFilters implements Parcelable {
 

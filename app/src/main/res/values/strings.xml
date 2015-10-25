@@ -33,6 +33,8 @@
     <string name="facebook_app_id">446541765541034</string>
     <string name="shared_preference_file_key">com.pinch.android.PREFERENCE_FILE_KEY</string>
     <string name="user_id">id</string>
+    <string name="auth_source">auth_source</string>
+    <string name="auth_source_id">auth_source_id</string>
     <string name="user_name">name</string>
     <string name="user_pic_url">pic</string>
     <string name="user_bio">bio</string>

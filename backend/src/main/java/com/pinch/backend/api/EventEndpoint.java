@@ -25,6 +25,7 @@ import com.pinch.backend.model.Constants;
 import com.pinch.backend.model.Event;
 import com.pinch.backend.model.Organization;
 import com.pinch.backend.model.Search;
+import com.pinch.backend.model.SignUp;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -87,6 +88,28 @@ public class EventEndpoint {
         List<Event> events = new ArrayList<>();
         for (Entity entity : pq.asIterable()) {
             events.add(Event.fromEntity(datastore, entity));
+        }
+        return events;
+    }
+
+    @ApiMethod(
+            name = "getSignedUpEventsForUser",
+            path = "/event/signups"
+    )
+    public List<Event> getSignedUpEventsForUser(@Named("userId") Long userId) throws EntityNotFoundException {
+        Query query = new Query(Constants.SIGNUP);
+        Query.Filter userIdFilter = new Query.FilterPredicate("userId",
+                Query.FilterOperator.EQUAL,
+                userId);
+        query.setFilter(userIdFilter);
+        PreparedQuery pq = datastore.prepare(query);
+        List<Event> events = new ArrayList<>();
+        for (Entity entity : pq.asIterable()) {
+            SignUp signUp = SignUp.fromEntity(entity);
+            long eventId = signUp.getEventId();
+            Key eventKey = KeyFactory.createKey(Constants.EVENT, eventId);
+            Entity eventEntity = datastore.get(eventKey);
+            events.add(Event.fromEntity(datastore, eventEntity));
         }
         return events;
     }

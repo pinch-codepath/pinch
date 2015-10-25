@@ -1,6 +1,8 @@
 package com.pinch.android.fragments;
 
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -9,36 +11,26 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
-import android.view.View.OnClickListener;
 
 import com.pinch.android.R;
-import com.squareup.picasso.Picasso;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-
-//import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-//import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-
-//import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-//import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+//import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+//import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+//import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+//import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 public class EventCreateFragment extends Fragment implements OnClickListener, AddressDialogFragment.AddressDialogListener, SkillsDialogFragment.SkillsDialogListener {
 

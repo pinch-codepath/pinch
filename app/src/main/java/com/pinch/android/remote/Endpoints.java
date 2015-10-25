@@ -5,6 +5,8 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
 import com.pinch.backend.eventEndpoint.EventEndpoint;
 import com.pinch.backend.organizationEndpoint.OrganizationEndpoint;
+import com.pinch.backend.signUpEndpoint.SignUpEndpoint;
+import com.pinch.backend.userEndpoint.UserEndpoint;
 
 public class Endpoints {
 
@@ -20,6 +22,16 @@ public class Endpoints {
             new AndroidJsonFactory(), null)
             .setRootUrl("https://pinch-1097.appspot.com/_ah/api/");
     public OrganizationEndpoint organizationEndpoint = organizationEndpointBuilder.build();
+
+    private UserEndpoint.Builder userEndpointBuilder = new UserEndpoint.Builder(AndroidHttp.newCompatibleTransport(),
+            new AndroidJsonFactory(), null)
+            .setRootUrl(ROOT_URL);
+    public UserEndpoint userEndpoint = userEndpointBuilder.build();
+
+    private SignUpEndpoint.Builder signUpEndpointBuilder = new SignUpEndpoint.Builder(AndroidHttp.newCompatibleTransport(),
+            new AndroidJsonFactory(), null)
+            .setRootUrl(ROOT_URL);
+    public SignUpEndpoint signUpEndpoint = signUpEndpointBuilder.build();
 
     private Endpoints() {
     }

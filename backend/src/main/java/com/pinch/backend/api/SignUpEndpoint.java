@@ -3,20 +3,18 @@ package com.pinch.backend.api;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
-import com.google.api.server.spi.config.Named;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
 
 import com.pinch.backend.model.Constants;
-import com.pinch.backend.model.Event;
+import com.pinch.backend.model.SignUp;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 @Api(
@@ -34,39 +32,51 @@ public class SignUpEndpoint {
     private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     @ApiMethod(
-            name = "signUp",
-            httpMethod = ApiMethod.HttpMethod.POST
+            name = "insert",
+            httpMethod = ApiMethod.HttpMethod.PUT
     )
-    public void signUp(@Named("eventId") String eventId,
-                       @Named("userId") String userId) throws EntityNotFoundException {
-        Entity entity = new Entity(Constants.SIGNUP);
-        entity.setProperty("eventId", eventId);
-        entity.setProperty("userId", userId);
-        Transaction txn = datastore.beginTransaction();
-        try {
-            datastore.put(entity);
-            txn.commit();
-        } finally {
-            if (txn.isActive()) {
-                txn.rollback();
-            }
-        }
-    }
-
-    @ApiMethod(
-            name = "delete",
-            httpMethod = ApiMethod.HttpMethod.DELETE
-    )
-    public void delete(@Named("eventId") String eventId,
-                       @Named("userId") String userId) throws EntityNotFoundException {
+    public SignUp insert(SignUp signUp) throws EntityNotFoundException {
         Query query = new Query(Constants.SIGNUP);
         Query.Filter eventIdFilter = new Query.FilterPredicate("eventId",
                 Query.FilterOperator.EQUAL,
-                eventId);
+                signUp.getEventId());
         query.setFilter(eventIdFilter);
         Query.Filter userIdFilter = new Query.FilterPredicate("userId",
                 Query.FilterOperator.EQUAL,
-                userId);
+                signUp.getUserId());
+        query.setFilter(userIdFilter);
+        PreparedQuery pq = datastore.prepare(query);
+        for (Entity entity : pq.asIterable()) {
+            return SignUp.fromEntity(entity);
+        }
+        Entity entity = SignUp.toEntity(signUp);
+        Transaction txn = datastore.beginTransaction();
+        Key key = null;
+        try {
+            key = datastore.put(entity);
+            txn.commit();
+        } finally {
+            if (txn.isActive() || key == null) {
+                txn.rollback();
+            } else {
+                signUp.setId(key.getId());
+            }
+        }
+        return signUp;
+    }
+
+    @ApiMethod(
+            name = "delete"
+    )
+    public void delete(SignUp signUp) throws EntityNotFoundException {
+        Query query = new Query(Constants.SIGNUP);
+        Query.Filter eventIdFilter = new Query.FilterPredicate("eventId",
+                Query.FilterOperator.EQUAL,
+                signUp.getEventId());
+        query.setFilter(eventIdFilter);
+        Query.Filter userIdFilter = new Query.FilterPredicate("userId",
+                Query.FilterOperator.EQUAL,
+                signUp.getUserId());
         query.setFilter(userIdFilter);
         PreparedQuery pq = datastore.prepare(query);
         Transaction txn = datastore.beginTransaction();
@@ -83,20 +93,22 @@ public class SignUpEndpoint {
     }
 
     @ApiMethod(
-            name = "eventsForUser"
+            name = "isSignedUp"
     )
-    public List<Event> eventsForUser(@Named("userId") String userId) throws EntityNotFoundException {
+    public SignUp isSignedUp(SignUp signUp) throws EntityNotFoundException {
         Query query = new Query(Constants.SIGNUP);
+        Query.Filter eventIdFilter = new Query.FilterPredicate("eventId",
+                Query.FilterOperator.EQUAL,
+                signUp.getEventId());
+        query.setFilter(eventIdFilter);
         Query.Filter userIdFilter = new Query.FilterPredicate("userId",
                 Query.FilterOperator.EQUAL,
-                userId);
+                signUp.getUserId());
         query.setFilter(userIdFilter);
         PreparedQuery pq = datastore.prepare(query);
-        List<Event> events = new ArrayList<>();
         for (Entity entity : pq.asIterable()) {
-            events.add(Event.fromEntity(datastore, entity));
+            return SignUp.fromEntity(entity);
         }
-        return events;
+        return null;
     }
-
 }

@@ -8,8 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.astuetz.PagerSlidingTabStrip;
 import com.pinch.android.R;
 import com.pinch.android.fragments.EventCreateFragment;
-import com.pinch.android.fragments.EventsFragment;
+import com.pinch.android.fragments.OpenEventsFragment;
 import com.pinch.android.fragments.SearchFragment;
+import com.pinch.android.fragments.SignedUpEventsFragment;
 import com.pinch.android.fragments.UserProfileFragment;
 
 public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
@@ -38,10 +39,13 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     @Override
     public Fragment getItem(int position) {
         if(position == 0) {
-            return new EventsFragment();
+            return new OpenEventsFragment();
         }
         else if(position == 1) {
             return new SearchFragment();
+        }
+        else if(position == 2) {
+            return new SignedUpEventsFragment();
         }
         else if(position == 4) {
             return new UserProfileFragment();
