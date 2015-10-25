@@ -1,12 +1,8 @@
 package com.pinch.android.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -20,10 +16,16 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.pinch.android.R;
+import com.pinch.android.remote.InsertIfMissingUserTask;
+import com.pinch.backend.userEndpoint.model.User;
 
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity {
+import java.util.Arrays;
+
+import static com.pinch.android.util.SharedPreferenceUtil.writeToSharedPreferences;
+
+public class LoginActivity extends AppCompatActivity implements InsertIfMissingUserTask.InsertIfMissingUserResultListener {
 
     //key ga0RGNYHvNM5d0SLGQfpQWAPGJ8=
     LoginButton loginButton;
@@ -37,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
         loginButton = (LoginButton) findViewById(R.id.login_button);
-
+        loginButton.setReadPermissions(Arrays.asList("email"));
         // Other app specific specialization
         // loginButton.setReadPermissions("user_friends");
 
@@ -49,10 +51,13 @@ public class LoginActivity extends AppCompatActivity {
                 GraphRequestAsyncTask request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-                        writeToSharedPreferences(getString(R.string.user_id), jsonObject.optString("id"));
-                        writeToSharedPreferences(getString(R.string.user_name), jsonObject.optString("name"));
-                        writeToSharedPreferences(getString(R.string.user_bio), jsonObject.optString("bio"));
-                        writeToSharedPreferences(getString(R.string.user_location), jsonObject.optString("location"));
+                        String id = jsonObject.optString("id");
+                        String name = jsonObject.optString("name");
+                        User user = new User();
+                        user.setId(id);
+                        user.setAuthSource("facebook");
+                        user.setName(name);
+                        new InsertIfMissingUserTask(LoginActivity.this).execute(user);
                     }
                 }).executeAsync();
             }
@@ -102,11 +107,11 @@ public class LoginActivity extends AppCompatActivity {
         AppEventsLogger.deactivateApp(this);
     }
 
-    private void writeToSharedPreferences(String key, String value) {
-        SharedPreferences sharedPref = getSharedPreferences(
-                getString(R.string.shared_preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(key, value);
-        editor.apply();
+    @Override
+    public void onUserUpdate(User user) {
+        writeToSharedPreferences(this, getString(R.string.user_id), user.getKey());
+        writeToSharedPreferences(this, getString(R.string.auth_source), user.getAuthSource());
+        writeToSharedPreferences(this, getString(R.string.auth_source_id), user.getId());
+        writeToSharedPreferences(this, getString(R.string.user_name), user.getName());
     }
 }

@@ -1,23 +1,16 @@
 package com.pinch.console;
 
-import com.google.api.client.util.DateTime;
-
-import com.pinch.backend.eventEndpoint.EventEndpoint;
-import com.pinch.backend.eventEndpoint.model.Event;
-import com.pinch.backend.organizationEndpoint.OrganizationEndpoint;
-import com.pinch.backend.organizationEndpoint.model.GeoPt;
-import com.pinch.backend.organizationEndpoint.model.Organization;
-
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
+
+import static com.pinch.console.TestUtil.Address;
+import static com.pinch.console.TestUtil.Skills;
+import static com.pinch.console.TestUtil.deleteAllEvents;
+import static com.pinch.console.TestUtil.deleteAllOrgs;
+import static com.pinch.console.TestUtil.insertEvent;
+import static com.pinch.console.TestUtil.insertOrg;
 
 public class TestDataSetup {
-
-    private static OrganizationEndpoint organizationEndpoint = Endpoints.getInstance().organizationEndpoint;
-    private static EventEndpoint eventEndpoint = Endpoints.getInstance().eventEndpoint;
 
     public static void main(String[] args) throws IOException, ParseException {
         deleteAllEvents();
@@ -162,158 +155,4 @@ public class TestDataSetup {
                 a3, s1);
     }
 
-    private static DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-
-    private static void insertEvent(long orgId1, String title, String description, String startTime, String endTime, Address address, Skills skills) throws IOException, ParseException {
-        Event event = new Event();
-        event.setTitle(title);
-        event.setDescription(description);
-        event.setStartTime(new DateTime(formatter.parse(startTime)));
-        event.setEndTime(new DateTime(formatter.parse(endTime)));
-        event.setAddressStreet(address.getStreet());
-        event.setAddressCity(address.getCity());
-        event.setAddressState(address.getState());
-        event.setAddressZip(address.getZip());
-        event.setAddressNeighborhood(address.getNeighborhood());
-        event.setSkill1(skills.getSkill1());
-        event.setSkill2(skills.getSkill2());
-        event.setSkill3(skills.getSkill3());
-        Event returnedEvent = eventEndpoint.insert(orgId1, event).execute();
-        if (returnedEvent != null) {
-            System.out.println("Inserted event: " + returnedEvent);
-        }
-    }
-
-    private static Long insertOrg(String name, String address, float latitude, float longitude, String url, String displayUrl) throws IOException {
-        GeoPt geoPt = new GeoPt();
-        geoPt.setLatitude(latitude);
-        geoPt.setLongitude(longitude);
-        Organization organization = new Organization();
-        organization.setName(name);
-        organization.setAddress(address);
-        organization.setLocation(geoPt);
-        organization.setUrl(url);
-        organization.setDisplayUrl(displayUrl);
-        Organization returnedOrg = organizationEndpoint.insert(organization).execute();
-        if(returnedOrg != null) {
-            System.out.println("Inserted organization: " + returnedOrg);
-        }
-        return returnedOrg.getId();
-    }
-
-    private static void deleteAllOrgs() throws IOException {
-        List<Organization> organizations = organizationEndpoint.getAll().execute().getItems();
-        if(organizations != null) {
-            for (Organization organization: organizations){
-                organizationEndpoint.delete(organization.getId()).execute();
-            }
-        }
-        System.out.println("Deleted all orgs");
-    }
-
-    private static void deleteAllEvents() throws IOException {
-        List<Event> events = eventEndpoint.getAll().execute().getItems();
-        if(events != null) {
-            for (Event event: events){
-                eventEndpoint.delete(event.getId()).execute();
-            }
-        }
-        System.out.println("Deleted all events");
-    }
-
-    // Can later be made into a composite object within events and organization.
-    public static class Address {
-
-        private long zip;
-        private String street;
-        private String city;
-        private String state;
-        private String neighborhood;
-
-        public long getZip() {
-            return zip;
-        }
-
-        public void setZip(long zip) {
-            this.zip = zip;
-        }
-
-        public String getStreet() {
-            return street;
-        }
-
-        public void setStreet(String street) {
-            this.street = street;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public String getNeighborhood() {
-            return neighborhood;
-        }
-
-        public void setNeighborhood(String neighborhood) {
-            this.neighborhood = neighborhood;
-        }
-
-        Address(String street, String city, String state, long zip, String neighborhood) {
-            this.street = street;
-            this.city = city;
-            this.state = state;
-            this.zip = zip;
-            this.neighborhood = neighborhood;
-        }
-
-    }
-
-    // Can later be made into a composite object within events.
-    public static class Skills {
-        private String skill1;
-        private String skill2;
-        private String skill3;
-
-        public String getSkill1() {
-            return skill1;
-        }
-
-        public void setSkill1(String skill1) {
-            this.skill1 = skill1;
-        }
-
-        public String getSkill2() {
-            return skill2;
-        }
-
-        public void setSkill2(String skill2) {
-            this.skill2 = skill2;
-        }
-
-        public String getSkill3() {
-            return skill3;
-        }
-
-        public void setSkill3(String skill3) {
-            this.skill3 = skill3;
-        }
-
-        Skills(String skill1, String skill2, String skill3) {
-            this.skill1 = skill1;
-            this.skill2 = skill2;
-            this.skill3 = skill3;
-        }
-    }
 }

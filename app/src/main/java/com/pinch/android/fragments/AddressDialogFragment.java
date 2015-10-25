@@ -2,20 +2,17 @@ package com.pinch.android.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.support.v4.app.DialogFragment;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.pinch.android.R;
-
-import org.json.JSONObject;
 
 public class AddressDialogFragment extends DialogFragment {
     Button btnOk;
