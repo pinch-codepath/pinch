@@ -5,17 +5,20 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.pinch.android.R;
+import com.pinch.android.dialogs.FacebookLoginDialog;
 import com.squareup.picasso.Picasso;
 
 
-public class UserProfileFragment extends Fragment{
+public class UserProfileFragment extends Fragment {
 
     private View mFragmentView;
 
@@ -23,7 +26,13 @@ public class UserProfileFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_profile, container, false);
-        setupViewObjects();
+
+        if(AccessToken.getCurrentAccessToken() != null) {
+            setupViewObjects();
+        }
+        else {
+            openFacebookLoginDialog();
+        }
 
         return mFragmentView;
     }
@@ -45,6 +54,12 @@ public class UserProfileFragment extends Fragment{
         tvProfileName.setText(getSharedPreferenceFromKey(getString(R.string.user_name)));
         tvProfileLocation.setText(getSharedPreferenceFromKey(getString(R.string.user_location)));
         tvProfileBio.setText(getSharedPreferenceFromKey(getString(R.string.user_bio)));
+    }
+
+    private void openFacebookLoginDialog() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FacebookLoginDialog facebookLoginDialog = FacebookLoginDialog.newInstance();
+        facebookLoginDialog.show(fm, "dialog_login_facebook");
     }
 
     private String getSharedPreferenceFromKey(String key) {
