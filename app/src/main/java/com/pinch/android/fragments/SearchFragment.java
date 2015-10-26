@@ -10,12 +10,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pinch.android.R;
@@ -38,6 +43,7 @@ public class SearchFragment extends Fragment {
     protected ArrayList<Event> mEventsArray;
     protected EventsImageArrayAdapter mEventsAdapter;
     protected ListView mLvEvents;
+    private EditText etSearch;
 
     private static final int REQUEST_CODE = 194;
     private static final int RESULT_OK = 200;
@@ -60,8 +66,17 @@ public class SearchFragment extends Fragment {
     protected void setupViewObjects() {
         searchFilters = new SearchFilters();
 
-        SearchView searchBar = (SearchView) mFragmentView.findViewById(R.id.svEvents);
-        searchBar.setOnClickListener(new View.OnClickListener() {
+        etSearch = (EditText) mFragmentView.findViewById(R.id.etSearch);
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                populateEvents();
+                return true;
+            }
+        });
+
+        ImageView ivFilters = (ImageView) mFragmentView.findViewById(R.id.ivFilters);
+        ivFilters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent searchIntent = new Intent(getActivity(), SearchFiltersActivity.class);
@@ -117,7 +132,7 @@ public class SearchFragment extends Fragment {
     private void populateEvents() {
         Search search = new Search();
 
-        search.setText(searchFilters.getKeyword());
+        search.setText(etSearch.getText().toString());
         if(searchFilters.getDistance() > 0) {
             search.setCurrentLocation(getLocation());
             search.setDistanceInMeters((int) (searchFilters.getDistance() * 1609.34));

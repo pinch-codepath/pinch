@@ -22,7 +22,6 @@ public class SearchFiltersActivity extends AppCompatActivity {
     Calendar toCalendar;
 
     //views
-    EditText etKeywords;
     TextView tvFromDate;
     TextView tvToDate;
     Spinner spinnerDistance;
@@ -47,7 +46,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent searchIntent = new Intent();
                 filters = new SearchFilters(
-                        etKeywords.getText().toString(),
+                        null,
                         fromCalendar,
                         toCalendar,
                         spinnerDistance.getSelectedItemPosition(),
@@ -63,14 +62,12 @@ public class SearchFiltersActivity extends AppCompatActivity {
     private void setupViewObjects() {
         filters = getIntent().getParcelableExtra("filters");
 
-        etKeywords = (EditText) findViewById(R.id.etKeywords);
         spinnerDistance = (Spinner) findViewById(R.id.spinnerDistance);
         spinnerEvent = (Spinner) findViewById(R.id.spinnerEvent);
         spinnerSkills = (Spinner) findViewById(R.id.spinnerSkills);
         tvFromDate = (TextView) findViewById(R.id.tvFromDate);
         tvToDate = (TextView) findViewById(R.id.tvToDate);
 
-        etKeywords.setText(filters.getKeyword());
         spinnerDistance.setSelection(filters.getDistanceSpinnerIndex());
         spinnerEvent.setSelection(filters.getEventTypeSpinnerIndex());
         spinnerSkills.setSelection(filters.getSkillsRequiredSpinnerIndex());
