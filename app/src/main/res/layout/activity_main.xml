@@ -17,6 +17,7 @@
         app:pstsDividerColor="@color/colorPrimary"
         app:pstsIndicatorColor="@color/colorPrimaryDark"
         app:pstsIndicatorHeight="3dp"
+        android:elevation="4dp"
         android:layout_height="48dp"/>
 
     <android.support.v4.view.ViewPager

@@ -96,10 +96,7 @@ public abstract class EventsFragment extends Fragment {
 
         );
         // Configure the refreshing colors
-        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        mSwipeContainer.setColorSchemeResources(R.color.colorPrimary);
     }
 
 }
