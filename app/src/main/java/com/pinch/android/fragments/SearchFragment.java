@@ -66,7 +66,9 @@ public class SearchFragment extends Fragment {
     protected void setupViewObjects() {
         searchFilters = new SearchFilters();
 
-        etSearch = (EditText) mFragmentView.findViewById(R.id.etSearch);
+        View searchBar = View.inflate(getContext(), R.layout.header_listview_search_fragment, null);
+
+        etSearch = (EditText) searchBar.findViewById(R.id.etSearch);
         etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -75,7 +77,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        ImageView ivFilters = (ImageView) mFragmentView.findViewById(R.id.ivFilters);
+        ImageView ivFilters = (ImageView) searchBar.findViewById(R.id.ivFilters);
         ivFilters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +88,7 @@ public class SearchFragment extends Fragment {
         });
 
         mLvEvents = (ListView) mFragmentView.findViewById(R.id.lvEvents);
+        mLvEvents.addHeaderView(searchBar);
         mEventsArray = new ArrayList<>();
         mEventsAdapter = new EventsImageArrayAdapter(getActivity(), mEventsArray);
         mLvEvents.setAdapter(mEventsAdapter);
