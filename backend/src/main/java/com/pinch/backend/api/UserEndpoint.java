@@ -84,7 +84,7 @@ public class UserEndpoint {
                     .type(Organization.class)
                     .id(organizationId)
                     .now();
-            if(organization!= null) {
+            if (organization != null) {
                 organizations.add(organization);
             }
         }
@@ -109,7 +109,7 @@ public class UserEndpoint {
                     .type(Organization.class)
                     .id(organizationId)
                     .now();
-            if(organization!= null) {
+            if (organization != null) {
                 organizations.add(organization);
             }
         }

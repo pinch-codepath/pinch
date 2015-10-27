@@ -10,10 +10,10 @@ public class User {
     Long key;
     @Index
     String id;
-    private String name;
-    private String emailAddress;
     @Index
     String authSource;
+    private String name;
+    private String emailAddress;
     private String twitterHandle;
 
     public String getTwitterHandle() {
