@@ -36,8 +36,8 @@ public class TestDataSetup {
                 "One to five volunteers are needed each day to assist kitchen staff in serving breakfast and lunch. The breakfast hours are " +
                         "6:30 am to 9:00 am. The lunch hours are 10:00 am to 1:30 pm. You may choose to do either one or both shifts on the " +
                         "day of your choice.",
-                "10/26/2015 06:30:00",
-                "10/26/2015 09:00:00",
+                "11/02/2015 06:30:00",
+                "11/02/2015 09:00:00",
                 a1, s1);
 
         insertEvent(orgId3,
@@ -45,106 +45,106 @@ public class TestDataSetup {
                 "Join us for a huge Community Cleanup Day in West Oakland. Projects may include: Garden planting, Park renovation, Painting, " +
                         "Graffiti removal, Litter removal, Weeding, Illegal dumping collection, Breakfast snacks and liquids will be provided. " +
                         "We recommend bringing your own refillable bottle.",
-                "10/26/2015 13:00:00",
-                "10/26/2015 16:00:00",
+                "11/02/2015 13:00:00",
+                "11/02/2015 16:00:00",
                 a2, s1);
 
         insertEvent(orgId2,
                 "Serve Breakfast To The Elderly",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
-                "10/26/2015 07:00:00",
-                "10/26/2015 09:00:00",
+                "11/02/2015 07:00:00",
+                "11/02/2015 09:00:00",
                 a3, s1);
 
         insertEvent(orgId3,
                 "Serve Breakfast",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
-                "10/26/2015 07:00:00",
-                "10/26/2015 09:00:00",
+                "11/02/2015 07:00:00",
+                "11/02/2015 09:00:00",
                 a1, s1);
 
         insertEvent(orgId4,
                 "Help setup event for school",
                 "Join other volunteers and help K to College prepare for their 5th Annual Assembly Event. Set-up will take place at the International House in the Chevron Auditorium. We will set-up tables, chairs, signage, and boxes in preparation for the next day where volunteers will assemble 3,500 school supply kits and dental kits that will be given to every child eligible for the free & reduced lunch plan.",
-                "10/26/2015 07:00:00",
-                "10/26/2015 09:00:00",
+                "11/02/2015 07:00:00",
+                "11/02/2015 09:00:00",
                 a1, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
-                "10/26/2015 09:00:00",
-                "10/26/2015 12:00:00",
+                "11/02/2015 09:00:00",
+                "11/02/2015 12:00:00",
                 a2, s1);
 
         insertEvent(orgId4,
                 "Serve Lunch",
                 "Serving a meal in the Daily Free Meals Program can be a transformative experience. This program requires 85 volunteers each day to fill the breakfast, prep, lunch and dinner shifts, 364 days a year. With your help we can serve up to 2400 meals per day to our community. Volunteers assist with everything from serving food and bussing tables, to handing out silverware and condiments. Be prepared to roll up your sleeves, break a sweat, and make some beautiful human connections!",
-                "10/26/2015 11:00:00",
-                "10/26/2015 14:00:00",
+                "11/02/2015 11:00:00",
+                "11/02/2015 14:00:00",
                 a3, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
-                "10/27/2015 12:30:00",
-                "10/27/2015 15:30:00",
+                "11/03/2015 12:30:00",
+                "11/03/2015 15:30:00",
                 a4, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
-                "10/27/2015 14:00:00",
-                "10/27/2015 16:00:00",
+                "11/03/2015 14:00:00",
+                "11/03/2015 16:00:00",
                 a1, s1);
 
         insertEvent(orgId4,
                 "Serve Dinner",
                 "Serving a meal in the Daily Free Meals Program can be a transformative experience. This program requires 85 volunteers each day to fill the breakfast, prep, lunch and dinner shifts, 364 days a year. With your help we can serve up to 2400 meals per day to our community. Volunteers assist with everything from serving food and bussing tables, to handing out silverware and condiments. Be prepared to roll up your sleeves, break a sweat, and make some beautiful human connections!",
-                "10/27/2015 15:00:00",
-                "10/27/2015 17:30:00",
+                "11/03/2015 15:00:00",
+                "11/03/2015 17:30:00",
                 a2, s1);
 
         insertEvent(orgId2,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
-                "10/27/2015 16:30:00",
-                "10/27/2015 18:00:00",
+                "11/03/2015 16:30:00",
+                "11/03/2015 18:00:00",
                 a1, s1);
 
         insertEvent(orgId3,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
-                "10/28/2015 16:30:00",
-                "10/28/2015 18:00:00",
+                "11/04/2015 16:30:00",
+                "11/04/2015 18:00:00",
                 a3, s1);
 
         insertEvent(orgId5,
                 "Warehouse Volunteer",
                 "Every day of the week, teams of volunteers gather to sort and pack the food donations that come through our doors. From bins of oranges straight from the grove to 2,000-pound totes of rice, volunteers ensure that there are always hands at the ready to pack the food for distribution. Last year, volunteers provided 146,000 hours of help — the equivalent of 70 full time staff and a critical support toward ending hunger.",
-                "10/28/2015 18:00:00",
-                "10/28/2015 20:00:00",
+                "11/04/2015 18:00:00",
+                "11/04/2015 20:00:00",
                 a1, s1);
 
         insertEvent(orgId4,
                 "Serve Dinner",
                 "Serving a meal in the Daily Free Meals Program can be a transformative experience. This program requires 85 volunteers each day to fill the breakfast, prep, lunch and dinner shifts, 364 days a year. With your help we can serve up to 2400 meals per day to our community. Volunteers assist with everything from serving food and bussing tables, to handing out silverware and condiments. Be prepared to roll up your sleeves, break a sweat, and make some beautiful human connections!",
-                "10/28/2015 15:00:00",
-                "10/28/2015 17:30:00",
+                "11/04/2015 15:00:00",
+                "11/04/2015 17:30:00",
                 a2, s1);
 
         insertEvent(orgId2,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
-                "10/28/2015 16:30:00",
-                "10/28/2015 18:00:00",
+                "11/04/2015 16:30:00",
+                "11/04/2015 18:00:00",
                 a1, s1);
 
         insertEvent(orgId6,
                 "Serve Dinner",
                 "Volunteering is easy and fun at Episcopal Community Services! We have lots of opportunities for those who want to make a difference in the lives of homeless and low-income adults, seniors and youth.",
-                "10/28/2015 16:30:00",
-                "10/28/2015 18:00:00",
+                "11/04/2015 16:30:00",
+                "11/04/2015 18:00:00",
                 a4, s1);
 
         insertEvent(orgId5,

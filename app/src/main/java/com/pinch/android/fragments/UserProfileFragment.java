@@ -3,7 +3,6 @@ package com.pinch.android.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,9 @@ import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.pinch.android.R;
-import com.pinch.android.dialogs.FacebookLoginDialog;
 import com.squareup.picasso.Picasso;
 
+import static com.pinch.android.util.FacebookUtil.openFacebookLoginDialog;
 import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceStringFromKey;
 
 
@@ -31,7 +30,7 @@ public class UserProfileFragment extends Fragment {
             setupViewObjects();
         }
         else {
-            openFacebookLoginDialog();
+            openFacebookLoginDialog(getActivity().getSupportFragmentManager());
         }
 
         return mFragmentView;
@@ -56,9 +55,4 @@ public class UserProfileFragment extends Fragment {
         tvProfileBio.setText(getSharedPreferenceStringFromKey(getContext(), getString(R.string.user_bio)));
     }
 
-    private void openFacebookLoginDialog() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FacebookLoginDialog facebookLoginDialog = FacebookLoginDialog.newInstance();
-        facebookLoginDialog.show(fm, "dialog_login_facebook");
-    }
 }

@@ -62,21 +62,21 @@ public class EventDetailsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-        eventId = (Long) getIntent().getLongExtra("eventId", 0);
-        eventTitle = (String)getIntent().getStringExtra("eventTitle");
-        eventDescription = (String)getIntent().getStringExtra("eventDescription");
-        eventAddressStreet = (String)getIntent().getStringExtra("eventAddressStreet");
-        eventAddressCity = (String)getIntent().getStringExtra("eventAddressCity");
-        eventAddressState = (String)getIntent().getStringExtra("eventAddressState");
-        eventAddressNeighborhood = (String)getIntent().getStringExtra("eventAddressNeighborHood");
-        eventAddressZip = (Long)getIntent().getLongExtra("eventAddressZip", 0);
-        eventSkill1 = (String)getIntent().getStringExtra("eventSkill1");
-        eventSkill2 = (String)getIntent().getStringExtra("eventSkill2");
-        eventSkill3 = (String)getIntent().getStringExtra("eventSkill3");
-        eventUrl = (String)getIntent().getStringExtra("eventUrl");
+        eventId = getIntent().getLongExtra("eventId", 0);
+        eventTitle = getIntent().getStringExtra("eventTitle");
+        eventDescription = getIntent().getStringExtra("eventDescription");
+        eventAddressStreet = getIntent().getStringExtra("eventAddressStreet");
+        eventAddressCity = getIntent().getStringExtra("eventAddressCity");
+        eventAddressState = getIntent().getStringExtra("eventAddressState");
+        eventAddressNeighborhood = getIntent().getStringExtra("eventAddressNeighborHood");
+        eventAddressZip = getIntent().getLongExtra("eventAddressZip", 0);
+        eventSkill1 = getIntent().getStringExtra("eventSkill1");
+        eventSkill2 = getIntent().getStringExtra("eventSkill2");
+        eventSkill3 = getIntent().getStringExtra("eventSkill3");
+        eventUrl = getIntent().getStringExtra("eventUrl");
 //        eventStartTime = (Date)getIntent().getD
 //        eventEndTime = (Date)getIntent().getStringExtra("eventTitle");
-        eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
+        eventOrgName = getIntent().getStringExtra("eventOrgName");
 
 
         setupViewObjects();
@@ -94,7 +94,6 @@ public class EventDetailsActivity extends AppCompatActivity
 
         mTvEventName.setText(this.eventTitle);
         mTvEventDescription.setText(this.eventDescription);
-
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -117,12 +116,13 @@ public class EventDetailsActivity extends AppCompatActivity
 //        mIvPic.setImageResource(0);
         Picasso.with(this).load(imageUrl).fit().centerCrop().into(mIvPic);
 
-        signUp = new SignUp();
-        Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));
-        signUp.setUserId(userId);
-        signUp.setEventId(eventId);
-
-        new HasSignedUpForEventTask(this).execute(signUp);
+        if(AccessToken.getCurrentAccessToken() != null) {
+            signUp = new SignUp();
+            Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));
+            signUp.setUserId(userId);
+            signUp.setEventId(eventId);
+            new HasSignedUpForEventTask(this).execute(signUp);
+        }
     }
 
     private void onSignupButtonClicked() {
