@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.pinch.android.R;
+import com.pinch.android.Utils;
 import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.adapters.EventsArrayAdapter;
 import com.pinch.android.util.Network;
@@ -69,9 +70,9 @@ public abstract class EventsFragment extends Fragment {
                 intent.putExtra("eventSkill1", e.getSkill1());
                 intent.putExtra("eventSkill2", e.getSkill2());
                 intent.putExtra("eventSkill3", e.getSkill3());
-                intent.putExtra("eventUrl", e.getUrl());
-                intent.putExtra("eventStartTime", e.getStartTime());
-                intent.putExtra("eventEndTime", e.getEndTime());
+                intent.putExtra("eventUrl", e.getOrganization().getDisplayUrl());
+                intent.putExtra("eventDate", Utils.getDateString(e.getStartTime()));
+                intent.putExtra("eventTime", Utils.getTimeString(e.getStartTime()) + "-" + Utils.getTimeString(e.getEndTime()));
                 intent.putExtra("eventOrgName", e.getOrganization().getName());
                 startActivity(intent);
             }

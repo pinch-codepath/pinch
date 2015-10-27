@@ -35,6 +35,8 @@ public class EventDetailsActivity extends AppCompatActivity
     private Button mBtnSignUp;
     private Button mBtnLearnMore;
     private TextView mTvEventName;
+    private TextView mTvEventDate;
+    private TextView mTvEventTime;
     private TextView mTvEventDescription;
     private TextView mTvAddressLine1;
     private TextView mTvAddressLine2;
@@ -56,8 +58,8 @@ public class EventDetailsActivity extends AppCompatActivity
     private String eventSkill2;
     private String eventSkill3;
     private String eventUrl;
-    private Date eventStartTime;
-    private Date eventEndTime;
+    private String eventDate;
+    private String eventTime;
     private String eventOrgName;
 
     @Override
@@ -76,8 +78,8 @@ public class EventDetailsActivity extends AppCompatActivity
         eventSkill2 = (String)getIntent().getStringExtra("eventSkill2");
         eventSkill3 = (String)getIntent().getStringExtra("eventSkill3");
         eventUrl = (String)getIntent().getStringExtra("eventUrl");
-//        eventStartTime = (Date)getIntent().getD
-//        eventEndTime = (Date)getIntent().getStringExtra("eventTitle");
+        eventDate = (String)getIntent().getStringExtra("eventDate");
+        eventTime = (String)getIntent().getStringExtra("eventTime");
         eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
 
 
@@ -89,12 +91,16 @@ public class EventDetailsActivity extends AppCompatActivity
         mBtnSignUp = (Button) findViewById(R.id.btnSignUp);
         mBtnLearnMore = (Button) findViewById(R.id.btnLearnMore);
         mTvEventName = (TextView) findViewById(R.id.tvEventName);
+        mTvEventDate = (TextView) findViewById(R.id.tvEventDate);
+        mTvEventTime = (TextView) findViewById(R.id.tvEventTime);
         mTvAddressLine1 = (TextView) findViewById(R.id.tvAddressLine1);
         mTvAddressLine2 = (TextView) findViewById(R.id.tvAddressLine2);
         mTvRequirements = (TextView) findViewById(R.id.tvRequirements);
         mTvEventDescription = (TextView) findViewById(R.id.tvEventDescription);
 
         mTvEventName.setText(this.eventTitle);
+        mTvEventDate.setText(this.eventDate);
+        mTvEventTime.setText(this.eventTime);
         mTvEventDescription.setText(this.eventDescription);
 
 
@@ -117,7 +123,7 @@ public class EventDetailsActivity extends AppCompatActivity
 
         String imageUrl = "https://style.codeforamerica.org/media/images/big-data.jpg";
 //        mIvPic.setImageResource(0);
-        Picasso.with(this).load(imageUrl).fit().centerCrop().into(mIvPic);
+        Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
 
         signUp = new SignUp();
         Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));

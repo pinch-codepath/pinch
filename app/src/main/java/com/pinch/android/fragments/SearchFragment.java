@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.pinch.android.R;
 import com.pinch.android.SearchFilters;
+import com.pinch.android.Utils;
 import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.activities.SearchFiltersActivity;
 import com.pinch.android.adapters.EventsImageArrayAdapter;
@@ -96,6 +97,22 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), EventDetailsActivity.class);
+                Event e = mEventsArray.get(position - 1);   //to adjust for the added header
+                intent.putExtra("eventId", e.getId());
+                intent.putExtra("eventTitle", e.getTitle());
+                intent.putExtra("eventDescription", e.getDescription());
+                intent.putExtra("eventAddressStreet", e.getAddressStreet());
+                intent.putExtra("eventAddressCity", e.getAddressCity());
+                intent.putExtra("eventAddressState", e.getAddressState());
+                intent.putExtra("eventAddressNeighborhood", e.getAddressNeighborhood());
+                intent.putExtra("eventAddressZip", e.getAddressZip());
+                intent.putExtra("eventSkill1", e.getSkill1());
+                intent.putExtra("eventSkill2", e.getSkill2());
+                intent.putExtra("eventSkill3", e.getSkill3());
+                intent.putExtra("eventUrl", e.getOrganization().getDisplayUrl());
+                intent.putExtra("eventDate", Utils.getDateString(e.getStartTime()));
+                intent.putExtra("eventTime", Utils.getTimeString(e.getStartTime()) + "-" + Utils.getTimeString(e.getEndTime()));
+                intent.putExtra("eventOrgName", e.getOrganization().getName());
                 startActivity(intent);
             }
         });
