@@ -1,13 +1,12 @@
 package com.pinch.backend.model;
 
-import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 import java.util.Comparator;
 import java.util.Date;
+
+import static com.pinch.backend.OfyService.ofy;
 
 public class Event {
 
@@ -33,17 +32,6 @@ public class Event {
     private String skill1;
     private String skill2;
     private String skill3;
-
-
-    public static Event fromEntity(DatastoreService datastore, Entity entity) throws EntityNotFoundException {
-        Long organizationId = (Long) entity.getProperty("organizationId");
-        Key orgKey = KeyFactory.createKey(Constants.ORGANIZATION, organizationId);
-        Entity parentEntity = datastore.get(orgKey);
-        Organization organization = Organization.fromEntity(parentEntity);
-        Event event = Event.fromEntity(entity);
-        event.setOrganization(organization);
-        return event;
-    }
 
     public static Entity toEntity(long organizationId, Event event) {
         Entity entity = new Entity(Constants.EVENT);
@@ -153,6 +141,13 @@ public class Event {
         if (skill3 != null) {
             event.setSkill3((String) skill3);
         }
+        Long organizationId = (Long) entity.getProperty("organizationId");
+        Organization organization = ofy()
+                .load()
+                .type(Organization.class)
+                .id(organizationId)
+                .now();
+        event.setOrganization(organization);
         return event;
     }
 

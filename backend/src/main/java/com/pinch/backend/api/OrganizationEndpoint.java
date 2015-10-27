@@ -4,22 +4,14 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Transaction;
 
-import com.pinch.backend.model.Constants;
 import com.pinch.backend.model.Organization;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static com.pinch.backend.OfyService.ofy;
 
 @Api(
         name = "organizationEndpoint",
@@ -39,9 +31,11 @@ public class OrganizationEndpoint {
             name = "get"
     )
     public Organization get(@Named("id") Long id) throws EntityNotFoundException {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Key key = KeyFactory.createKey(Constants.ORGANIZATION, id);
-        return Organization.fromEntity(datastore.get(key));
+        return ofy()
+                .load()
+                .type(Organization.class)
+                .id(id)
+                .now();
     }
 
     @ApiMethod(
@@ -49,37 +43,29 @@ public class OrganizationEndpoint {
             path = "getAll"
     )
     public List<Organization> getAll() {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Query query = new Query(Constants.ORGANIZATION);
-        PreparedQuery pq = datastore.prepare(query);
-        List<Organization> organizations = new ArrayList<>();
-        for (Entity entity : pq.asIterable()) {
-            organizations.add(Organization.fromEntity(entity));
-        }
-        return organizations;
+        return ofy()
+                .load()
+                .type(Organization.class)
+                .list();
     }
 
     @ApiMethod(
             name = "insert"
     )
     public Organization insert(Organization organization) {
-        logger.info("Calling insertEvent method");
-        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
-        Transaction txn = datastoreService.beginTransaction();
-        Key key;
-        try {
-            Entity entity = Organization.toEntity(organization);
-            key = datastoreService.put(entity);
-            txn.commit();
-            if (key != null) {
-                organization.setId(key.getId());
-            }
-        } finally {
-            if (txn.isActive()) {
-                txn.rollback();
-            }
+        Organization dsOrganization = ofy()
+                .load()
+                .type(Organization.class)
+                .filter("name", organization.getName())
+                .first()
+                .now();
+        if (dsOrganization != null) {
+            return dsOrganization;
+        } else {
+            com.googlecode.objectify.Key<Organization> key = ofy().save().entity(organization).now();
+            organization.setId(key.getId());
+            return organization;
         }
-        return organization;
     }
 
     @ApiMethod(
@@ -87,17 +73,7 @@ public class OrganizationEndpoint {
             httpMethod = ApiMethod.HttpMethod.DELETE
     )
     public void delete(@Named("id") Long id) {
-        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
-        Transaction txn = datastoreService.beginTransaction();
-        try {
-            datastoreService.delete(KeyFactory.createKey(Constants.ORGANIZATION, id));
-            txn.commit();
-        } finally {
-            if (txn.isActive()) {
-                txn.rollback();
-            }
-        }
-        return;
+        ofy().delete().type(Organization.class).id(id).now();
     }
 
 }

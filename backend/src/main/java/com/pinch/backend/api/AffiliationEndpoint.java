@@ -7,57 +7,54 @@ import com.google.api.server.spi.config.Named;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 
 import com.googlecode.objectify.Key;
-import com.pinch.backend.model.SignUp;
-
-import java.util.logging.Logger;
+import com.pinch.backend.model.Affiliation;
 
 import static com.pinch.backend.OfyService.ofy;
 
 @Api(
-        name = "signUpEndpoint",
+        name = "affiliationEndpoint",
         version = "v1",
-        resource = "signUp",
+        resource = "affiliation",
         namespace = @ApiNamespace(
                 ownerDomain = "backend.pinch.com",
                 ownerName = "backend.pinch.com",
                 packagePath = ""
         )
 )
-public class SignUpEndpoint {
-    private static final Logger logger = Logger.getLogger(SignUpEndpoint.class.getName());
-
+public class AffiliationEndpoint {
     @ApiMethod(
             name = "register",
             httpMethod = ApiMethod.HttpMethod.PUT
     )
-    public SignUp insert(SignUp signUp) throws EntityNotFoundException {
-        SignUp dsSignUp = lookup(signUp);
-        if (dsSignUp != null) {
-            return dsSignUp;
+    public Affiliation insert(Affiliation affiliation) throws EntityNotFoundException {
+        Affiliation dsAffiliation = lookup(affiliation);
+        if (dsAffiliation != null) {
+            return dsAffiliation;
         } else {
-            Key<SignUp> key = ofy().save().entity(signUp).now();
-            signUp.setId(key.getId());
-            return signUp;
+            Key<Affiliation> key = ofy().save().entity(affiliation).now();
+            affiliation.setId(key.getId());
+            return affiliation;
         }
     }
 
     @ApiMethod(name = "unregister")
     public void delete(@Named("id") Long id) throws EntityNotFoundException {
-        ofy().delete().type(SignUp.class).id(id).now();
+        ofy().delete().type(Affiliation.class).id(id).now();
     }
 
     @ApiMethod(name = "query")
-    public SignUp query(SignUp signUp) throws EntityNotFoundException {
-        return lookup(signUp);
+    public Affiliation query(Affiliation affiliation) throws EntityNotFoundException {
+        return lookup(affiliation);
     }
 
-    private SignUp lookup(SignUp signUp) {
+    private Affiliation lookup(Affiliation affiliation) {
         return ofy()
                 .load()
-                .type(SignUp.class)
-                .filter("eventId", signUp.getEventId())
-                .filter("userId", signUp.getUserId())
+                .type(Affiliation.class)
+                .filter("organizationId", affiliation.getOrganizationId())
+                .filter("userId", affiliation.getUserId())
                 .first()
                 .now();
     }
+
 }

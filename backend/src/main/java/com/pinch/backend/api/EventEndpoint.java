@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import static com.pinch.backend.OfyService.ofy;
 import static com.pinch.backend.api.SearchIndex.EVENT_INDEX;
 
 @Api(
@@ -57,7 +58,7 @@ public class EventEndpoint {
     )
     public Event get(@Named("id") Long id) throws EntityNotFoundException {
         Key key = KeyFactory.createKey(Constants.EVENT, id);
-        return Event.fromEntity(datastore, datastore.get(key));
+        return Event.fromEntity(datastore.get(key));
     }
 
     @ApiMethod(
@@ -68,7 +69,7 @@ public class EventEndpoint {
         PreparedQuery pq = datastore.prepare(query);
         List<Event> events = new ArrayList<>();
         for (Entity entity : pq.asIterable()) {
-            events.add(Event.fromEntity(datastore, entity));
+            events.add(Event.fromEntity(entity));
         }
         return events;
     }
@@ -87,7 +88,7 @@ public class EventEndpoint {
         PreparedQuery pq = datastore.prepare(query);
         List<Event> events = new ArrayList<>();
         for (Entity entity : pq.asIterable()) {
-            events.add(Event.fromEntity(datastore, entity));
+            events.add(Event.fromEntity(entity));
         }
         return events;
     }
@@ -97,19 +98,17 @@ public class EventEndpoint {
             path = "/event/signups"
     )
     public List<Event> getSignedUpEventsForUser(@Named("userId") Long userId) throws EntityNotFoundException {
-        Query query = new Query(Constants.SIGNUP);
-        Query.Filter userIdFilter = new Query.FilterPredicate("userId",
-                Query.FilterOperator.EQUAL,
-                userId);
-        query.setFilter(userIdFilter);
-        PreparedQuery pq = datastore.prepare(query);
+        List<SignUp> signUps = ofy()
+                .load()
+                .type(SignUp.class)
+                .filter("userId", userId)
+                .list();
         List<Event> events = new ArrayList<>();
-        for (Entity entity : pq.asIterable()) {
-            SignUp signUp = SignUp.fromEntity(entity);
+        for (SignUp signUp : signUps) {
             long eventId = signUp.getEventId();
             Key eventKey = KeyFactory.createKey(Constants.EVENT, eventId);
             Entity eventEntity = datastore.get(eventKey);
-            events.add(Event.fromEntity(datastore, eventEntity));
+            events.add(Event.fromEntity(eventEntity));
         }
         return events;
     }
@@ -132,9 +131,11 @@ public class EventEndpoint {
             if (txn.isActive()) {
                 txn.rollback();
             } else if (key != null) {
-                Key parentKey = KeyFactory.createKey(Constants.ORGANIZATION, organizationId);
-                Entity orgEntity = datastore.get(parentKey);
-                Organization organization = Organization.fromEntity(orgEntity);
+                Organization organization = ofy()
+                        .load()
+                        .type(Organization.class)
+                        .id(organizationId)
+                        .now();
                 Document doc = Document.newBuilder()
                         .setId(key.getId() + "")
                         .addField(Field.newBuilder().setName("title").setText(event.getTitle()))
@@ -188,10 +189,10 @@ public class EventEndpoint {
         PreparedQuery pq = datastore.prepare(query);
         List<Event> events = new ArrayList<>();
         for (Entity entity : pq.asIterable()) {
-            events.add(Event.fromEntity(datastore, entity));
+            events.add(Event.fromEntity(entity));
         }
 
-        if (search.getText() != null && search.getText() != "") {
+        if (search.getText() != null && !search.getText().equals("")) {
             Set<Long> eventIds = new HashSet<>();
             Results<ScoredDocument> scoredDocuments = EVENT_INDEX.retrieveDocuments(search.getText());
             for (ScoredDocument document : scoredDocuments) {
