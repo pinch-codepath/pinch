@@ -151,7 +151,7 @@ public class SearchFragment extends Fragment {
             search.setDistanceInMeters((int) (searchFilters.getDistance() * 1609.34));
         }
         search.setStartTime(searchFilters.getFromDateTime());
-//        search.setEndTime(searchFilters.getToDateTime());
+        search.setEndTime(searchFilters.getToDateTime());
 
         new GetFilteredEventsTask(new GetFilteredEventsTask.GetFilteredEventsResultsListener() {
             @Override

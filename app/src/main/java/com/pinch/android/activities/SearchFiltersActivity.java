@@ -91,7 +91,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-                                fromCalendar.set(year, month, day);
+                                fromCalendar.set(year, month, day, 0, 0, 1);
                                 tvFromDate.setText((month+1) + "/" + day + "/" + year);
                             }
                         },
@@ -113,7 +113,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-                                toCalendar.set(year, month, day);
+                                toCalendar.set(year, month, day, 23, 59);
                                 tvToDate.setText((month+1) + "/" + day + "/" + year);
                             }
                         },

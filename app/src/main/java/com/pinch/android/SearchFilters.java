@@ -41,7 +41,7 @@ public class SearchFilters implements Parcelable {
         this.fromCalendar = Calendar.getInstance();
         fromCalendar.set(Calendar.HOUR, 0);
         fromCalendar.set(Calendar.MINUTE, 0);
-        fromCalendar.set(Calendar.SECOND, 0);
+        fromCalendar.set(Calendar.SECOND, 1);
 
         this.toCalendar = Calendar.getInstance();
         toCalendar.set(Calendar.YEAR, toCalendar.get(Calendar.YEAR) + 1);

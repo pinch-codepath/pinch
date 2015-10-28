@@ -165,18 +165,17 @@ public class EventEndpoint {
         Query query = new Query(Constants.EVENT)
                 .addSort("startTime", Query.SortDirection.ASCENDING);
 
-        if (search.getStartTime() != null) {
+        if (search.getStartTime() != null && search.getEndTime() != null) {
             Filter startTimeFilter = new FilterPredicate("startTime",
                     FilterOperator.GREATER_THAN_OR_EQUAL,
                     search.getStartTime());
-            query.setFilter(startTimeFilter);
-        }
 
-        if (search.getEndTime() != null) {
-            Filter endTimeFilter = new FilterPredicate("endTime",
+            Filter endTimeFilter = new FilterPredicate("startTime",
                     FilterOperator.LESS_THAN_OR_EQUAL,
                     search.getEndTime());
-            query.setFilter(endTimeFilter);
+
+            Filter dateRangeFilter = Query.CompositeFilterOperator.and(startTimeFilter, endTimeFilter);
+            query.setFilter(dateRangeFilter);
         }
 
         if (search.getCurrentLocation() != null && search.getDistanceInMeters() > 0) {
