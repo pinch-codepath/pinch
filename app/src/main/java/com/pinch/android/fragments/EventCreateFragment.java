@@ -15,37 +15,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.api.client.util.DateTime;
 import com.pinch.android.R;
+import com.pinch.android.Utils;
+import com.pinch.android.remote.InsertEventTask;
+import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-//import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-//import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-//import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-//import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 public class EventCreateFragment extends Fragment implements OnClickListener, AddressDialogFragment.AddressDialogListener, SkillsDialogFragment.SkillsDialogListener {
 
     protected View fragmentView;
 
     EditText etTitle;
+    EditText etSkills;
     EditText etAddress;
     EditText etDescription;
-    EditText etSkills;
 
     TextView tvDate;
-    TextView tvTimeFrom;
-    TextView tvTimeTo;
-
     TextView tvPhoto;
+    TextView tvTimeTo;
+    TextView tvTimeFrom;
 
     Calendar dateCalendar;
     Calendar timeFromCalendar;
@@ -54,6 +54,18 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
     TimePickerDialog timeToDialog;
     TimePickerDialog timeFromDialog;
 
+    Button btnCreate;
+
+    String skill1;
+    String skill2;
+    String skill3;
+    String addressZip;
+    String addressCity;
+    String addressState;
+    String addressStreet;
+    String addressNeighborhood;
+
+    Bitmap eventImage = null;
 
     public EventCreateFragment() {}
 
@@ -75,6 +87,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
         tvTimeFrom = (TextView) fragmentView.findViewById(R.id.tvTimeFrom);
         tvTimeTo = (TextView) fragmentView.findViewById(R.id.tvTimeTo);
         tvPhoto = (TextView) fragmentView.findViewById(R.id.tvPhoto);
+        btnCreate = (Button) fragmentView.findViewById(R.id.btnCreate);
     }
 
     protected void setupListener() {
@@ -84,6 +97,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
         tvTimeFrom.setOnClickListener(this);
         tvTimeTo.setOnClickListener(this);
         tvPhoto.setOnClickListener(this);
+        btnCreate.setOnClickListener(this);
     }
 
     @Override
@@ -114,6 +128,10 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
                 uploadPhoto();
                 break;
 
+            case R.id.btnCreate:
+                createEvent();
+                break;
+
             default:
                 break;
         }
@@ -130,6 +148,11 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
     public void onFinishAddressDialog(String street, String city, String state, String zip, String neighborhood) {
         String address = street + " (" + neighborhood + "), " + city + ", " + state + ", " + zip;
         etAddress.setText(address);
+        this.addressStreet = street;
+        this.addressCity = city;
+        this.addressZip = zip;
+        this.addressState = state;
+        this.addressNeighborhood = neighborhood;
     }
 
     public void showSkillsDialog() {
@@ -142,6 +165,52 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
     public void onFinishSkillsDialog(String skill1, String skill2, String skill3) {
         String skills = skill1 + ", " + skill2 + ", " + skill3;
         etSkills.setText(skills);
+        this.skill1 = skill1;
+        this.skill2 = skill2;
+        this.skill3 = skill3;
+    }
+
+    public void createEvent() {
+        Event event = new Event();
+        String title = etTitle.getText().toString();
+        if (title == null || title.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter event title", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String description = etDescription.getText().toString();
+        if (description == null || description.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter event description", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (this.addressStreet == null || this.addressStreet.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter event address", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (this.skill1 == null || this.skill1.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter required skills", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        event.setTitle(title);
+        event.setDescription(description);
+        event.setStartTime(new DateTime(timeFromCalendar.getTime()));
+        event.setEndTime(new DateTime(timeToCalendar.getTime()));
+        event.setAddressStreet(this.addressStreet);
+        event.setAddressCity(this.addressCity);
+        event.setAddressState(this.addressState);
+        event.setAddressZip(Long.valueOf(this.addressZip).longValue());
+        event.setAddressNeighborhood(this.addressNeighborhood);
+        event.setSkill1(this.skill1);
+        event.setSkill2(this.skill2);
+        event.setSkill3(this.skill3);
+        long organizationId = Utils.getMyOrganization().getId();
+
+        new InsertEventTask(new InsertEventTask.InsertEventResultsListener() {
+            @Override
+            public void onEventInsert() {
+                Toast.makeText(getContext(), "Event created!", Toast.LENGTH_SHORT).show();
+            }
+        }, organizationId, event, eventImage).execute();
     }
 
     public void showDateDialog() {
@@ -231,14 +300,13 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
         if (data == null) {
             return;
         }
-        Bitmap selectedImage = null;
         Uri photoUri = data.getData();
         try {
-            selectedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
+            eventImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
         } catch (Exception e) {
-
+            Toast.makeText(getContext(), "Image Upload Failed", Toast.LENGTH_SHORT).show();
         }
-        if (selectedImage == null) {
+        if (eventImage == null) {
             return;
         }
 
@@ -265,7 +333,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
         /************************
          * Set Pic
          * ************************/
-        ivPic.setImageBitmap(selectedImage);
+        ivPic.setImageBitmap(eventImage);
         /************************
          * Adjust rest of the content
          * ************************/

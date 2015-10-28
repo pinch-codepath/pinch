@@ -33,6 +33,8 @@ public class EventDetailsActivity extends AppCompatActivity
     private Button mBtnSignUp;
     private Button mBtnLearnMore;
     private TextView mTvEventName;
+    private TextView mTvEventDate;
+    private TextView mTvEventTime;
     private TextView mTvEventDescription;
     private TextView mTvAddressLine1;
     private TextView mTvAddressLine2;
@@ -54,31 +56,29 @@ public class EventDetailsActivity extends AppCompatActivity
     private String eventSkill2;
     private String eventSkill3;
     private String eventUrl;
-    private Date eventStartTime;
-    private Date eventEndTime;
+    private String eventDate;
+    private String eventTime;
     private String eventOrgName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-        eventId = getIntent().getLongExtra("eventId", 0);
-        eventTitle = getIntent().getStringExtra("eventTitle");
-        eventDescription = getIntent().getStringExtra("eventDescription");
-        eventAddressStreet = getIntent().getStringExtra("eventAddressStreet");
-        eventAddressCity = getIntent().getStringExtra("eventAddressCity");
-        eventAddressState = getIntent().getStringExtra("eventAddressState");
-        eventAddressNeighborhood = getIntent().getStringExtra("eventAddressNeighborHood");
-        eventAddressZip = getIntent().getLongExtra("eventAddressZip", 0);
-        eventSkill1 = getIntent().getStringExtra("eventSkill1");
-        eventSkill2 = getIntent().getStringExtra("eventSkill2");
-        eventSkill3 = getIntent().getStringExtra("eventSkill3");
-        eventUrl = getIntent().getStringExtra("eventUrl");
-//        eventStartTime = (Date)getIntent().getD
-//        eventEndTime = (Date)getIntent().getStringExtra("eventTitle");
-        eventOrgName = getIntent().getStringExtra("eventOrgName");
-
-
+        eventId = (Long) getIntent().getLongExtra("eventId", 0);
+        eventTitle = (String)getIntent().getStringExtra("eventTitle");
+        eventDescription = (String)getIntent().getStringExtra("eventDescription");
+        eventAddressStreet = (String)getIntent().getStringExtra("eventAddressStreet");
+        eventAddressCity = (String)getIntent().getStringExtra("eventAddressCity");
+        eventAddressState = (String)getIntent().getStringExtra("eventAddressState");
+        eventAddressNeighborhood = (String)getIntent().getStringExtra("eventAddressNeighborHood");
+        eventAddressZip = (Long)getIntent().getLongExtra("eventAddressZip", 0);
+        eventSkill1 = (String)getIntent().getStringExtra("eventSkill1");
+        eventSkill2 = (String)getIntent().getStringExtra("eventSkill2");
+        eventSkill3 = (String)getIntent().getStringExtra("eventSkill3");
+        eventUrl = (String)getIntent().getStringExtra("eventUrl");
+        eventDate = (String)getIntent().getStringExtra("eventDate");
+        eventTime = (String)getIntent().getStringExtra("eventTime");
+        eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
         setupViewObjects();
     }
 
@@ -87,12 +87,16 @@ public class EventDetailsActivity extends AppCompatActivity
         mBtnSignUp = (Button) findViewById(R.id.btnSignUp);
         mBtnLearnMore = (Button) findViewById(R.id.btnLearnMore);
         mTvEventName = (TextView) findViewById(R.id.tvEventName);
+        mTvEventDate = (TextView) findViewById(R.id.tvEventDate);
+        mTvEventTime = (TextView) findViewById(R.id.tvEventTime);
         mTvAddressLine1 = (TextView) findViewById(R.id.tvAddressLine1);
         mTvAddressLine2 = (TextView) findViewById(R.id.tvAddressLine2);
         mTvRequirements = (TextView) findViewById(R.id.tvRequirements);
         mTvEventDescription = (TextView) findViewById(R.id.tvEventDescription);
 
         mTvEventName.setText(this.eventTitle);
+        mTvEventDate.setText(this.eventDate);
+        mTvEventTime.setText(this.eventTime);
         mTvEventDescription.setText(this.eventDescription);
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +118,7 @@ public class EventDetailsActivity extends AppCompatActivity
 
         String imageUrl = "https://style.codeforamerica.org/media/images/big-data.jpg";
 //        mIvPic.setImageResource(0);
-        Picasso.with(this).load(imageUrl).fit().centerCrop().into(mIvPic);
+        Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
 
         if(AccessToken.getCurrentAccessToken() != null) {
             signUp = new SignUp();

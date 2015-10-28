@@ -1,5 +1,6 @@
 package com.pinch.android.fragments;
 
+import com.pinch.android.Utils;
 import com.pinch.android.remote.GetOpenEventsTask;
 import com.pinch.backend.eventEndpoint.model.Event;
 
@@ -14,6 +15,7 @@ public class OpenEventsFragment extends EventsFragment{
                 mEventsArray.addAll(events);
                 mEventsAdapter.notifyDataSetChanged();
                 mSwipeContainer.setRefreshing(false);
+                Utils.setMyOrganization(mEventsArray.get(0).getOrganization());
             }
         }).execute();
     }
