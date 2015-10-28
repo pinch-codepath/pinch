@@ -1,6 +1,7 @@
 package com.pinch.android;
 
 import com.google.api.client.util.DateTime;
+import com.pinch.backend.eventEndpoint.model.Organization;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -10,6 +11,8 @@ import java.util.Map;
 public class Utils {
 
     private static final Map<String, String> cityAbbreviations;
+
+    private static Organization myOrganization;
 
     static {
         Map<String, String> cMap = new HashMap<String, String>();
@@ -35,4 +38,11 @@ public class Utils {
         return sdf.format(dateTime.getValue());
     }
 
+    public static Organization getMyOrganization() {
+        return myOrganization;
+    }
+
+    public static void setMyOrganization(Organization myOrg) {
+        myOrganization = myOrg;
+    }
 }
