@@ -116,22 +116,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tvEventDescription"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="2dp"
             android:text="Requirements:"
             android:textColor="#ffd73c2c" />
 
         <TextView
-            android:id="@+id/tvRequirements"
+            android:id="@+id/tvRequirements1"
             android:layout_below="@+id/tvRequirementsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tvRequirementsLabel"
-            android:layout_marginBottom="15dp"
-            android:text="- none" />
+            android:layout_marginBottom="2dp"
+            android:textSize="12sp"
+            android:text="- Clean" />
+        <TextView
+            android:id="@+id/tvRequirements2"
+            android:layout_below="@+id/tvRequirements1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvRequirementsLabel"
+            android:layout_marginBottom="2dp"
+            android:textSize="12sp"
+            android:text="- Cook" />
+        <TextView
+            android:id="@+id/tvRequirements3"
+            android:layout_below="@+id/tvRequirements2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvRequirementsLabel"
+            android:layout_marginBottom="20dp"
+            android:textSize="12sp"
+            android:text="- Change diapers" />
 
         <Button
             android:id="@+id/btnLearnMore"
-            android:layout_below="@+id/tvRequirements"
+            android:layout_below="@+id/tvRequirements3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

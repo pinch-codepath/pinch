@@ -30,6 +30,7 @@ public class EventDetailsActivity extends AppCompatActivity
         HasSignedUpForEventTask.HasSignedUpForEventResultListener{
 
     private ImageView mIvPic;
+    private ImageView mIvMap;
     private Button mBtnSignUp;
     private Button mBtnLearnMore;
     private TextView mTvEventName;
@@ -38,7 +39,9 @@ public class EventDetailsActivity extends AppCompatActivity
     private TextView mTvEventDescription;
     private TextView mTvAddressLine1;
     private TextView mTvAddressLine2;
-    private TextView mTvRequirements;
+    private TextView mTvRequirements1;
+    private TextView mTvRequirements2;
+    private TextView mTvRequirements3;
     private boolean signedUp;
     private SignUp signUp;
 
@@ -84,6 +87,7 @@ public class EventDetailsActivity extends AppCompatActivity
 
     private void setupViewObjects() {
         mIvPic = (ImageView) findViewById(R.id.ivPic);
+        mIvMap = (ImageView) findViewById(R.id.ivMap);
         mBtnSignUp = (Button) findViewById(R.id.btnSignUp);
         mBtnLearnMore = (Button) findViewById(R.id.btnLearnMore);
         mTvEventName = (TextView) findViewById(R.id.tvEventName);
@@ -91,13 +95,19 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvEventTime = (TextView) findViewById(R.id.tvEventTime);
         mTvAddressLine1 = (TextView) findViewById(R.id.tvAddressLine1);
         mTvAddressLine2 = (TextView) findViewById(R.id.tvAddressLine2);
-        mTvRequirements = (TextView) findViewById(R.id.tvRequirements);
+        mTvRequirements1 = (TextView) findViewById(R.id.tvRequirements1);
+        mTvRequirements2 = (TextView) findViewById(R.id.tvRequirements2);
+        mTvRequirements3 = (TextView) findViewById(R.id.tvRequirements3);
         mTvEventDescription = (TextView) findViewById(R.id.tvEventDescription);
 
         mTvEventName.setText(this.eventTitle);
         mTvEventDate.setText(this.eventDate);
         mTvEventTime.setText(this.eventTime);
         mTvEventDescription.setText(this.eventDescription);
+        mTvRequirements1.setText("- " + this.eventSkill1);
+        mTvRequirements2.setText("- " + this.eventSkill2);
+        mTvRequirements3.setText("- " + this.eventSkill3);
+
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -119,6 +129,9 @@ public class EventDetailsActivity extends AppCompatActivity
         String imageUrl = "https://style.codeforamerica.org/media/images/big-data.jpg";
 //        mIvPic.setImageResource(0);
         Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
+
+        String mapUrl = "http://pcad.lib.washington.edu/media/geo-images/gmap/19053.png";
+        Picasso.with(this).load(mapUrl).fit().centerCrop().into(mIvMap);
 
         if(AccessToken.getCurrentAccessToken() != null) {
             signUp = new SignUp();
