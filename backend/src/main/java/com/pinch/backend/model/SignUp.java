@@ -1,77 +1,40 @@
 package com.pinch.backend.model;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
+@Entity
 public class SignUp {
-    private long id;
-    private long userId;
-    private long eventId;
-    private boolean checkedIn;
+    @Id
+    Long id;
+    @Index
+    Long userId;
+    @Index
+    Long eventId;
+    boolean checkedIn;
 
-    public static SignUp fromEntity(Entity entity) {
-        SignUp signUp = new SignUp();
-        Key key = entity.getKey();
-        if (key != null) {
-            signUp.setId(key.getId());
-        }
-        Long userId = (Long) entity.getProperty("userId");
-        if (userId != null) {
-            signUp.setUserId(userId);
-        }
-        Long eventId = (Long) entity.getProperty("eventId");
-        if (eventId != null) {
-            signUp.setEventId(eventId);
-        }
-        Boolean checkedIn = (Boolean) entity.getProperty("checkedIn");
-        if (checkedIn != null) {
-            signUp.setCheckedIn(checkedIn);
-        }
-        return signUp;
-    }
-
-    public static Entity toEntity(SignUp signUp) {
-        Entity entity = new Entity(Constants.SIGNUP);
-        Long id = signUp.getId();
-        if (id != null) {
-            entity.setProperty("id", id);
-        }
-        Long userId = signUp.getUserId();
-        if (userId != null) {
-            entity.setProperty("userId", userId);
-        }
-        Long eventId = signUp.getEventId();
-        if (eventId != null) {
-            entity.setProperty("eventId", eventId);
-        }
-        Boolean checkedIn = signUp.isCheckedIn();
-        if (checkedIn != null) {
-            entity.setProperty("checkedIn", checkedIn);
-        }
-        return entity;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public long getEventId() {
+    public Long getEventId() {
         return eventId;
     }
 
-    public void setEventId(long eventId) {
+    public void setEventId(Long eventId) {
         this.eventId = eventId;
     }
 

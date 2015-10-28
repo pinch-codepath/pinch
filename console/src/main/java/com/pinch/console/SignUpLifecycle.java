@@ -1,6 +1,6 @@
 package com.pinch.console;
 
-import com.pinch.backend.signUpEndpoint.model.Event;
+import com.pinch.backend.eventEndpoint.model.Event;
 import com.pinch.backend.signUpEndpoint.model.SignUp;
 import com.pinch.backend.userEndpoint.model.User;
 
@@ -32,16 +32,16 @@ public class SignUpLifecycle {
         SignUp signUp = new SignUp();
         signUp.setUserId(updatedUser.getKey());
         signUp.setEventId(eventId);
-        Endpoints.getInstance().signUpEndpoint.insert(signUp).execute();
-        List<Event> events = Endpoints.getInstance().signUpEndpoint.eventsForUser(signUp.getUserId()).execute().getItems();
+        signUp = Endpoints.getInstance().signUpEndpoint.register(signUp).execute();
+        List<Event> events = Endpoints.getInstance().eventEndpoint.getSignedUpEventsForUser(signUp.getUserId()).execute().getItems();
         if(events != null) {
             for (Event event: events){
                 System.out.println(event);
             }
         }
-        Endpoints.getInstance().signUpEndpoint.delete(signUp.getEventId(), signUp.getUserId()).execute();
+        Endpoints.getInstance().signUpEndpoint.unregister(signUp.getId()).execute();
         System.out.println("Deleted");
-        events = Endpoints.getInstance().signUpEndpoint.eventsForUser(signUp.getUserId()).execute().getItems();
+        events = Endpoints.getInstance().eventEndpoint.getSignedUpEventsForUser(signUp.getUserId()).execute().getItems();
         if(events != null) {
             for (Event event: events){
                 System.out.println(event);

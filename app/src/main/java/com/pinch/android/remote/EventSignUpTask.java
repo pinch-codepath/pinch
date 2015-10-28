@@ -26,7 +26,7 @@ public class EventSignUpTask extends AsyncTask<SignUp, Void, SignUp> {
     @Override
     protected SignUp doInBackground(SignUp... params) {
         try {
-            return Endpoints.getInstance().signUpEndpoint.insert(params[0]).execute();
+            return Endpoints.getInstance().signUpEndpoint.register(params[0]).execute();
         } catch (IOException e) {
             e.printStackTrace();
             return params[0];

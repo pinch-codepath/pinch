@@ -1,58 +1,20 @@
 package com.pinch.backend.model;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
+@Entity
 public class User {
-    private long key;
-    private String id;
+    @Id
+    Long key;
+    @Index
+    String id;
+    @Index
+    String authSource;
     private String name;
     private String emailAddress;
-    private String authSource;
     private String twitterHandle;
-
-    public static User fromEntity(Entity entity) {
-        User user = new User();
-        Key key = entity.getKey();
-        if (key != null) {
-            user.setKey(key.getId());
-        }
-        Object id = entity.getProperty("id");
-        if (id != null) {
-            user.setId((String) id);
-        }
-        Object authSource = entity.getProperty("authSource");
-        if (authSource != null) {
-            user.setAuthSource((String) authSource);
-        }
-        Object name = entity.getProperty("name");
-        if (name != null) {
-            user.setName((String) name);
-        }
-        return user;
-    }
-
-    public static Entity toEntity(User user) {
-        Entity entity = null;
-        if(user.getKey() > 0) {
-            entity = new Entity(Constants.USER, user.getKey());
-        } else {
-            entity = new Entity(Constants.USER);
-        }
-        String id = user.getId();
-        if (id != null) {
-            entity.setProperty("id", id);
-        }
-        String authSource = user.getAuthSource();
-        if (authSource != null) {
-            entity.setProperty("authSource", authSource);
-        }
-        String name = user.getName();
-        if (name != null) {
-            entity.setProperty("name", name);
-        }
-        return entity;
-    }
 
     public String getTwitterHandle() {
         return twitterHandle;
@@ -101,5 +63,4 @@ public class User {
     public void setKey(long key) {
         this.key = key;
     }
-    // type
 }

@@ -5,11 +5,14 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+import com.pinch.backend.affiliationEndpoint.AffiliationEndpoint;
 import com.pinch.backend.eventEndpoint.EventEndpoint;
+import com.pinch.backend.favoriteEndpoint.FavoriteEndpoint;
 import com.pinch.backend.imageEndpoint.ImageEndpoint;
 import com.pinch.backend.organizationEndpoint.OrganizationEndpoint;
 import com.pinch.backend.signUpEndpoint.SignUpEndpoint;
 import com.pinch.backend.userEndpoint.UserEndpoint;
+
 import java.io.IOException;
 
 public class Endpoints {
@@ -82,4 +85,28 @@ public class Endpoints {
                 }
             });
     public SignUpEndpoint signUpEndpoint = signupEndpointBuilder.build();
+
+    private AffiliationEndpoint.Builder affiliationEndpointBuilder = new AffiliationEndpoint.Builder(new ApacheHttpTransport(),
+            new JacksonFactory(),
+            null)
+            .setRootUrl("https://pinch-1097.appspot.com/_ah/api/")
+            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                @Override
+                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                }
+            });
+    public AffiliationEndpoint affiliationEndpoint = affiliationEndpointBuilder.build();
+
+    private FavoriteEndpoint.Builder favoriteEndpointBuilder = new FavoriteEndpoint.Builder(new ApacheHttpTransport(),
+            new JacksonFactory(),
+            null)
+            .setRootUrl("https://pinch-1097.appspot.com/_ah/api/")
+            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                @Override
+                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                    abstractGoogleClientRequest.setDisableGZipContent(true);
+                }
+            });
+    public FavoriteEndpoint favoriteEndpoint = favoriteEndpointBuilder.build();
 }

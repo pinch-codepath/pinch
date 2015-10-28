@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.pinch.android.R;
 import com.pinch.android.Utils;
 import com.pinch.android.activities.EventDetailsActivity;
@@ -21,12 +22,16 @@ import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.util.ArrayList;
 
+import static com.pinch.android.util.FacebookUtil.openFacebookLoginDialog;
+
 public abstract class EventsFragment extends Fragment {
 
     protected View mFragmentView;
     protected ArrayList<Event> mEventsArray;
     protected EventsArrayAdapter mEventsAdapter;
     protected ListView mLvEvents;
+
+    protected Boolean checkAccessToken = false;
 
     protected SwipeRefreshLayout mSwipeContainer;
 
@@ -37,7 +42,11 @@ public abstract class EventsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_events, container, false);
-        setupFragment();
+        if(checkAccessToken && AccessToken.getCurrentAccessToken() == null) {
+            openFacebookLoginDialog(getActivity().getSupportFragmentManager());
+        } else {
+            setupFragment();
+        }
         return mFragmentView;
     }
 

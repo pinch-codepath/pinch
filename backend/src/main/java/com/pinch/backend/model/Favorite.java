@@ -5,7 +5,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 @Entity
-public class Affiliation {
+public class Favorite {
     @Id
     Long id;
     @Index

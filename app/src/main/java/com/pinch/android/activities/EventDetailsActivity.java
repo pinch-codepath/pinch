@@ -15,15 +15,13 @@ import com.pinch.android.dialogs.FacebookLoginDialog;
 import com.pinch.android.remote.EventSignUpTask;
 import com.pinch.android.remote.HasSignedUpForEventTask;
 import com.pinch.android.remote.RemoveEventSignUpTask;
+import com.pinch.backend.eventEndpoint.model.Event;
 import com.pinch.backend.signUpEndpoint.model.SignUp;
 import com.squareup.picasso.Picasso;
-import com.pinch.backend.eventEndpoint.model.Event;
+
+import java.util.Date;
 
 import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceLongFromKey;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class EventDetailsActivity extends AppCompatActivity
         implements FacebookLoginDialog.FacebookLoginDialogListener,
@@ -81,8 +79,6 @@ public class EventDetailsActivity extends AppCompatActivity
         eventDate = (String)getIntent().getStringExtra("eventDate");
         eventTime = (String)getIntent().getStringExtra("eventTime");
         eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
-
-
         setupViewObjects();
     }
 
@@ -102,7 +98,6 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvEventDate.setText(this.eventDate);
         mTvEventTime.setText(this.eventTime);
         mTvEventDescription.setText(this.eventDescription);
-
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -125,17 +120,18 @@ public class EventDetailsActivity extends AppCompatActivity
 //        mIvPic.setImageResource(0);
         Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
 
-        signUp = new SignUp();
-        Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));
-        signUp.setUserId(userId);
-        signUp.setEventId(eventId);
-
-        new HasSignedUpForEventTask(this).execute(signUp);
+        if(AccessToken.getCurrentAccessToken() != null) {
+            signUp = new SignUp();
+            Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));
+            signUp.setUserId(userId);
+            signUp.setEventId(eventId);
+            new HasSignedUpForEventTask(this).execute(signUp);
+        }
     }
 
     private void onSignupButtonClicked() {
         if(signedUp) {
-            new RemoveEventSignUpTask(this).execute(signUp);
+            new RemoveEventSignUpTask(this).execute(signUp.getId());
         } else {
             new EventSignUpTask(this).execute(signUp);
         }
@@ -158,6 +154,7 @@ public class EventDetailsActivity extends AppCompatActivity
     public void onEventSignUp(SignUp signUp) {
         mBtnSignUp.setText("Signed Up!!");
         signedUp = true;
+        this.signUp = signUp;
         Toast.makeText(getApplicationContext(), "Signed Up!!", Toast.LENGTH_SHORT).show();
     }
 

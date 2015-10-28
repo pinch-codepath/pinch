@@ -6,7 +6,9 @@
         <init-param>
             <param-name>services</param-name>
             <param-value>
+                com.pinch.backend.api.AffiliationEndpoint,
                 com.pinch.backend.api.EventEndpoint,
+                com.pinch.backend.api.FavoriteEndpoint,
                 com.pinch.backend.api.OrganizationEndpoint,
                 com.pinch.backend.api.ImageEndpoint,
                 com.pinch.backend.api.UserEndpoint,

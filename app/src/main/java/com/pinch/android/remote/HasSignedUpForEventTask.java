@@ -27,7 +27,7 @@ public class HasSignedUpForEventTask extends AsyncTask<SignUp, Void, Boolean> {
         protected Boolean doInBackground(SignUp... params) {
             try {
                 SignUp signUp = params[0];
-                SignUp returnedValue = Endpoints.getInstance().signUpEndpoint.isSignedUp(signUp).execute();
+                SignUp returnedValue = Endpoints.getInstance().signUpEndpoint.query(signUp).execute();
                 if(returnedValue != null) {
                     return true;
                 } else {

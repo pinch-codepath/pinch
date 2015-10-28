@@ -1,80 +1,20 @@
 package com.pinch.backend.model;
 
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.GeoPt;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PhoneNumber;
 
+import com.googlecode.objectify.annotation.Id;
+
+@com.googlecode.objectify.annotation.Entity
 public class Organization {
-    private Long id;
-    private String name;
-    private String address;
-    private PhoneNumber phoneNumber;
-    private String displayUrl;
-    private GeoPt location;
-    private String url;
-
-    public static Entity toEntity(Organization organization) {
-        Entity entity = new Entity(Constants.ORGANIZATION);
-        String name = organization.getName();
-        if (name != null) {
-            entity.setProperty("name", name);
-        }
-        String address = organization.getAddress();
-        if (address != null) {
-            entity.setProperty("address", address);
-        }
-        PhoneNumber phoneNumber = organization.getPhoneNumber();
-        if (phoneNumber != null) {
-            entity.setProperty("phoneNumber", phoneNumber);
-        }
-        String displayUrl = organization.getDisplayUrl();
-        if (displayUrl != null) {
-            entity.setProperty("displayUrl", displayUrl);
-        }
-        GeoPt location = organization.getLocation();
-        if (location != null) {
-            entity.setProperty("location", location);
-        }
-        String url = organization.getUrl();
-        if (url != null) {
-            entity.setProperty("url", url);
-        }
-        return entity;
-    }
-
-    public static Organization fromEntity(Entity entity) {
-        Organization organization = new Organization();
-        Key key = entity.getKey();
-        if (key != null) {
-            organization.setId(key.getId());
-        }
-        Object name = entity.getProperty("name");
-        if (name != null) {
-            organization.setName((String) name);
-        }
-        Object address = entity.getProperty("address");
-        if (address != null) {
-            organization.setAddress((String) address);
-        }
-        Object displayUrl = entity.getProperty("displayUrl");
-        if (displayUrl != null) {
-            organization.setDisplayUrl((String) displayUrl);
-        }
-        Object phoneNumber = entity.getProperty("phoneNumber");
-        if (address != null) {
-            organization.setPhoneNumber((PhoneNumber) phoneNumber);
-        }
-        Object location = entity.getProperty("location");
-        if (location != null) {
-            organization.setLocation((GeoPt) location);
-        }
-        Object url = entity.getProperty("url");
-        if (url != null) {
-            organization.setUrl((String) url);
-        }
-        return organization;
-    }
+    @Id
+    Long id;
+    String name;
+    String address;
+    PhoneNumber phoneNumber;
+    String displayUrl;
+    GeoPt location;
+    String url;
 
     public Long getId() {
         return id;
