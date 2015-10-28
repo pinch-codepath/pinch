@@ -103,6 +103,8 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvEventName.setText(this.eventTitle);
         mTvEventDate.setText(this.eventDate);
         mTvEventTime.setText(this.eventTime);
+        mTvAddressLine1.setText(this.eventAddressStreet);
+        mTvAddressLine2.setText(this.eventAddressCity + ", " + this.eventAddressState);
         mTvEventDescription.setText(this.eventDescription);
         mTvRequirements1.setText("- " + this.eventSkill1);
         mTvRequirements2.setText("- " + this.eventSkill2);

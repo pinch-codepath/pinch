@@ -66,7 +66,7 @@ public class Utils {
     }
 
     public static String getDay(int day) {
-        return days[day];
+        return days[day - 1];
     }
 
     public static Organization getMyOrganization() {
