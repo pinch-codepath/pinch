@@ -12,6 +12,29 @@ public class Utils {
 
     private static final Map<String, String> cityAbbreviations;
 
+    private static String months[] = {
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "June",
+            "July",
+            "Aug",
+            "Sept",
+            "Oct",
+            "Nov",
+            "Dec"};
+
+    private static String days[] = {
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"};
+
     private static Organization myOrganization;
 
     static {
@@ -36,6 +59,14 @@ public class Utils {
     public static String getDateString(DateTime dateTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         return sdf.format(dateTime.getValue());
+    }
+
+    public static String getMonth(int month) {
+        return months[month];
+    }
+
+    public static String getDay(int day) {
+        return days[day];
     }
 
     public static Organization getMyOrganization() {

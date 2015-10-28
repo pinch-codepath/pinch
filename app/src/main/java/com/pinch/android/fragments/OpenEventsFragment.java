@@ -12,6 +12,7 @@ public class OpenEventsFragment extends EventsFragment{
         new GetOpenEventsTask(new GetOpenEventsTask.GetOpenEventsResultsListener() {
             @Override
             public void onEventsFetched(List<Event> events) {
+                mEventsArray.clear();
                 mEventsArray.addAll(events);
                 mEventsAdapter.notifyDataSetChanged();
                 mSwipeContainer.setRefreshing(false);
