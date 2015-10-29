@@ -27,6 +27,7 @@
         android:layout_margin="16dp"
         android:id="@+id/fabSearch"
         android:src="@drawable/ic_tab_search"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:borderWidth="0dp"
         app:pressedTranslationZ="4dp"
         app:elevation="16dp"
