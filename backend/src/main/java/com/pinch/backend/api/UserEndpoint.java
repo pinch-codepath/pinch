@@ -12,6 +12,7 @@ import com.googlecode.objectify.Key;
 import com.pinch.backend.model.Affiliation;
 import com.pinch.backend.model.Favorite;
 import com.pinch.backend.model.Organization;
+import com.pinch.backend.model.SignUp;
 import com.pinch.backend.model.User;
 
 import java.util.ArrayList;
@@ -118,6 +119,19 @@ public class UserEndpoint {
 
     @ApiMethod(name = "delete")
     public void delete(@Named("id") Long id) {
+        // delete signups
+        List<SignUp> signUps = ofy()
+                .load()
+                .type(SignUp.class)
+                .filter("userId", id)
+                .list();
+        List<Long> ids = new ArrayList<>();
+        for (SignUp signUp: signUps) {
+            ids.add(signUp.getId());
+        }
+        ofy().delete().type(SignUp.class).ids(ids);
+
+        // delete user
         ofy().delete().type(User.class).id(id).now();
     }
 }

@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,7 +62,7 @@ public class EventsImageArrayAdapter extends RecyclerView.Adapter<EventsImageArr
             intent.putExtra("eventSkill1", e.getSkill1());
             intent.putExtra("eventSkill2", e.getSkill2());
             intent.putExtra("eventSkill3", e.getSkill3());
-            intent.putExtra("eventUrl", e.getOrganization().getDisplayUrl());
+            intent.putExtra("eventUrl", e.getDisplayUrl());
             intent.putExtra("eventDate", Utils.getDateString(e.getStartTime()));
             intent.putExtra("eventTime", Utils.getTimeString(e.getStartTime()) + "-" + Utils.getTimeString(e.getEndTime()));
             intent.putExtra("eventOrgName", e.getOrganization().getName());
@@ -88,7 +87,7 @@ public class EventsImageArrayAdapter extends RecyclerView.Adapter<EventsImageArr
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Event event = mEvents.get(position);
 
-        Picasso.with(mContext).load(event.getOrganization().getDisplayUrl()).resize(mContext.getResources().getDisplayMetrics().widthPixels, 0).into(viewHolder.ivEventImage);
+        Picasso.with(mContext).load(event.getDisplayUrl()).resize(mContext.getResources().getDisplayMetrics().widthPixels, 0).into(viewHolder.ivEventImage);
 
         viewHolder.tvEventTitle.setText(event.getTitle());
         viewHolder.tvEventDate.setText(Utils.getDateString(event.getStartTime()));

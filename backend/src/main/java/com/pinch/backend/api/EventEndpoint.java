@@ -217,6 +217,18 @@ public class EventEndpoint {
     public void delete(@Named("id") Long id) {
         Transaction txn = datastore.beginTransaction();
         try {
+            // delete signups
+            List<SignUp> signUps = ofy()
+                    .load()
+                    .type(SignUp.class)
+                    .filter("eventId", id)
+                    .list();
+            List<Long> ids = new ArrayList<>();
+            for (SignUp signUp: signUps) {
+                ids.add(signUp.getId());
+            }
+            ofy().delete().type(SignUp.class).ids(ids);
+            // delete event
             Key key = KeyFactory.createKey(Constants.EVENT, id);
             datastore.delete(key);
             txn.commit();

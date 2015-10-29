@@ -16,7 +16,7 @@ public class AffiliateLifecycle {
         User updatedUser = Endpoints.getInstance().userEndpoint.insertIfMissing(user).execute();
         System.out.println(updatedUser.getKey() + "");
 
-        long orgId1 = TestUtil.insertOrg("Curry Senior Center", "333 Turk Street San Francisco, CA 94102", 37.782582f, -122.414442f, "http://curryseniorcenter.org/how-to-help/volunteer/", "http://lh3.googleusercontent.com/Z0FEe6qtHrX1KxNMBGRZIYr2jRmQSVxmWqf_lUvASEFrldFD0HCM5tiy_zmUl3-9VDewilgBNmmwCgFHCmHPGg");
+        long orgId1 = TestUtil.insertOrg("Curry Senior Center", "333 Turk Street San Francisco, CA 94102", 37.782582f, -122.414442f, "", "http://curryseniorcenter.org/how-to-help/volunteer/");
 
         Affiliation affiliation = new Affiliation();
         affiliation.setUserId(updatedUser.getKey());

@@ -5,6 +5,7 @@ import com.google.api.client.util.DateTime;
 import com.pinch.backend.eventEndpoint.model.Event;
 import com.pinch.backend.organizationEndpoint.model.GeoPt;
 import com.pinch.backend.organizationEndpoint.model.Organization;
+import com.pinch.backend.organizationEndpoint.model.PhoneNumber;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class TestUtil {
 
-    static Long insertOrg(String name, String address, float latitude, float longitude, String url, String displayUrl) throws IOException {
+    static Long insertOrg(String name, String address, float latitude, float longitude, String number, String url) throws IOException {
         GeoPt geoPt = new GeoPt();
         geoPt.setLatitude(latitude);
         geoPt.setLongitude(longitude);
@@ -22,8 +23,10 @@ public class TestUtil {
         organization.setName(name);
         organization.setAddress(address);
         organization.setLocation(geoPt);
+        PhoneNumber phoneNumber = new PhoneNumber();
+        phoneNumber.setNumber(number);
+        organization.setPhoneNumber(phoneNumber);
         organization.setUrl(url);
-        organization.setDisplayUrl(displayUrl);
         Organization returnedOrg = Endpoints.getInstance().organizationEndpoint.insert(organization).execute();
         if(returnedOrg != null) {
             System.out.println("Inserted organization: " + returnedOrg);
@@ -31,12 +34,13 @@ public class TestUtil {
         return returnedOrg.getId();
     }
 
-    static Long insertEvent(long orgId1, String title, String description, String startTime, String endTime, Address address, Skills skills) throws IOException, ParseException {
+    static Long insertEvent(long orgId1, String title, String description, String startTime, String endTime, Address address, Skills skills, String displayUrl) throws IOException, ParseException {
         Event event = new Event();
         event.setTitle(title);
         event.setDescription(description);
         event.setStartTime(new DateTime(formatter.parse(startTime)));
         event.setEndTime(new DateTime(formatter.parse(endTime)));
+        event.setDisplayUrl(displayUrl);
         event.setAddressStreet(address.getStreet());
         event.setAddressCity(address.getCity());
         event.setAddressState(address.getState());

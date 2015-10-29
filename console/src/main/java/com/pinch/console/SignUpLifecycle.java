@@ -16,7 +16,7 @@ public class SignUpLifecycle {
         User updatedUser = Endpoints.getInstance().userEndpoint.insertIfMissing(user).execute();
         System.out.println(updatedUser.getKey() + "");
 
-        long orgId1 = TestUtil.insertOrg("Curry Senior Center", "333 Turk Street San Francisco, CA 94102", 37.782582f, -122.414442f, "http://curryseniorcenter.org/how-to-help/volunteer/", "http://lh3.googleusercontent.com/Z0FEe6qtHrX1KxNMBGRZIYr2jRmQSVxmWqf_lUvASEFrldFD0HCM5tiy_zmUl3-9VDewilgBNmmwCgFHCmHPGg");
+        long orgId1 = TestUtil.insertOrg("Curry Senior Center", "333 Turk Street San Francisco, CA 94102", 37.782582f, -122.414442f, "", "http://curryseniorcenter.org/how-to-help/volunteer/");
         TestUtil.Address a1 = new TestUtil.Address("550 Polk St", "San Francisco", "CA", 94102, "Civic Center");
         TestUtil.Skills s1 = new TestUtil.Skills("Cooking", "Cleaning", "Changing Diapers");
 
@@ -27,7 +27,7 @@ public class SignUpLifecycle {
                         "day of your choice.",
                 "10/26/2015 06:30:00",
                 "10/26/2015 09:00:00",
-                a1, s1);
+                a1, s1, "http://lh3.googleusercontent.com/Z0FEe6qtHrX1KxNMBGRZIYr2jRmQSVxmWqf_lUvASEFrldFD0HCM5tiy_zmUl3-9VDewilgBNmmwCgFHCmHPGg");
 
         SignUp signUp = new SignUp();
         signUp.setUserId(updatedUser.getKey());

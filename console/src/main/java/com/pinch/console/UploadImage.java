@@ -20,7 +20,7 @@ public class UploadImage {
         String url = endpoint.generateImageUploadUrl().execute().getUrl();
         System.out.println(url);
         HttpClient httpClient = HttpClientBuilder.create().build();
-        File file = new File("/Users/sgarg/Downloads/glide.jpg");
+        File file = new File("/Users/sgarg/Downloads/curry.png");
         HttpEntity entity = MultipartEntityBuilder
                 .create()
                 .addBinaryBody("file", file, ContentType.create("application/octet-stream"), file.getName())

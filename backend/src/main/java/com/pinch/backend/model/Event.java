@@ -14,6 +14,7 @@ public class Event {
     private String title;
     private String description;
     private Organization organization;
+    private String displayUrl;
     private Date startTime;
     public static final Comparator<Event> COMPARE_START_TIME =
             new Comparator<Event>() {
@@ -51,6 +52,10 @@ public class Event {
         Date endTime = event.getEndTime();
         if (endTime != null) {
             entity.setProperty("endTime", endTime);
+        }
+        String displayUrl = event.getDisplayUrl();
+        if (displayUrl != null) {
+            entity.setProperty("displayUrl", displayUrl);
         }
         String addressStreet = event.getAddressStreet();
         if (addressStreet != null) {
@@ -96,6 +101,10 @@ public class Event {
         Object title = entity.getProperty("title");
         if (title != null) {
             event.setTitle((String) title);
+        }
+        Object displayUrl = entity.getProperty("displayUrl");
+        if (displayUrl != null) {
+            event.setDisplayUrl((String) displayUrl);
         }
         Object description = entity.getProperty("description");
         if (description != null) {
@@ -271,4 +280,11 @@ public class Event {
         this.skill3 = skill3;
     }
 
+    public String getDisplayUrl() {
+        return displayUrl;
+    }
+
+    public void setDisplayUrl(String displayUrl) {
+        this.displayUrl = displayUrl;
+    }
 }
