@@ -24,6 +24,10 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
+## Sprint 2 GIF walkthrough
+
+<img src='https://github.com/pinch-codepath/pinch/blob/master/demos/sprint2.gif' />
+
 ## Sprint 1 GIF walkthrough
 
 <img src='https://github.com/pinch-codepath/pinch/blob/master/demos/sprint1.gif' />
