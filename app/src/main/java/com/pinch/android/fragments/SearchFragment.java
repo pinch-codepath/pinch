@@ -145,7 +145,7 @@ public class SearchFragment extends Fragment {
     private void populateEvents() {
         Search search = new Search();
 
-        search.setText(etSearch.getText().toString());
+        search.setText(searchFilters.getKeyword());
         if(searchFilters.getDistance() > 0) {
             search.setCurrentLocation(getLocation());
             search.setDistanceInMeters((int) (searchFilters.getDistance() * 1609.34));

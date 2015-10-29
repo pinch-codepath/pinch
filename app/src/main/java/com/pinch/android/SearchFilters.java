@@ -13,12 +13,8 @@ public class SearchFilters implements Parcelable {
     Calendar fromCalendar;
     Calendar toCalendar;
     int distanceSpinnerIndex;
-    int eventTypeSpinnerIndex;
-    int skillsRequiredSpinnerIndex;
 
     private int[] distanceArray = {-1, 5, 10, 15, 20};
-    private String[] eventTypeArray = {"", "EventType1", "EventType2", "EventType3", "EventType4"};
-    private String[] skillsArray = {"", "Skill1", "Skill2", "Skill3", "Skill4"};
 
     @Override
     public int describeContents() {
@@ -31,8 +27,6 @@ public class SearchFilters implements Parcelable {
         dest.writeSerializable(this.fromCalendar);
         dest.writeSerializable(this.toCalendar);
         dest.writeInt(this.distanceSpinnerIndex);
-        dest.writeInt(this.eventTypeSpinnerIndex);
-        dest.writeInt(this.skillsRequiredSpinnerIndex);
     }
 
     public SearchFilters() {
@@ -44,23 +38,19 @@ public class SearchFilters implements Parcelable {
         fromCalendar.set(Calendar.SECOND, 1);
 
         this.toCalendar = Calendar.getInstance();
-        toCalendar.set(Calendar.YEAR, toCalendar.get(Calendar.YEAR) + 1);
+        toCalendar.add(Calendar.DATE, 14);
         toCalendar.set(Calendar.HOUR, 23);
         toCalendar.set(Calendar.MINUTE, 59);
         toCalendar.set(Calendar.SECOND, 59);
 
         distanceSpinnerIndex = 0;
-        eventTypeSpinnerIndex = 0;
-        skillsRequiredSpinnerIndex = 0;
     }
 
-    public SearchFilters(String keyword, Calendar fromCalendar, Calendar toCalendar, int distanceSpinnerIndex, int eventTypeSpinnerIndex, int skillsRequiredSpinnerIndex) {
+    public SearchFilters(String keyword, Calendar fromCalendar, Calendar toCalendar, int distanceSpinnerIndex) {
         this.keyword = keyword;
         this.fromCalendar = fromCalendar;
         this.toCalendar = toCalendar;
         this.distanceSpinnerIndex = distanceSpinnerIndex;
-        this.eventTypeSpinnerIndex = eventTypeSpinnerIndex;
-        this.skillsRequiredSpinnerIndex = skillsRequiredSpinnerIndex;
     }
 
     protected SearchFilters(Parcel in) {
@@ -68,8 +58,6 @@ public class SearchFilters implements Parcelable {
         this.fromCalendar = (Calendar) in.readSerializable();
         this.toCalendar = (Calendar) in.readSerializable();
         this.distanceSpinnerIndex = in.readInt();
-        this.eventTypeSpinnerIndex = in.readInt();
-        this.skillsRequiredSpinnerIndex = in.readInt();
     }
 
     public static final Parcelable.Creator<SearchFilters> CREATOR = new Parcelable.Creator<SearchFilters>() {
@@ -114,33 +102,8 @@ public class SearchFilters implements Parcelable {
         this.distanceSpinnerIndex = distanceSpinnerIndex;
     }
 
-    public int getEventTypeSpinnerIndex() {
-        return eventTypeSpinnerIndex;
-    }
-
-    public void setEventTypeSpinnerIndex(int eventTypeSpinnerIndex) {
-        this.eventTypeSpinnerIndex = eventTypeSpinnerIndex;
-    }
-
-    public int getSkillsRequiredSpinnerIndex() {
-        return skillsRequiredSpinnerIndex;
-    }
-
-    public void setSkillsRequiredSpinnerIndex(int skillsRequiredSpinnerIndex) {
-        this.skillsRequiredSpinnerIndex = skillsRequiredSpinnerIndex;
-    }
-
-
     public int getDistance() {
         return distanceArray[distanceSpinnerIndex];
-    }
-
-    public String getEventType() {
-        return eventTypeArray[eventTypeSpinnerIndex];
-    }
-
-    public String getSkill() {
-        return skillsArray[skillsRequiredSpinnerIndex];
     }
 
     public DateTime getFromDateTime() {
