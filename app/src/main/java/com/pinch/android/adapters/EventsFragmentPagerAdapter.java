@@ -19,7 +19,7 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     private int tabIcons[] = new int[] {
             R.drawable.ic_tab_calendar,
             R.drawable.ic_tab_signups,
-            R.drawable.ic_tab_favorites_filled,
+            R.drawable.ic_tab_create_event,
             R.drawable.ic_tab_profile,
     };
     private Context context;
