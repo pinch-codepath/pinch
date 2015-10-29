@@ -16,19 +16,28 @@
 
     <LinearLayout
         android:layout_width="175dp"
-        android:layout_height="150dp"
+        android:layout_height="175dp"
         android:id="@+id/llFromCalendar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvDateLabel"
         android:background="@color/colorAccent"
         android:layout_margin="20dp"
-        android:padding="10dp"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="175dp"
+            android:layout_height="30dp"
+            android:background="#8d8d8d"
+            android:padding="6dp"
+            android:text="FROM"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:id="@+id/tvFromMonth"
             android:text="MMM"
             android:textAllCaps="true"
@@ -58,19 +67,28 @@
 
     <LinearLayout
         android:layout_width="175dp"
-        android:layout_height="150dp"
+        android:layout_height="175dp"
         android:id="@+id/llToCalendar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/tvDateLabel"
         android:background="@color/colorAccent"
         android:layout_margin="20dp"
-        android:padding="10dp"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="175dp"
+            android:layout_height="30dp"
+            android:background="#8d8d8d"
+            android:padding="6dp"
+            android:text="TO"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:id="@+id/tvToMonth"
             android:text="MMM"
             android:textAllCaps="true"

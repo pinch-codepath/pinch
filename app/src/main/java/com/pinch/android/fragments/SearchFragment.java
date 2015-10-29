@@ -6,8 +6,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +42,8 @@ public class SearchFragment extends Fragment {
     private View mFragmentView;
     protected ArrayList<Event> mEventsArray;
     protected EventsImageArrayAdapter mEventsAdapter;
-    protected ListView mLvEvents;
-    private EditText etSearch;
+    protected RecyclerView mRvEvents;
+    private FloatingActionButton fabSearch;
 
     private static final int REQUEST_CODE = 194;
     private static final int RESULT_OK = 200;
@@ -53,7 +56,7 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mFragmentView = inflater.inflate(R.layout.fragment_search_filters, container, false);
+        mFragmentView = inflater.inflate(R.layout.fragment_search, container, false);
         setupViewObjects();
         setupSwipeToRefresh();
         populateEvents();
@@ -63,19 +66,8 @@ public class SearchFragment extends Fragment {
     protected void setupViewObjects() {
         searchFilters = new SearchFilters();
 
-        View searchBar = View.inflate(getContext(), R.layout.header_listview_search_fragment, null);
-
-        etSearch = (EditText) searchBar.findViewById(R.id.etSearch);
-        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                populateEvents();
-                return true;
-            }
-        });
-
-        ImageView ivFilters = (ImageView) searchBar.findViewById(R.id.ivFilters);
-        ivFilters.setOnClickListener(new View.OnClickListener() {
+        fabSearch = (FloatingActionButton) mFragmentView.findViewById(R.id.fabSearch);
+        fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent searchIntent = new Intent(getActivity(), SearchFiltersActivity.class);
@@ -84,34 +76,11 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        mLvEvents = (ListView) mFragmentView.findViewById(R.id.lvEvents);
-        mLvEvents.addHeaderView(searchBar);
+        mRvEvents = (RecyclerView) mFragmentView.findViewById(R.id.rvEvents);
         mEventsArray = new ArrayList<>();
-        mEventsAdapter = new EventsImageArrayAdapter(getActivity(), mEventsArray);
-        mLvEvents.setAdapter(mEventsAdapter);
-        mLvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), EventDetailsActivity.class);
-                Event e = mEventsArray.get(position - 1);   //to adjust for the added header
-                intent.putExtra("eventId", e.getId());
-                intent.putExtra("eventTitle", e.getTitle());
-                intent.putExtra("eventDescription", e.getDescription());
-                intent.putExtra("eventAddressStreet", e.getAddressStreet());
-                intent.putExtra("eventAddressCity", e.getAddressCity());
-                intent.putExtra("eventAddressState", e.getAddressState());
-                intent.putExtra("eventAddressNeighborhood", e.getAddressNeighborhood());
-                intent.putExtra("eventAddressZip", e.getAddressZip());
-                intent.putExtra("eventSkill1", e.getSkill1());
-                intent.putExtra("eventSkill2", e.getSkill2());
-                intent.putExtra("eventSkill3", e.getSkill3());
-                intent.putExtra("eventUrl", e.getOrganization().getDisplayUrl());
-                intent.putExtra("eventDate", Utils.getDateString(e.getStartTime()));
-                intent.putExtra("eventTime", Utils.getTimeString(e.getStartTime()) + "-" + Utils.getTimeString(e.getEndTime()));
-                intent.putExtra("eventOrgName", e.getOrganization().getName());
-                startActivity(intent);
-            }
-        });
+        mEventsAdapter = new EventsImageArrayAdapter(mEventsArray);
+        mRvEvents.setAdapter(mEventsAdapter);
+        mRvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void setupSwipeToRefresh() {

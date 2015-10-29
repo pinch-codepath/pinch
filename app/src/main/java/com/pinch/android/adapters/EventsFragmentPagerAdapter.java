@@ -15,12 +15,11 @@ import com.pinch.android.fragments.UserProfileFragment;
 
 public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
 
-    private String tabTitles[] = new String[] { "Events", "Search", "Favorites", "Sign ups", "Profile" };
+    private String tabTitles[] = new String[] { "Search", "Sign ups", "Create Event", "Profile" };
     private int tabIcons[] = new int[] {
             R.drawable.ic_tab_calendar,
-            R.drawable.ic_tab_search,
-            R.drawable.ic_tab_favorites_filled,
             R.drawable.ic_tab_signups,
+            R.drawable.ic_tab_favorites_filled,
             R.drawable.ic_tab_profile,
     };
     private Context context;
@@ -39,19 +38,19 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     @Override
     public Fragment getItem(int position) {
         if(position == 0) {
-            return new OpenEventsFragment();
-        }
-        else if(position == 1) {
             return new SearchFragment();
         }
-        else if(position == 2) {
+        else if(position == 1) {
             return new SignedUpEventsFragment();
         }
-        else if(position == 4) {
+        else if(position == 2) {
+            return new EventCreateFragment();
+        }
+        else if(position == 3) {
             return new UserProfileFragment();
         }
         else {
-            return new EventCreateFragment();
+            return new Fragment();
         }
     }
 

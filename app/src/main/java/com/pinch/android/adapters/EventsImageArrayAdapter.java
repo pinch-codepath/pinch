@@ -1,6 +1,8 @@
 package com.pinch.android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,60 +12,91 @@ import android.widget.TextView;
 
 import com.pinch.android.R;
 import com.pinch.android.Utils;
+import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.backend.eventEndpoint.model.Event;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class EventsImageArrayAdapter extends ArrayAdapter<Event> {
+public class EventsImageArrayAdapter extends RecyclerView.Adapter<EventsImageArrayAdapter.ViewHolder> {
 
-    public EventsImageArrayAdapter(Context context, List<Event> objects) {
-        super(context, 0, objects);
+    private Context mContext;
+    private List<Event> mEvents;
+
+    public EventsImageArrayAdapter(List<Event> events) {
+        mEvents = events;
     }
 
-    private static class ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView ivEventImage;
         TextView tvEventTitle;
         TextView tvEventDate;
         TextView tvEventTime;
         ImageView ivFav;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            ivEventImage = (ImageView) itemView.findViewById(R.id.ivEventImage);
+            tvEventTitle = (TextView) itemView.findViewById(R.id.tvEventTitle);
+            tvEventDate = (TextView) itemView.findViewById(R.id.tvEventDate);
+            ivFav = (ImageView) itemView.findViewById(R.id.ivFav);
+            tvEventTime = (TextView) itemView.findViewById(R.id.tvEventTime);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getLayoutPosition();
+            Event e = mEvents.get(position);
+
+            Intent intent = new Intent(mContext, EventDetailsActivity.class);
+            intent.putExtra("eventId", e.getId());
+            intent.putExtra("eventTitle", e.getTitle());
+            intent.putExtra("eventDescription", e.getDescription());
+            intent.putExtra("eventAddressStreet", e.getAddressStreet());
+            intent.putExtra("eventAddressCity", e.getAddressCity());
+            intent.putExtra("eventAddressState", e.getAddressState());
+            intent.putExtra("eventAddressNeighborhood", e.getAddressNeighborhood());
+            intent.putExtra("eventAddressZip", e.getAddressZip());
+            intent.putExtra("eventSkill1", e.getSkill1());
+            intent.putExtra("eventSkill2", e.getSkill2());
+            intent.putExtra("eventSkill3", e.getSkill3());
+            intent.putExtra("eventUrl", e.getOrganization().getDisplayUrl());
+            intent.putExtra("eventDate", Utils.getDateString(e.getStartTime()));
+            intent.putExtra("eventTime", Utils.getTimeString(e.getStartTime()) + "-" + Utils.getTimeString(e.getEndTime()));
+            intent.putExtra("eventOrgName", e.getOrganization().getName());
+
+            mContext.startActivity(intent);
+        }
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Event event = getItem(position);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        final ViewHolder viewHolder;
+        // Inflate the custom layout
+        View eventView = inflater.inflate(R.layout.item_event_image, parent, false);
 
-        if(convertView == null) {
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_event_image, parent, false);
-            viewHolder.ivEventImage = (ImageView) convertView.findViewById(R.id.ivEventImage);
-            viewHolder.tvEventTitle = (TextView) convertView.findViewById(R.id.tvEventTitle);
-            viewHolder.tvEventDate = (TextView) convertView.findViewById(R.id.tvEventDate);
-            viewHolder.ivFav = (ImageView) convertView.findViewById(R.id.ivFav);
-            viewHolder.tvEventTime = (TextView) convertView.findViewById(R.id.tvEventTime);
+        // Return a new holder instance
+        return new ViewHolder(eventView);
+    }
 
-            convertView.setTag(viewHolder);
-        }
-        else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        Event event = mEvents.get(position);
 
-        Picasso.with(getContext()).load(event.getOrganization().getDisplayUrl()).resize(getContext().getResources().getDisplayMetrics().widthPixels, 0).into(viewHolder.ivEventImage);
+        Picasso.with(mContext).load(event.getOrganization().getDisplayUrl()).resize(mContext.getResources().getDisplayMetrics().widthPixels, 0).into(viewHolder.ivEventImage);
 
         viewHolder.tvEventTitle.setText(event.getTitle());
         viewHolder.tvEventDate.setText(Utils.getDateString(event.getStartTime()));
         viewHolder.tvEventTime.setText(Utils.getTimeString(event.getStartTime()) + "-" + Utils.getTimeString(event.getEndTime()));
-
-//        if(event.getOrganization().isFavorite()) {
-//            viewHolder.ivFav.setImageDrawable(getContext().getDrawable(R.drawable.ic_action_fav_red));
-//        }
-//        else {
-//            viewHolder.ivFav.setImageDrawable(getContext().getDrawable(R.drawable.ic_action_fav_gray));
-//        }
-
-        return convertView;
     }
 
+    @Override
+    public int getItemCount() {
+        return mEvents.size();
+    }
 }
