@@ -4,8 +4,6 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 
 import com.googlecode.objectify.Key;
@@ -17,7 +15,6 @@ import com.pinch.backend.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static com.pinch.backend.OfyService.ofy;
 
@@ -32,18 +29,38 @@ import static com.pinch.backend.OfyService.ofy;
         )
 )
 public class UserEndpoint {
-    private static final Logger logger = Logger.getLogger(UserEndpoint.class.getName());
-    private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     @ApiMethod(
             name = "get"
     )
     public User get(@Named("id") long id) throws EntityNotFoundException {
-        return ofy()
+        User user = ofy()
                 .load()
                 .type(User.class)
                 .id(id)
                 .now();
+        if(user != null) {
+            user.setAffiliations(getAffiliations(user.getId()));
+        }
+        return user;
+    }
+
+    @ApiMethod(
+            name = "getByAuthSource",
+            path = "/user/getByAuthSource"
+    )
+    public User getByAuthSource(@Named("authSource") String authSource, @Named("authId") String authId) throws EntityNotFoundException {
+        User user = ofy()
+                .load()
+                .type(User.class)
+                .filter("authId", authId)
+                .filter("authSource", authSource)
+                .first()
+                .now();
+        if(user != null) {
+            user.setAffiliations(getAffiliations(user.getId()));
+        }
+        return user;
     }
 
     @ApiMethod(
@@ -54,24 +71,21 @@ public class UserEndpoint {
         User dsUser = ofy()
                 .load()
                 .type(User.class)
-                .filter("id", user.getId())
+                .filter("authId", user.getAuthId())
                 .filter("authSource", user.getAuthSource())
                 .first()
                 .now();
         if (dsUser != null) {
+            dsUser.setAffiliations(getAffiliations(dsUser.getId()));
             return dsUser;
         } else {
             Key<User> key = ofy().save().entity(user).now();
-            user.setKey(key.getId());
+            user.setId(key.getId());
             return user;
         }
     }
 
-    @ApiMethod(
-            name = "getAffiliationsForUser",
-            path = "/user/affiliations"
-    )
-    public List<Organization> getAffiliationsForUser(@Named("userId") Long userId) throws EntityNotFoundException {
+    private List<Organization> getAffiliations(Long userId) {
         List<Affiliation> affiliations = ofy()
                 .load()
                 .type(Affiliation.class)
@@ -93,10 +107,22 @@ public class UserEndpoint {
     }
 
     @ApiMethod(
+            name = "getAffiliationsForUser",
+            path = "/user/affiliations"
+    )
+    public List<Organization> getAffiliationsForUser(@Named("userId") Long userId) throws EntityNotFoundException {
+        return getAffiliations(userId);
+    }
+
+    @ApiMethod(
             name = "getFavoritesForUser",
             path = "/user/favorites"
     )
     public List<Organization> getFavoritesForUser(@Named("userId") Long userId) throws EntityNotFoundException {
+        return getFavorites(userId);
+    }
+
+    private List<Organization> getFavorites(@Named("userId") Long userId) {
         List<Favorite> favorites = ofy()
                 .load()
                 .type(Favorite.class)

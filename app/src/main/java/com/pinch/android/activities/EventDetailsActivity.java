@@ -10,40 +10,65 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.pinch.android.PinchApplication;
 import com.pinch.android.R;
 import com.pinch.android.dialogs.FacebookLoginDialog;
+import com.pinch.android.events.RefreshUserFavoritesEvent;
+import com.pinch.android.events.RefreshUserSignupsEvent;
 import com.pinch.android.remote.EventSignUpTask;
+import com.pinch.android.remote.FavoriteOrgTask;
+import com.pinch.android.remote.HasFavoriteForOrgTask;
 import com.pinch.android.remote.HasSignedUpForEventTask;
 import com.pinch.android.remote.RemoveEventSignUpTask;
+import com.pinch.android.remote.UnfavoriteOrgTask;
 import com.pinch.backend.eventEndpoint.model.Event;
+import com.pinch.backend.favoriteEndpoint.model.Favorite;
 import com.pinch.backend.signUpEndpoint.model.SignUp;
+import com.pinch.backend.userEndpoint.model.User;
 import com.squareup.picasso.Picasso;
 
-import java.util.Date;
-
-import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceLongFromKey;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class EventDetailsActivity extends AppCompatActivity
         implements FacebookLoginDialog.FacebookLoginDialogListener,
         EventSignUpTask.EventSignUpTaskResultListener,
         RemoveEventSignUpTask.RemoveEventSignUpTaskResultListener,
-        HasSignedUpForEventTask.HasSignedUpForEventResultListener{
+        HasSignedUpForEventTask.HasSignedUpForEventResultListener,
+        UnfavoriteOrgTask.UnfavoriteOrgResultListener,
+        FavoriteOrgTask.FavoriteOrgResultListener,
+        HasFavoriteForOrgTask.HasFavoriteForOrgResultListener {
 
-    private ImageView mIvPic;
-    private ImageView mIvMap;
-    private Button mBtnSignUp;
-    private Button mBtnLearnMore;
-    private TextView mTvEventName;
-    private TextView mTvEventDate;
-    private TextView mTvEventTime;
-    private TextView mTvEventDescription;
-    private TextView mTvAddressLine1;
-    private TextView mTvAddressLine2;
-    private TextView mTvRequirements1;
-    private TextView mTvRequirements2;
-    private TextView mTvRequirements3;
-    private boolean signedUp;
+    @Bind(R.id.ivPic)
+    ImageView mIvPic;
+    @Bind(R.id.ivMap)
+    ImageView mIvMap;
+    @Bind(R.id.btnSignUp)
+    Button mBtnSignUp;
+    @Bind(R.id.btnFavoriteOrg)
+    Button mBtnFavoriteOrg;
+    @Bind(R.id.btnLearnMore)
+    Button mBtnLearnMore;
+    @Bind(R.id.tvEventName)
+    TextView mTvEventName;
+    @Bind(R.id.tvEventDate)
+    TextView mTvEventDate;
+    @Bind(R.id.tvEventTime)
+    TextView mTvEventTime;
+    @Bind(R.id.tvEventDescription)
+    TextView mTvEventDescription;
+    @Bind(R.id.tvAddressLine1)
+    TextView mTvAddressLine1;
+    @Bind(R.id.tvAddressLine2)
+    TextView mTvAddressLine2;
+    @Bind(R.id.tvRequirements1)
+    TextView mTvRequirements1;
+    @Bind(R.id.tvRequirements2)
+    TextView mTvRequirements2;
+    @Bind(R.id.tvRequirements3)
+    TextView mTvRequirements3;
     private SignUp signUp;
+    private Favorite favorite;
 
     Event e;
 
@@ -62,44 +87,34 @@ public class EventDetailsActivity extends AppCompatActivity
     private String eventDate;
     private String eventTime;
     private String eventOrgName;
+    private long eventOrgId;
+    private String lastClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-        eventId = (Long) getIntent().getLongExtra("eventId", 0);
-        eventTitle = (String)getIntent().getStringExtra("eventTitle");
-        eventDescription = (String)getIntent().getStringExtra("eventDescription");
-        eventAddressStreet = (String)getIntent().getStringExtra("eventAddressStreet");
-        eventAddressCity = (String)getIntent().getStringExtra("eventAddressCity");
-        eventAddressState = (String)getIntent().getStringExtra("eventAddressState");
-        eventAddressNeighborhood = (String)getIntent().getStringExtra("eventAddressNeighborHood");
-        eventAddressZip = (Long)getIntent().getLongExtra("eventAddressZip", 0);
-        eventSkill1 = (String)getIntent().getStringExtra("eventSkill1");
-        eventSkill2 = (String)getIntent().getStringExtra("eventSkill2");
-        eventSkill3 = (String)getIntent().getStringExtra("eventSkill3");
-        eventUrl = (String)getIntent().getStringExtra("eventUrl");
-        eventDate = (String)getIntent().getStringExtra("eventDate");
-        eventTime = (String)getIntent().getStringExtra("eventTime");
-        eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
+        ButterKnife.bind(this);
+        eventId = getIntent().getLongExtra("eventId", 0);
+        eventTitle = getIntent().getStringExtra("eventTitle");
+        eventDescription = getIntent().getStringExtra("eventDescription");
+        eventAddressStreet = getIntent().getStringExtra("eventAddressStreet");
+        eventAddressCity = getIntent().getStringExtra("eventAddressCity");
+        eventAddressState = getIntent().getStringExtra("eventAddressState");
+        eventAddressNeighborhood = getIntent().getStringExtra("eventAddressNeighborHood");
+        eventAddressZip = getIntent().getLongExtra("eventAddressZip", 0);
+        eventSkill1 = getIntent().getStringExtra("eventSkill1");
+        eventSkill2 = getIntent().getStringExtra("eventSkill2");
+        eventSkill3 = getIntent().getStringExtra("eventSkill3");
+        eventUrl = getIntent().getStringExtra("eventUrl");
+        eventDate = getIntent().getStringExtra("eventDate");
+        eventTime = getIntent().getStringExtra("eventTime");
+        eventOrgName = getIntent().getStringExtra("eventOrgName");
+        eventOrgId = getIntent().getLongExtra("eventOrgId", 0);
         setupViewObjects();
     }
 
     private void setupViewObjects() {
-        mIvPic = (ImageView) findViewById(R.id.ivPic);
-        mIvMap = (ImageView) findViewById(R.id.ivMap);
-        mBtnSignUp = (Button) findViewById(R.id.btnSignUp);
-        mBtnLearnMore = (Button) findViewById(R.id.btnLearnMore);
-        mTvEventName = (TextView) findViewById(R.id.tvEventName);
-        mTvEventDate = (TextView) findViewById(R.id.tvEventDate);
-        mTvEventTime = (TextView) findViewById(R.id.tvEventTime);
-        mTvAddressLine1 = (TextView) findViewById(R.id.tvAddressLine1);
-        mTvAddressLine2 = (TextView) findViewById(R.id.tvAddressLine2);
-        mTvRequirements1 = (TextView) findViewById(R.id.tvRequirements1);
-        mTvRequirements2 = (TextView) findViewById(R.id.tvRequirements2);
-        mTvRequirements3 = (TextView) findViewById(R.id.tvRequirements3);
-        mTvEventDescription = (TextView) findViewById(R.id.tvEventDescription);
-
         mTvEventName.setText(this.eventTitle);
         mTvEventDate.setText(this.eventDate);
         mTvEventTime.setText(this.eventTime);
@@ -110,13 +125,24 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvRequirements2.setText("- " + this.eventSkill2);
         mTvRequirements3.setText("- " + this.eventSkill3);
 
-
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(AccessToken.getCurrentAccessToken() != null) {
+                if (AccessToken.getCurrentAccessToken() != null) {
                     onSignupButtonClicked();
+                } else {
+                    lastClick = "sign up";
+                    openFacebookLoginDialog();
+                }
+            }
+        });
+
+        mBtnFavoriteOrg.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(AccessToken.getCurrentAccessToken() != null) {
+                    onFavoriteButtonClicked();
                 }
                 else {
+                    lastClick = "favorite";
                     openFacebookLoginDialog();
                 }
             }
@@ -136,19 +162,53 @@ public class EventDetailsActivity extends AppCompatActivity
         Picasso.with(this).load(mapUrl).fit().centerCrop().into(mIvMap);
 
         if(AccessToken.getCurrentAccessToken() != null) {
-            signUp = new SignUp();
-            Long userId = getSharedPreferenceLongFromKey(this, getString(R.string.user_id));
-            signUp.setUserId(userId);
-            signUp.setEventId(eventId);
-            new HasSignedUpForEventTask(this).execute(signUp);
+            User user = getUser();
+            if(user != null) {
+                SignUp signUp = new SignUp();
+                signUp.setUserId(user.getId());
+                signUp.setEventId(eventId);
+                new HasSignedUpForEventTask(this).execute(signUp);
+
+                Favorite favorite = new Favorite();
+                favorite.setUserId(user.getId());
+                favorite.setOrganizationId(eventOrgId);
+                new HasFavoriteForOrgTask(this).execute(favorite);
+            } else {
+                Toast.makeText(getApplicationContext(), "Sign Up failed!! Try again in sometime.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
+    private void onFavoriteButtonClicked() {
+        if(favorite != null) {
+            new UnfavoriteOrgTask(this).execute(favorite.getId());
+        } else {
+            User user = getUser();
+            if(user != null) {
+                Favorite favorite = new Favorite();
+                favorite.setUserId(user.getId());
+                favorite.setOrganizationId(eventOrgId);
+                new FavoriteOrgTask(this).execute(favorite);
+            }
+        }
+    }
+
+    private User getUser() {
+        PinchApplication pinchApplication = (PinchApplication) getApplication();
+        return pinchApplication.getUser();
+    }
+
     private void onSignupButtonClicked() {
-        if(signedUp) {
+        if(signUp != null) {
             new RemoveEventSignUpTask(this).execute(signUp.getId());
         } else {
-            new EventSignUpTask(this).execute(signUp);
+            User user = getUser();
+            if(user != null) {
+                   SignUp signUp = new SignUp();
+                    signUp.setUserId(user.getId());
+                    signUp.setEventId(eventId);
+                new EventSignUpTask(this).execute(signUp);
+            }
         }
     }
 
@@ -161,30 +221,63 @@ public class EventDetailsActivity extends AppCompatActivity
     @Override
     public void onLoginSuccess() {
         if(AccessToken.getCurrentAccessToken() != null) {
-            onSignupButtonClicked();
+            if(lastClick.equals("sign up")) {
+                onSignupButtonClicked();
+            } else {
+                onFavoriteButtonClicked();
+            }
         }
     }
 
     @Override
     public void onEventSignUp(SignUp signUp) {
         mBtnSignUp.setText("Signed Up!!");
-        signedUp = true;
         this.signUp = signUp;
         Toast.makeText(getApplicationContext(), "Signed Up!!", Toast.LENGTH_SHORT).show();
+        PinchApplication application = (PinchApplication)getApplication();
+        application.bus.post(new RefreshUserSignupsEvent());
     }
 
     @Override
     public void onRemoveEventSignUp() {
         mBtnSignUp.setText("Sign Up");
-        signedUp = false;
+        this.signUp = null;
         Toast.makeText(getApplicationContext(), "Remove sign up!!", Toast.LENGTH_SHORT).show();
+        PinchApplication application = (PinchApplication)getApplication();
+        application.bus.post(new RefreshUserSignupsEvent());
     }
 
     @Override
-    public void onHasSignUpResult(boolean signedUp) {
-        this.signedUp = signedUp;
-        if(signedUp) {
+    public void onHasSignUpResult(SignUp signedUp) {
+        this.signUp = signedUp;
+        if(signUp != null) {
             mBtnSignUp.setText("Signed Up!!");
+        }
+    }
+
+    @Override
+    public void onUnfavoriteOrg() {
+        mBtnFavoriteOrg.setText("Favorite Org");
+        this.favorite = null;
+        Toast.makeText(getApplicationContext(), "Not following org!!", Toast.LENGTH_SHORT).show();
+        PinchApplication application = (PinchApplication)getApplication();
+        application.bus.post(new RefreshUserFavoritesEvent());
+    }
+
+    @Override
+    public void onFavoriteOrg(Favorite v) {
+        mBtnFavoriteOrg.setText("Following Org!!");
+        this.favorite = v;
+        Toast.makeText(getApplicationContext(), "Following Org!!", Toast.LENGTH_SHORT).show();
+        PinchApplication application = (PinchApplication)getApplication();
+        application.bus.post(new RefreshUserFavoritesEvent());
+    }
+
+    @Override
+    public void onHasFavoriteResult(Favorite favorite) {
+        this.favorite = favorite;
+        if(favorite != null) {
+            mBtnFavoriteOrg.setText("Following Org!!");
         }
     }
 }

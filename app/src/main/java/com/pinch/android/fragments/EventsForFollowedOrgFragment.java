@@ -1,15 +1,15 @@
 package com.pinch.android.fragments;
 
 import com.pinch.android.PinchApplication;
-import com.pinch.android.events.RefreshUserSignupsEvent;
-import com.pinch.android.remote.GetSignedUpEventsForUserTask;
+import com.pinch.android.events.RefreshUserFavoritesEvent;
+import com.pinch.android.remote.GetFavoriteEventsForUserTask;
 import com.pinch.backend.eventEndpoint.model.Event;
 import com.pinch.backend.userEndpoint.model.User;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
-public class SignedUpEventsFragment extends EventsFragment implements GetSignedUpEventsForUserTask.GetSignedUpEventsForUseResultListener {
+public class EventsForFollowedOrgFragment extends EventsFragment implements GetFavoriteEventsForUserTask.GetFavoriteEventsForUserResultListener {
     protected Boolean checkAccessToken = true;
 
     boolean registered = false;
@@ -20,18 +20,18 @@ public class SignedUpEventsFragment extends EventsFragment implements GetSignedU
             ((PinchApplication) getActivity().getApplication()).bus.register(this);
             registered = true;
         }
-        refreshSignUps();
+        refreshFavorites();
     }
 
     @Subscribe
-    public void refreshSignUps(RefreshUserSignupsEvent event) {
-        refreshSignUps();
+    public void refreshFavorites(RefreshUserFavoritesEvent event) {
+        refreshFavorites();
     }
 
-    private void refreshSignUps() {
+    private void refreshFavorites() {
         User user = getUser();
         if (user != null) {
-            new GetSignedUpEventsForUserTask(this).execute(user.getId());
+            new GetFavoriteEventsForUserTask(this).execute(user.getId());
         }
     }
 

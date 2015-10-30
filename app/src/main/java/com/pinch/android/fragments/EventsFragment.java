@@ -13,12 +13,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.pinch.android.PinchApplication;
 import com.pinch.android.R;
 import com.pinch.android.Utils;
 import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.adapters.EventsArrayAdapter;
 import com.pinch.android.util.Network;
 import com.pinch.backend.eventEndpoint.model.Event;
+import com.pinch.backend.userEndpoint.model.User;
 
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public abstract class EventsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_events, container, false);
-        if(checkAccessToken && AccessToken.getCurrentAccessToken() == null) {
+        if (checkAccessToken && AccessToken.getCurrentAccessToken() == null) {
             openFacebookLoginDialog(getActivity().getSupportFragmentManager());
         } else {
             setupFragment();
@@ -83,6 +85,7 @@ public abstract class EventsFragment extends Fragment {
                 intent.putExtra("eventDate", Utils.getDateString(e.getStartTime()));
                 intent.putExtra("eventTime", Utils.getTimeString(e.getStartTime()) + "-" + Utils.getTimeString(e.getEndTime()));
                 intent.putExtra("eventOrgName", e.getOrganization().getName());
+                intent.putExtra("eventOrgId", e.getOrganization().getId());
                 startActivity(intent);
             }
         });
@@ -109,4 +112,8 @@ public abstract class EventsFragment extends Fragment {
         mSwipeContainer.setColorSchemeResources(R.color.colorPrimary);
     }
 
+    protected User getUser() {
+        PinchApplication pinchApplication = (PinchApplication) getActivity().getApplication();
+        return pinchApplication.getUser();
+    }
 }

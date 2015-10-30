@@ -12,14 +12,15 @@ public class AffiliateLifecycle {
     public static void main(String[] args) throws IOException, ParseException {
         User user = new User();
         user.setName("TestUser");
-        user.setId("10");
+        user.setAuthSource("facebook");
+        user.setAuthId("10");
         User updatedUser = Endpoints.getInstance().userEndpoint.insertIfMissing(user).execute();
-        System.out.println(updatedUser.getKey() + "");
+        System.out.println(updatedUser.getId() + "");
 
         long orgId1 = TestUtil.insertOrg("Curry Senior Center", "333 Turk Street San Francisco, CA 94102", 37.782582f, -122.414442f, "", "http://curryseniorcenter.org/how-to-help/volunteer/");
 
         Affiliation affiliation = new Affiliation();
-        affiliation.setUserId(updatedUser.getKey());
+        affiliation.setUserId(updatedUser.getId());
         affiliation.setOrganizationId(orgId1);
         affiliation = Endpoints.getInstance().affiliationEndpoint.register(affiliation).execute();
         List<Organization> organizations = Endpoints.getInstance().userEndpoint.getAffiliationsForUser(affiliation.getUserId()).execute().getItems();

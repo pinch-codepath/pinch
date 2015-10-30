@@ -6,13 +6,13 @@ import com.pinch.backend.eventEndpoint.model.Event;
 
 import java.util.List;
 
-public class OpenEventsFragment extends EventsFragment{
+public class OpenEventsFragment extends EventsFragment {
 
     protected void populateEvents() {
         new GetOpenEventsTask(new GetOpenEventsTask.GetOpenEventsResultsListener() {
             @Override
             public void onEventsFetched(List<Event> events) {
-                if(events != null) {
+                if (events != null) {
                     mEventsArray.clear();
                     mEventsArray.addAll(events);
                     mEventsAdapter.notifyDataSetChanged();

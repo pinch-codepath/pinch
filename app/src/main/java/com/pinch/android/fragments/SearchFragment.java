@@ -11,21 +11,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pinch.android.R;
 import com.pinch.android.SearchFilters;
-import com.pinch.android.Utils;
-import com.pinch.android.activities.EventDetailsActivity;
 import com.pinch.android.activities.SearchFiltersActivity;
 import com.pinch.android.adapters.EventsImageArrayAdapter;
 import com.pinch.android.remote.GetFilteredEventsTask;
@@ -39,19 +31,19 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
 
-    private View mFragmentView;
+    private static final int REQUEST_CODE = 194;
+    private static final int RESULT_OK = 200;
     protected ArrayList<Event> mEventsArray;
     protected EventsImageArrayAdapter mEventsAdapter;
     protected RecyclerView mRvEvents;
+    private View mFragmentView;
     private FloatingActionButton fabSearch;
-
-    private static final int REQUEST_CODE = 194;
-    private static final int RESULT_OK = 200;
     private SearchFilters searchFilters;
 
     private SwipeRefreshLayout mSwipeContainer;
 
-    public SearchFragment() {}
+    public SearchFragment() {
+    }
 
     @Nullable
     @Override
@@ -103,7 +95,7 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             searchFilters = data.getParcelableExtra("filters");
             //populate list with the search filters
             populateEvents();
@@ -115,7 +107,7 @@ public class SearchFragment extends Fragment {
         Search search = new Search();
 
         search.setText(searchFilters.getKeyword());
-        if(searchFilters.getDistance() > 0) {
+        if (searchFilters.getDistance() > 0) {
             search.setCurrentLocation(getLocation());
             search.setDistanceInMeters((int) (searchFilters.getDistance() * 1609.34));
         }
@@ -126,7 +118,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onEventsFetched(List<Event> events) {
                 mEventsArray.clear();
-                if(events != null && events.size() > 0) {
+                if (events != null && events.size() > 0) {
                     mEventsArray.addAll(events);
                 }
                 mEventsAdapter.notifyDataSetChanged();
@@ -143,7 +135,7 @@ public class SearchFragment extends Fragment {
 
         Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
 
-        if(lastKnownLocation != null) {
+        if (lastKnownLocation != null) {
             geoPt.setLatitude((float) lastKnownLocation.getLatitude());
             geoPt.setLongitude((float) lastKnownLocation.getLongitude());
             Toast.makeText(getContext(), "Location: " + geoPt.getLatitude() + ", " + geoPt.getLongitude(), Toast.LENGTH_LONG).show();

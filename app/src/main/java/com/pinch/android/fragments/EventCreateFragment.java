@@ -1,6 +1,8 @@
 package com.pinch.android.fragments;
 
 
+import com.google.api.client.util.DateTime;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -24,7 +26,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.api.client.util.DateTime;
 import com.pinch.android.R;
 import com.pinch.android.Utils;
 import com.pinch.android.remote.InsertEventTask;
@@ -67,7 +68,8 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
 
     Bitmap eventImage = null;
 
-    public EventCreateFragment() {}
+    public EventCreateFragment() {
+    }
 
     @Nullable
     @Override
@@ -322,7 +324,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_LEFT, R.id.etTitle);
         params.addRule(RelativeLayout.BELOW, R.id.tvOrgName);
-       // params.width = 100;
+        // params.width = 100;
         params.height = 100;
         params.bottomMargin = 15;
         /************************

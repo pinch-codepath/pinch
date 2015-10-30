@@ -2,27 +2,23 @@ package com.pinch.backend.model;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Index;
+
+import java.util.List;
 
 @Entity
 public class User {
     @Id
-    Long key;
+    Long id;
     @Index
-    String id;
+    String authId;
     @Index
     String authSource;
     private String name;
     private String emailAddress;
-    private String twitterHandle;
-
-    public String getTwitterHandle() {
-        return twitterHandle;
-    }
-
-    public void setTwitterHandle(String twitterHandle) {
-        this.twitterHandle = twitterHandle;
-    }
+    @Ignore
+    private List<Organization> affiliations;
 
     public String getAuthSource() {
         return authSource;
@@ -48,19 +44,28 @@ public class User {
         this.name = name;
     }
 
-    public String getId() {
+    public List<Organization> getAffiliations() {
+        return affiliations;
+    }
+
+    public void setAffiliations(List<Organization> affiliations) {
+        this.affiliations = affiliations;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getKey() {
-        return key;
+    public String getAuthId() {
+        return authId;
     }
 
-    public void setKey(long key) {
-        this.key = key;
+    public void setAuthId(String authId) {
+        this.authId = authId;
     }
+
 }

@@ -21,13 +21,13 @@ public class SkillsDialogFragment extends DialogFragment {
     EditText etSkill2;
     EditText etSkill3;
 
-    public interface SkillsDialogListener {
-        void onFinishSkillsDialog(String skill1,
-                                  String skill2,
-                                  String skill3);
+    public SkillsDialogFragment() {
     }
 
-    public SkillsDialogFragment() { }
+    public static SkillsDialogFragment newInstance() {
+        SkillsDialogFragment frag = new SkillsDialogFragment();
+        return frag;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -35,11 +35,6 @@ public class SkillsDialogFragment extends DialogFragment {
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return dialog;
-    }
-
-    public static SkillsDialogFragment newInstance() {
-        SkillsDialogFragment frag = new SkillsDialogFragment();
-        return frag;
     }
 
     @Override
@@ -56,11 +51,11 @@ public class SkillsDialogFragment extends DialogFragment {
     }
 
     private void setupViews(View view) {
-        btnOk = (Button)view.findViewById(R.id.btnOk);
-        btnCancel = (Button)view.findViewById(R.id.btnCancel);
-        etSkill1 = (EditText)view.findViewById(R.id.etSkill1);
-        etSkill2 = (EditText)view.findViewById(R.id.etSkill2);
-        etSkill3 = (EditText)view.findViewById(R.id.etSkill3);
+        btnOk = (Button) view.findViewById(R.id.btnOk);
+        btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        etSkill1 = (EditText) view.findViewById(R.id.etSkill1);
+        etSkill2 = (EditText) view.findViewById(R.id.etSkill2);
+        etSkill3 = (EditText) view.findViewById(R.id.etSkill3);
     }
 
     private void setupListeners() {
@@ -88,6 +83,11 @@ public class SkillsDialogFragment extends DialogFragment {
         });
     }
 
+    public interface SkillsDialogListener {
+        void onFinishSkillsDialog(String skill1,
+                                  String skill2,
+                                  String skill3);
+    }
 
 
 }

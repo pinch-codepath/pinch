@@ -8,6 +8,7 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.pinch.backend.eventEndpoint.EventEndpoint;
+import com.pinch.backend.favoriteEndpoint.FavoriteEndpoint;
 import com.pinch.backend.imageEndpoint.ImageEndpoint;
 import com.pinch.backend.organizationEndpoint.OrganizationEndpoint;
 import com.pinch.backend.signUpEndpoint.SignUpEndpoint;
@@ -39,6 +40,11 @@ public class Endpoints {
             new AndroidJsonFactory(), null)
             .setRootUrl(ROOT_URL);
     public SignUpEndpoint signUpEndpoint = signUpEndpointBuilder.build();
+
+    private FavoriteEndpoint.Builder favoriteEndpointBuilder = new FavoriteEndpoint.Builder(AndroidHttp.newCompatibleTransport(),
+            new AndroidJsonFactory(), null)
+            .setRootUrl(ROOT_URL);
+    public FavoriteEndpoint favoriteEndpoint = favoriteEndpointBuilder.build();
 
     private ImageEndpoint.Builder imageEndpointBuilder = new ImageEndpoint.Builder(new ApacheHttpTransport(),
             new JacksonFactory(),

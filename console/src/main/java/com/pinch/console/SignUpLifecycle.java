@@ -12,9 +12,10 @@ public class SignUpLifecycle {
     public static void main(String[] args) throws IOException, ParseException {
         User user = new User();
         user.setName("TestUser");
-        user.setId("10");
+        user.setAuthSource("facebook");
+        user.setAuthId("10");
         User updatedUser = Endpoints.getInstance().userEndpoint.insertIfMissing(user).execute();
-        System.out.println(updatedUser.getKey() + "");
+        System.out.println(updatedUser.getId() + "");
 
         long orgId1 = TestUtil.insertOrg("Curry Senior Center", "333 Turk Street San Francisco, CA 94102", 37.782582f, -122.414442f, "", "http://curryseniorcenter.org/how-to-help/volunteer/");
         TestUtil.Address a1 = new TestUtil.Address("550 Polk St", "San Francisco", "CA", 94102, "Civic Center");
@@ -30,7 +31,7 @@ public class SignUpLifecycle {
                 a1, s1, "http://lh3.googleusercontent.com/Z0FEe6qtHrX1KxNMBGRZIYr2jRmQSVxmWqf_lUvASEFrldFD0HCM5tiy_zmUl3-9VDewilgBNmmwCgFHCmHPGg");
 
         SignUp signUp = new SignUp();
-        signUp.setUserId(updatedUser.getKey());
+        signUp.setUserId(updatedUser.getId());
         signUp.setEventId(eventId);
         signUp = Endpoints.getInstance().signUpEndpoint.register(signUp).execute();
         List<Event> events = Endpoints.getInstance().eventEndpoint.getSignedUpEventsForUser(signUp.getUserId()).execute().getItems();

@@ -2,10 +2,12 @@ package com.pinch.android;
 
 import android.content.Context;
 
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterCore;
-
-import io.fabric.sdk.android.Fabric;
+import com.facebook.AccessToken;
+import com.pinch.android.events.RefreshUserFavoritesEvent;
+import com.pinch.android.events.RefreshUserSignupsEvent;
+import com.pinch.android.remote.GetUserByAuthTask;
+import com.pinch.backend.userEndpoint.model.User;
+import com.squareup.otto.Bus;
 
 /*
  * This is the Android application itself and is used to configure various settings
@@ -16,16 +18,34 @@ import io.fabric.sdk.android.Fabric;
  *     // use client to send requests to API
  *
  */
-public class PinchApplication extends android.app.Application {
-    public static final String REST_CONSUMER_KEY = "ZFefXblf2YiFj8ov6SY9iAxau";
-    public static final String REST_CONSUMER_SECRET = "50d8b1S8azjUHB8ysk8JvMjfgyQzv21cmGbG8Rv2JrOPFvJJrW";
+public class PinchApplication extends android.app.Application implements GetUserByAuthTask.GetUserByAuthResultListener {
     private static Context context;
+
+    private User user;
+
+    public Bus bus = new Bus();
 
     @Override
     public void onCreate() {
         super.onCreate();
         PinchApplication.context = this;
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(REST_CONSUMER_KEY, REST_CONSUMER_SECRET);
-        Fabric.with(this, new TwitterCore(authConfig));
+    }
+
+    public User getUser() {
+        if(user == null && AccessToken.getCurrentAccessToken() != null) {
+            new GetUserByAuthTask(this).execute(AccessToken.getCurrentAccessToken().getUserId());
+        }
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        bus.post(new RefreshUserFavoritesEvent());
+        bus.post(new RefreshUserSignupsEvent());
+    }
+
+    @Override
+    public void onUserUpdate(User user) {
+        setUser(user);
     }
 }

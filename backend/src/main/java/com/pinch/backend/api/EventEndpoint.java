@@ -23,12 +23,14 @@ import com.google.appengine.api.search.ScoredDocument;
 
 import com.pinch.backend.model.Constants;
 import com.pinch.backend.model.Event;
+import com.pinch.backend.model.Favorite;
 import com.pinch.backend.model.Organization;
 import com.pinch.backend.model.Search;
 import com.pinch.backend.model.SignUp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -110,6 +112,38 @@ public class EventEndpoint {
             Entity eventEntity = datastore.get(eventKey);
             events.add(Event.fromEntity(eventEntity));
         }
+        Collections.sort(events, Event.COMPARE_START_TIME);
+        return events;
+    }
+
+    @ApiMethod(
+            name = "getFavoriteEventsForUser",
+            path = "/event/favorites"
+    )
+    public List<Event> getFavoriteEventsForUser(@Named("userId") Long userId) throws EntityNotFoundException {
+        List<Favorite> favorites = ofy()
+                .load()
+                .type(Favorite.class)
+                .filter("userId", userId)
+                .list();
+        List<Event> events = new ArrayList<>();
+        for (Favorite favorite : favorites) {
+            long organizationId = favorite.getOrganizationId();
+            Filter startTimeFilter = new FilterPredicate("startTime",
+                    FilterOperator.GREATER_THAN_OR_EQUAL,
+                    new Date());
+            Filter orgFilter = new FilterPredicate("organizationId",
+                    FilterOperator.EQUAL,
+                    organizationId);
+            Query query = new Query(Constants.EVENT)
+                    .setFilter(startTimeFilter)
+                    .setFilter(orgFilter);
+            PreparedQuery pq = datastore.prepare(query);
+            for (Entity entity : pq.asIterable()) {
+                events.add(Event.fromEntity(entity));
+            }
+        }
+        Collections.sort(events, Event.COMPARE_START_TIME);
         return events;
     }
 

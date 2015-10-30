@@ -6,7 +6,7 @@ import com.pinch.backend.signUpEndpoint.model.SignUp;
 
 import java.io.IOException;
 
-public class HasSignedUpForEventTask extends AsyncTask<SignUp, Void, Boolean> {
+public class HasSignedUpForEventTask extends AsyncTask<SignUp, Void, SignUp> {
 
     HasSignedUpForEventResultListener listener;
 
@@ -15,27 +15,22 @@ public class HasSignedUpForEventTask extends AsyncTask<SignUp, Void, Boolean> {
         }
 
         public interface HasSignedUpForEventResultListener {
-            void onHasSignUpResult(boolean signedUp);
+            void onHasSignUpResult(SignUp signedUp);
         }
 
         @Override
-        protected void onPostExecute(Boolean signedUp) {
+        protected void onPostExecute(SignUp signedUp) {
             listener.onHasSignUpResult(signedUp);
         }
 
         @Override
-        protected Boolean doInBackground(SignUp... params) {
+        protected SignUp doInBackground(SignUp... params) {
             try {
                 SignUp signUp = params[0];
-                SignUp returnedValue = Endpoints.getInstance().signUpEndpoint.query(signUp).execute();
-                if(returnedValue != null) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return Endpoints.getInstance().signUpEndpoint.query(signUp).execute();
             } catch (IOException e) {
                 e.printStackTrace();
-                return false;
+                return null;
             }
         }
     }

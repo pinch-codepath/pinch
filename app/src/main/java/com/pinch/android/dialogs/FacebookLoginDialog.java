@@ -18,12 +18,13 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.pinch.android.PinchApplication;
 import com.pinch.android.R;
 import com.pinch.android.remote.InsertIfMissingUserTask;
+import com.pinch.android.util.UserUtil;
 import com.pinch.backend.userEndpoint.model.User;
 
 import org.json.JSONObject;
@@ -39,15 +40,17 @@ public class FacebookLoginDialog extends DialogFragment implements InsertIfMissi
 
     @Override
     public void onUserUpdate(User user) {
-        writeToSharedPreferences(getActivity(), getString(R.string.user_id), user.getKey());
-        writeToSharedPreferences(getActivity(), getString(R.string.auth_source), user.getAuthSource());
-        writeToSharedPreferences(getActivity(), getString(R.string.auth_source_id), user.getId());
-        writeToSharedPreferences(getActivity(), getString(R.string.user_name), user.getName());
-        if (AccessToken.getCurrentAccessToken() != null) {
-            FacebookLoginDialogListener listener = (FacebookLoginDialogListener) getActivity();
+        FacebookLoginDialogListener listener = (FacebookLoginDialogListener) getActivity();
+        if(user != null) {
+            PinchApplication pinchApplication = (PinchApplication) this.getActivity().getApplication();
+            pinchApplication.setUser(user);
+            writeToSharedPreferences(getActivity(), getString(R.string.user_id), user.getId());
+            writeToSharedPreferences(getActivity(), getString(R.string.auth_source), user.getAuthSource());
+            writeToSharedPreferences(getActivity(), getString(R.string.auth_source_id), user.getId());
+            writeToSharedPreferences(getActivity(), getString(R.string.user_name), user.getName());
             listener.onLoginSuccess();
-            dismiss();
         }
+        dismiss();
     }
 
     public interface FacebookLoginDialogListener {
@@ -85,16 +88,10 @@ public class FacebookLoginDialog extends DialogFragment implements InsertIfMissi
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                GraphRequestAsyncTask request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-                        String id = jsonObject.optString("id");
-                        String name = jsonObject.optString("name");
-                        User user = new User();
-                        user.setId(id);
-                        user.setAuthSource("facebook");
-                        user.setName(name);
-                        new InsertIfMissingUserTask(FacebookLoginDialog.this).execute(user);
+                        UserUtil.getUserFromGraphResponse(jsonObject, FacebookLoginDialog.this);
                     }
                 }).executeAsync();
             }

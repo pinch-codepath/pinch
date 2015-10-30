@@ -19,7 +19,7 @@ public class Event {
     public static final Comparator<Event> COMPARE_START_TIME =
             new Comparator<Event>() {
                 public int compare(Event e1, Event e2) {
-                    return e2.getStartTime().compareTo(e1.getStartTime());
+                    return e1.getStartTime().compareTo(e2.getStartTime());
                 }
             };
     private Date endTime;

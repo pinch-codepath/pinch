@@ -23,15 +23,13 @@ public class AddressDialogFragment extends DialogFragment {
     EditText etState;
     EditText etZip;
 
-    public interface AddressDialogListener {
-        void onFinishAddressDialog(String street,
-                                   String city,
-                                   String state,
-                                   String zip,
-                                   String neighborhood);
+    public AddressDialogFragment() {
     }
 
-    public AddressDialogFragment() { }
+    public static AddressDialogFragment newInstance() {
+        AddressDialogFragment frag = new AddressDialogFragment();
+        return frag;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -39,11 +37,6 @@ public class AddressDialogFragment extends DialogFragment {
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return dialog;
-    }
-
-    public static AddressDialogFragment newInstance() {
-        AddressDialogFragment frag = new AddressDialogFragment();
-        return frag;
     }
 
     @Override
@@ -60,13 +53,13 @@ public class AddressDialogFragment extends DialogFragment {
     }
 
     private void setupViews(View view) {
-        btnOk = (Button)view.findViewById(R.id.btnOk);
-        btnCancel = (Button)view.findViewById(R.id.btnCancel);
-        etStreet = (EditText)view.findViewById(R.id.etStreet);
-        etNeighborhood = (EditText)view.findViewById(R.id.etNeighborhood);
-        etCity = (EditText)view.findViewById(R.id.etCity);
-        etState = (EditText)view.findViewById(R.id.etState);
-        etZip = (EditText)view.findViewById(R.id.etZip);
+        btnOk = (Button) view.findViewById(R.id.btnOk);
+        btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        etStreet = (EditText) view.findViewById(R.id.etStreet);
+        etNeighborhood = (EditText) view.findViewById(R.id.etNeighborhood);
+        etCity = (EditText) view.findViewById(R.id.etCity);
+        etState = (EditText) view.findViewById(R.id.etState);
+        etZip = (EditText) view.findViewById(R.id.etZip);
     }
 
     private void setupListeners() {
@@ -117,6 +110,13 @@ public class AddressDialogFragment extends DialogFragment {
         });
     }
 
+    public interface AddressDialogListener {
+        void onFinishAddressDialog(String street,
+                                   String city,
+                                   String state,
+                                   String zip,
+                                   String neighborhood);
+    }
 
 
 }

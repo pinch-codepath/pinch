@@ -85,6 +85,21 @@
             android:topLeftRadius="30dp"
             android:topRightRadius="30dp" />
 
+        <Button
+            android:id="@+id/btnFavoriteOrg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvEventDescription"
+            android:layout_toRightOf="@+id/btnSignUp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
+            android:background="#ffd73c2c"
+            android:bottomLeftRadius="30dp"
+            android:bottomRightRadius="30dp"
+            android:text="Follow Org"
+            android:topLeftRadius="30dp"
+            android:topRightRadius="30dp" />
+
         <TextView
             android:id="@+id/tvAddressLine1"
             android:layout_width="wrap_content"

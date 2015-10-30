@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.facebook.FacebookSdk;
+import com.pinch.android.PinchApplication;
 import com.pinch.android.R;
 import com.pinch.android.adapters.EventsFragmentPagerAdapter;
 import com.pinch.android.dialogs.FacebookLoginDialog;
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity  implements FacebookLoginDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        // load user if logged in.
+        PinchApplication pinchApplication = ((PinchApplication)getApplication());
+        pinchApplication.getUser();
         setContentView(R.layout.activity_main);
 
         if(getSupportActionBar() != null) {

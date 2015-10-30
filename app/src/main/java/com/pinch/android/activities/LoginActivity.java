@@ -17,6 +17,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.pinch.android.R;
 import com.pinch.android.remote.InsertIfMissingUserTask;
+import com.pinch.android.util.UserUtil;
 import com.pinch.backend.userEndpoint.model.User;
 
 import org.json.JSONObject;
@@ -51,13 +52,7 @@ public class LoginActivity extends AppCompatActivity implements InsertIfMissingU
                 GraphRequestAsyncTask request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-                        String id = jsonObject.optString("id");
-                        String name = jsonObject.optString("name");
-                        User user = new User();
-                        user.setId(id);
-                        user.setAuthSource("facebook");
-                        user.setName(name);
-                        new InsertIfMissingUserTask(LoginActivity.this).execute(user);
+                        UserUtil.getUserFromGraphResponse(jsonObject, LoginActivity.this);
                     }
                 }).executeAsync();
             }
@@ -109,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements InsertIfMissingU
 
     @Override
     public void onUserUpdate(User user) {
-        writeToSharedPreferences(this, getString(R.string.user_id), user.getKey());
+        writeToSharedPreferences(this, getString(R.string.user_id), user.getId());
         writeToSharedPreferences(this, getString(R.string.auth_source), user.getAuthSource());
         writeToSharedPreferences(this, getString(R.string.auth_source_id), user.getId());
         writeToSharedPreferences(this, getString(R.string.user_name), user.getName());
