@@ -1,8 +1,14 @@
 package com.pinch.android.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,8 +25,6 @@ import com.pinch.backend.eventEndpoint.model.Event;
 import com.pinch.backend.signUpEndpoint.model.SignUp;
 import com.squareup.picasso.Picasso;
 
-import java.util.Date;
-
 import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceLongFromKey;
 
 public class EventDetailsActivity extends AppCompatActivity
@@ -30,18 +34,18 @@ public class EventDetailsActivity extends AppCompatActivity
         HasSignedUpForEventTask.HasSignedUpForEventResultListener{
 
     private ImageView mIvPic;
-    private ImageView mIvMap;
     private Button mBtnSignUp;
-    private Button mBtnLearnMore;
-    private TextView mTvEventName;
     private TextView mTvEventDate;
     private TextView mTvEventTime;
     private TextView mTvEventDescription;
     private TextView mTvAddressLine1;
     private TextView mTvAddressLine2;
-    private TextView mTvRequirements1;
-    private TextView mTvRequirements2;
-    private TextView mTvRequirements3;
+    private TextView mTvRequirements;
+    private TextView mTvOrgName;
+    private TextView mTvOrgAddress;
+    private TextView mTvOrgPhone;
+    private TextView mTvOrgUrl;
+
     private boolean signedUp;
     private SignUp signUp;
 
@@ -62,11 +66,18 @@ public class EventDetailsActivity extends AppCompatActivity
     private String eventDate;
     private String eventTime;
     private String eventOrgName;
+    private String eventOrgAddress;
+    private String eventOrgPhone;
+    private String eventOrgUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_event_details);
+
+
+
         eventId = (Long) getIntent().getLongExtra("eventId", 0);
         eventTitle = (String)getIntent().getStringExtra("eventTitle");
         eventDescription = (String)getIntent().getStringExtra("eventDescription");
@@ -82,58 +93,67 @@ public class EventDetailsActivity extends AppCompatActivity
         eventDate = (String)getIntent().getStringExtra("eventDate");
         eventTime = (String)getIntent().getStringExtra("eventTime");
         eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
+        eventOrgAddress = (String)getIntent().getStringExtra("eventOrgAddress");
+        eventOrgPhone = (String)getIntent().getStringExtra("eventOrgPhone");
+        eventOrgUrl = (String)getIntent().getStringExtra("eventOrgUrl");
+
+        setupToolbar();
         setupViewObjects();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        if(ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle(eventTitle);
+            Drawable upArrow = ContextCompat.getDrawable(getApplicationContext(), R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+            upArrow.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+            ab.setHomeAsUpIndicator(upArrow);
+        }
+
     }
 
     private void setupViewObjects() {
         mIvPic = (ImageView) findViewById(R.id.ivPic);
-        mIvMap = (ImageView) findViewById(R.id.ivMap);
         mBtnSignUp = (Button) findViewById(R.id.btnSignUp);
-        mBtnLearnMore = (Button) findViewById(R.id.btnLearnMore);
-        mTvEventName = (TextView) findViewById(R.id.tvEventName);
         mTvEventDate = (TextView) findViewById(R.id.tvEventDate);
         mTvEventTime = (TextView) findViewById(R.id.tvEventTime);
         mTvAddressLine1 = (TextView) findViewById(R.id.tvAddressLine1);
         mTvAddressLine2 = (TextView) findViewById(R.id.tvAddressLine2);
-        mTvRequirements1 = (TextView) findViewById(R.id.tvRequirements1);
-        mTvRequirements2 = (TextView) findViewById(R.id.tvRequirements2);
-        mTvRequirements3 = (TextView) findViewById(R.id.tvRequirements3);
+        mTvRequirements = (TextView) findViewById(R.id.tvRequirements);
         mTvEventDescription = (TextView) findViewById(R.id.tvEventDescription);
+        mTvOrgName = (TextView) findViewById(R.id.tvOrgName);
+        mTvOrgAddress = (TextView) findViewById(R.id.tvOrgAddress);
+        mTvOrgPhone = (TextView) findViewById(R.id.tvOrgPhoneNumber);
+        mTvOrgUrl = (TextView) findViewById(R.id.tvOrgUrl);
 
-        mTvEventName.setText(this.eventTitle);
         mTvEventDate.setText(this.eventDate);
         mTvEventTime.setText(this.eventTime);
         mTvAddressLine1.setText(this.eventAddressStreet);
         mTvAddressLine2.setText(this.eventAddressCity + ", " + this.eventAddressState);
         mTvEventDescription.setText(this.eventDescription);
-        mTvRequirements1.setText("- " + this.eventSkill1);
-        mTvRequirements2.setText("- " + this.eventSkill2);
-        mTvRequirements3.setText("- " + this.eventSkill3);
+        mTvRequirements.setText(this.eventSkill1 + ", " + this.eventSkill2 + ", " + this.eventSkill3);
+        mTvOrgName.setText(this.eventOrgName);
+        mTvOrgAddress.setText(this.eventOrgAddress);
+        mTvOrgPhone.setText(this.eventOrgPhone);
+        mTvOrgUrl.setText(this.eventOrgUrl);
 
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(AccessToken.getCurrentAccessToken() != null) {
+                if (AccessToken.getCurrentAccessToken() != null) {
                     onSignupButtonClicked();
-                }
-                else {
+                } else {
                     openFacebookLoginDialog();
                 }
             }
         });
 
-        mBtnLearnMore.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Learn More", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        String imageUrl = "https://style.codeforamerica.org/media/images/big-data.jpg";
 //        mIvPic.setImageResource(0);
         Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
-
-        String mapUrl = "http://pcad.lib.washington.edu/media/geo-images/gmap/19053.png";
-        Picasso.with(this).load(mapUrl).fit().centerCrop().into(mIvMap);
 
         if(AccessToken.getCurrentAccessToken() != null) {
             signUp = new SignUp();
