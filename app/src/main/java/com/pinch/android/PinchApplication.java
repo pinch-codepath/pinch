@@ -3,8 +3,11 @@ package com.pinch.android;
 import android.content.Context;
 
 import com.facebook.AccessToken;
+import com.pinch.android.events.AddOrgTabsEvent;
+import com.pinch.android.events.AddUserTabsEvent;
 import com.pinch.android.events.RefreshUserFavoritesEvent;
 import com.pinch.android.events.RefreshUserSignupsEvent;
+import com.pinch.android.events.RemoveUserTabsEvent;
 import com.pinch.android.remote.GetUserByAuthTask;
 import com.pinch.backend.userEndpoint.model.User;
 import com.squareup.otto.Bus;
@@ -40,8 +43,16 @@ public class PinchApplication extends android.app.Application implements GetUser
 
     public void setUser(User user) {
         this.user = user;
-        bus.post(new RefreshUserFavoritesEvent());
-        bus.post(new RefreshUserSignupsEvent());
+        if(user == null){
+            bus.post(new RemoveUserTabsEvent());
+        } else {
+            bus.post(new AddUserTabsEvent());
+            bus.post(new RefreshUserFavoritesEvent());
+            bus.post(new RefreshUserSignupsEvent());
+            if(user.getAffiliations() != null && user.getAffiliations().size() > 0) {
+                bus.post(new AddOrgTabsEvent());
+            }
+        }
     }
 
     @Override

@@ -23,7 +23,7 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     public static final String CREATE_EVENT = "Create Event";
     public static final String PROFILE = "Profile";
 
-    private class Tab {
+    public static class Tab {
         public Tab(String title, int tabIcon, int materialTabIcons) {
             this.title = title;
             this.tabIcon = tabIcon;
@@ -34,17 +34,13 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
         int materialTabIcons;
     }
 
-    ArrayList<Tab> tabs = new ArrayList<>();
+    public ArrayList<Tab> tabs = new ArrayList<>();
     private Context context;
 
     public EventsFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
         tabs.add(new Tab(SEARCH, R.drawable.ic_tab_calendar, R.drawable.ic_tab_calendar));
-        tabs.add(new Tab(SIGN_UPS, R.drawable.ic_tab_signups, R.drawable.ic_material_events));
-        tabs.add(new Tab(FAVORITES, R.drawable.ic_tab_favorites_filled, R.drawable.ic_tab_favorites_filled));
-        tabs.add(new Tab(CREATE_EVENT, R.drawable.ic_tab_create_event, R.drawable.ic_material_create_event));
-        tabs.add(new Tab(PROFILE, R.drawable.ic_tab_profile, R.drawable.ic_material_profile));
     }
 
     @Override
