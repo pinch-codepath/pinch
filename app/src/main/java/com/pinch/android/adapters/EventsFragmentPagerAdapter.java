@@ -35,20 +35,6 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     }
 
     ArrayList<Tab> tabs = new ArrayList<>();
-//    private String tabTitles[] = new String[] { "Search", "Sign ups", "Create Event", "Profile" };
-//    private int tabIcons[] = new int[] {
-//            R.drawable.ic_tab_calendar,
-//            R.drawable.ic_tab_signups,
-//            R.drawable.ic_tab_favorites_filled,
-//            R.drawable.ic_tab_create_event,
-//            R.drawable.ic_tab_profile,
-//    };
-//    private int materialTabIcons[] = new int[] {
-//            R.drawable.ic_tab_calendar,     //should be changed to logo 'P'
-//            R.drawable.ic_material_events,
-//            R.drawable.ic_material_create_event,
-//            R.drawable.ic_material_profile,
-//    };
     private Context context;
 
     public EventsFragmentPagerAdapter(FragmentManager fm, Context context) {

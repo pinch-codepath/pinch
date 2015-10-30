@@ -40,7 +40,8 @@
         <activity
             android:name=".activities.EventDetailsActivity"
             android:label="@string/title_activity_event_details"
-            android:parentActivityName=".activities.MainActivity" >
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppThemeNoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pinch.android.activities.MainActivity" />

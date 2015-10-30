@@ -67,6 +67,9 @@ public class EventsImageArrayAdapter extends RecyclerView.Adapter<EventsImageArr
             intent.putExtra("eventTime", Utils.getTimeString(e.getStartTime()) + "-" + Utils.getTimeString(e.getEndTime()));
             intent.putExtra("eventOrgName", e.getOrganization().getName());
             intent.putExtra("eventOrgId", e.getOrganization().getId());
+            intent.putExtra("eventOrgAddress", e.getOrganization().getAddress());
+            intent.putExtra("eventOrgPhone", e.getOrganization().getPhoneNumber().getNumber());
+            intent.putExtra("eventOrgUrl", e.getOrganization().getUrl());
             mContext.startActivity(intent);
         }
     }

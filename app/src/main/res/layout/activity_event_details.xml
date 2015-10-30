@@ -1,179 +1,211 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView01"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.pinch.android.activities.EventDetailsActivity">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@drawable/toolbar_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:elevation="2dp"/>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.pinch.android.activities.EventDetailsActivity">
+        android:layout_marginBottom="60dp">
 
-
-        <ImageView
-            android:id="@+id/ivPic"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom" />
+            android:layout_height="match_parent"
+            tools:context="com.pinch.android.activities.EventDetailsActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorPrimary"
-            android:text="Event Title"
-            android:textStyle="bold"
-            android:id="@+id/tvEventName"
-            android:layout_below="@+id/ivPic"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="10dp"/>
+            <ImageView
+                android:id="@+id/ivPic"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="@dimen/event_detail_margin_bottom" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="mm/dd/yyyy"
-            android:id="@+id/tvEventDate"
-            android:layout_below="@+id/tvEventName"
-            android:padding="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="hh:mm - hh:mm"
-            android:id="@+id/tvEventTime"
-            android:layout_alignTop="@+id/tvEventDate"
-            android:layout_toRightOf="@+id/tvEventDate"
-            android:layout_toEndOf="@+id/tvEventDate"
-            android:layout_marginLeft="30dp"
-            android:padding="10dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconCalendar"
+                android:layout_below="@+id/ivPic"
+                android:src="@drawable/ic_material_events"
+                android:tint="@color/colorAccent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
 
-        <TextView
-            android:id="@+id/tvEventDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/tvEventDate"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="This is an event description. This is an event description. This is an event description. This is an event description. " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="mm/dd/yyyy"
+                android:id="@+id/tvEventDate"
+                android:layout_below="@+id/ivPic"
+                android:layout_toRightOf="@+id/ivIconCalendar"
+                android:layout_marginLeft="10dp"/>
 
-        <Button
-            android:id="@+id/btnSignUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvEventDescription"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:background="#ffd73c2c"
-            android:bottomLeftRadius="30dp"
-            android:bottomRightRadius="30dp"
-            android:text="Sign-up"
-            android:topLeftRadius="30dp"
-            android:topRightRadius="30dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="hh:mm - hh:mm"
+                android:id="@+id/tvEventTime"
+                android:layout_marginBottom="10dp"
+                android:layout_alignLeft="@+id/tvEventDate"
+                android:layout_alignStart="@+id/tvEventDate"
+                android:layout_below="@+id/tvEventDate"/>
 
-        <Button
-            android:id="@+id/btnFavoriteOrg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvEventDescription"
-            android:layout_toRightOf="@+id/btnSignUp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:background="#ffd73c2c"
-            android:bottomLeftRadius="30dp"
-            android:bottomRightRadius="30dp"
-            android:text="Follow Org"
-            android:topLeftRadius="30dp"
-            android:topRightRadius="30dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconLocation"
+                android:layout_below="@+id/tvEventTime"
+                android:src="@drawable/ic_material_location"
+                android:tint="@color/colorAccent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
 
-        <TextView
-            android:id="@+id/tvAddressLine1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnSignUp"
-            android:layout_centerHorizontal="true"
-            android:text="155 9th Street" />
+            <TextView
+                android:id="@+id/tvAddressLine1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvEventTime"
+                android:layout_alignLeft="@+id/tvEventDate"
+                android:layout_alignStart="@+id/tvEventDate"
+                android:text="155 9th Street" />
 
-        <TextView
-            android:id="@+id/tvAddressLine2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvAddressLine1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:text="San Francisco, CA" />
+            <TextView
+                android:id="@+id/tvAddressLine2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvAddressLine1"
+                android:layout_alignLeft="@+id/tvEventDate"
+                android:layout_alignStart="@+id/tvEventDate"
+                android:layout_marginBottom="10dp"
+                android:text="San Francisco, CA" />
 
-        <ImageView
-            android:id="@+id/ivMap"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_below="@+id/tvAddressLine2"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom" />
+            <TextView
+                android:id="@+id/tvEventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tvAddressLine2"
+                android:text="This is an event description."
+                android:layout_margin="15dp"/>
 
-        <TextView
-            android:id="@+id/tvRequirementsLabel"
-            android:layout_below="@+id/ivMap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tvEventDescription"
-            android:layout_marginBottom="2dp"
-            android:text="Requirements:"
-            android:textColor="#ffd73c2c" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconReq"
+                android:layout_below="@+id/tvEventDescription"
+                android:src="@drawable/ic_material_checklist"
+                android:tint="@color/colorAccent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
 
-        <TextView
-            android:id="@+id/tvRequirements1"
-            android:layout_below="@+id/tvRequirementsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tvRequirementsLabel"
-            android:layout_marginBottom="2dp"
-            android:textSize="12sp"
-            android:text="- Clean" />
-        <TextView
-            android:id="@+id/tvRequirements2"
-            android:layout_below="@+id/tvRequirements1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tvRequirementsLabel"
-            android:layout_marginBottom="2dp"
-            android:textSize="12sp"
-            android:text="- Cook" />
-        <TextView
-            android:id="@+id/tvRequirements3"
-            android:layout_below="@+id/tvRequirements2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tvRequirementsLabel"
-            android:layout_marginBottom="20dp"
-            android:textSize="12sp"
-            android:text="- Change diapers" />
+            <TextView
+                android:id="@+id/tvRequirements"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Clean, Cook, Change Dialpers"
+                android:layout_toRightOf="@+id/ivIconReq"
+                android:layout_alignTop="@+id/ivIconReq"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
 
-        <Button
-            android:id="@+id/btnLearnMore"
-            android:layout_below="@+id/tvRequirements3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:padding="8dp"
-            android:background="@color/colorPrimary"
-            android:text="Learn more about&#10;Code for America"
-            android:textColor="@android:color/white"/>
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="#d1d1d1"
+                android:layout_below="@+id/tvRequirements"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+            </View>
 
-    </RelativeLayout>
-</ScrollView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconOrg"
+                android:layout_below="@+id/divider"
+                android:src="@drawable/ic_material_earth"
+                android:tint="@color/colorAccent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Organization Name"
+                android:id="@+id/tvOrgName"
+                android:layout_below="@+id/divider"
+                android:layout_toRightOf="@+id/ivIconOrg"
+                android:layout_alignLeft="@+id/tvEventDate"
+                android:layout_alignStart="@+id/tvEventDate"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Organization Address"
+                android:id="@+id/tvOrgAddress"
+                android:layout_alignLeft="@+id/tvEventDate"
+                android:layout_alignStart="@+id/tvEventDate"
+                android:layout_below="@+id/tvOrgName"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Organization Phone Number"
+                android:id="@+id/tvOrgPhoneNumber"
+                android:layout_alignLeft="@+id/tvEventDate"
+                android:layout_alignStart="@+id/tvEventDate"
+                android:layout_below="@+id/tvOrgAddress"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Organization Email ID"
+                android:id="@+id/tvOrgUrl"
+                android:layout_marginBottom="10dp"
+                android:layout_alignLeft="@+id/tvEventDate"
+                android:layout_alignStart="@+id/tvEventDate"
+                android:layout_below="@+id/tvOrgPhoneNumber"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:text="Sign up"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>
