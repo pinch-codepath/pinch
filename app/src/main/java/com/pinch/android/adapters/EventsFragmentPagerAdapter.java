@@ -15,28 +15,15 @@ import com.pinch.android.fragments.UserProfileFragment;
 
 import java.util.ArrayList;
 
-public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
+public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
     public static final String SIGN_UPS = "Sign ups";
     public static final String FAVORITES = "Favorites";
     public static final String SEARCH = "Search";
     public static final String CREATE_EVENT = "Create Event";
     public static final String PROFILE = "Profile";
-
-    public static class Tab {
-        public Tab(String title, int tabIcon, int materialTabIcons) {
-            this.title = title;
-            this.tabIcon = tabIcon;
-            this.materialTabIcons = materialTabIcons;
-        }
-        String title;
-        int tabIcon;
-        int materialTabIcons;
-    }
-
     public ArrayList<Tab> tabs = new ArrayList<>();
     private Context context;
-
     public EventsFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
@@ -46,6 +33,14 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     @Override
     public int getCount() {
         return tabs.size();
+    }
+
+    @Override
+    public int getItemPosition(Object o) {
+        if (o instanceof SearchFragment) {
+            return 0;
+        }
+        return tabs.indexOf(o);
     }
 
     @Override
@@ -77,5 +72,16 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     public int getPageIconResId(int position) {
 //        return materialTabIcons[i];
         return tabs.get(position).tabIcon;
+    }
+
+    public static class Tab {
+        String title;
+        int tabIcon;
+        int materialTabIcons;
+        public Tab(String title, int tabIcon, int materialTabIcons) {
+            this.title = title;
+            this.tabIcon = tabIcon;
+            this.materialTabIcons = materialTabIcons;
+        }
     }
 }

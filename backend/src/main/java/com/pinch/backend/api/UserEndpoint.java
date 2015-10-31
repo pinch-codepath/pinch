@@ -64,6 +64,20 @@ public class UserEndpoint {
     }
 
     @ApiMethod(
+            name="updateGCMToekn"
+    )
+    public User updateGCMToekn(@Named("userId") long userId, @Named("gcmToken") String gcmToken) throws EntityNotFoundException {
+        User user = ofy()
+                .load()
+                .type(User.class)
+                .id(userId)
+                .now();
+        user.setGcmToken(gcmToken);
+        ofy().save().entity(user).now();
+        return user;
+    }
+
+    @ApiMethod(
             name = "insertIfMissing",
             httpMethod = ApiMethod.HttpMethod.PUT
     )

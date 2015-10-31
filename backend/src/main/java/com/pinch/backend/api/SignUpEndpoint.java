@@ -4,11 +4,20 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.Named;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import com.googlecode.objectify.Key;
+import com.pinch.backend.PushService;
+import com.pinch.backend.model.Affiliation;
+import com.pinch.backend.model.Constants;
+import com.pinch.backend.model.Event;
 import com.pinch.backend.model.SignUp;
+import com.pinch.backend.model.User;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import static com.pinch.backend.OfyService.ofy;
@@ -25,6 +34,7 @@ import static com.pinch.backend.OfyService.ofy;
 )
 public class SignUpEndpoint {
     private static final Logger logger = Logger.getLogger(SignUpEndpoint.class.getName());
+    private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     @ApiMethod(
             name = "register",
@@ -35,9 +45,41 @@ public class SignUpEndpoint {
         if (dsSignUp != null) {
             return dsSignUp;
         } else {
-            Key<SignUp> key = ofy().save().entity(signUp).now();
-            signUp.setId(key.getId());
-            return signUp;
+            Long userId = signUp.getUserId();
+            Long eventId = signUp.getEventId();
+            User user = ofy()
+                    .load()
+                    .type(User.class)
+                    .id(userId)
+                    .now();
+            com.google.appengine.api.datastore.Key eventKey = KeyFactory.createKey(Constants.EVENT, eventId);
+            Event event = Event.fromEntity(datastore.get(eventKey));
+
+            if(user != null && event != null) {
+                Key<SignUp> key = ofy().save().entity(signUp).now();
+                signUp.setId(key.getId());
+                setSignUpAlert(user, event);
+                return signUp;
+            }
+            return null;
+        }
+    }
+
+    private void setSignUpAlert(User user, Event event) {
+        String name = user.getName();
+        List<Affiliation> affiliations = ofy()
+                .load()
+                .type(Affiliation.class)
+                .filter("organizationId", event.getOrganization().getId())
+                .list();
+        for (Affiliation affiliation : affiliations) {
+            long userId = affiliation.getUserId();
+            User affiliate = ofy()
+                    .load()
+                    .type(User.class)
+                    .id(userId)
+                    .now();
+            PushService.getInstance().sendPush(affiliate, "New sign up!", name + " signed up for " + event.getTitle() + "!");
         }
     }
 

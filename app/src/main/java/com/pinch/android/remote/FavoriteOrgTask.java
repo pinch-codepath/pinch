@@ -14,10 +14,6 @@ public class FavoriteOrgTask extends AsyncTask<Favorite, Void, Favorite> {
         this.listener = listener;
     }
 
-    public interface FavoriteOrgResultListener {
-        void onFavoriteOrg(Favorite v);
-    }
-
     @Override
     protected void onPostExecute(Favorite v) {
         listener.onFavoriteOrg(v);
@@ -31,5 +27,9 @@ public class FavoriteOrgTask extends AsyncTask<Favorite, Void, Favorite> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public interface FavoriteOrgResultListener {
+        void onFavoriteOrg(Favorite v);
     }
 }

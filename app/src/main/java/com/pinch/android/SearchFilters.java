@@ -9,25 +9,20 @@ import java.util.Calendar;
 
 public class SearchFilters implements Parcelable {
 
+    public static final Parcelable.Creator<SearchFilters> CREATOR = new Parcelable.Creator<SearchFilters>() {
+        public SearchFilters createFromParcel(Parcel source) {
+            return new SearchFilters(source);
+        }
+
+        public SearchFilters[] newArray(int size) {
+            return new SearchFilters[size];
+        }
+    };
     String keyword;
     Calendar fromCalendar;
     Calendar toCalendar;
     int distanceSpinnerIndex;
-
     private int[] distanceArray = {-1, 5, 10, 15, 20};
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.keyword);
-        dest.writeSerializable(this.fromCalendar);
-        dest.writeSerializable(this.toCalendar);
-        dest.writeInt(this.distanceSpinnerIndex);
-    }
 
     public SearchFilters() {
         keyword = "";
@@ -60,15 +55,18 @@ public class SearchFilters implements Parcelable {
         this.distanceSpinnerIndex = in.readInt();
     }
 
-    public static final Parcelable.Creator<SearchFilters> CREATOR = new Parcelable.Creator<SearchFilters>() {
-        public SearchFilters createFromParcel(Parcel source) {
-            return new SearchFilters(source);
-        }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-        public SearchFilters[] newArray(int size) {
-            return new SearchFilters[size];
-        }
-    };
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.keyword);
+        dest.writeSerializable(this.fromCalendar);
+        dest.writeSerializable(this.toCalendar);
+        dest.writeInt(this.distanceSpinnerIndex);
+    }
 
     public String getKeyword() {
         return keyword;

@@ -21,12 +21,14 @@ import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
+import com.pinch.backend.PushService;
 import com.pinch.backend.model.Constants;
 import com.pinch.backend.model.Event;
 import com.pinch.backend.model.Favorite;
 import com.pinch.backend.model.Organization;
 import com.pinch.backend.model.Search;
 import com.pinch.backend.model.SignUp;
+import com.pinch.backend.model.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -170,26 +172,48 @@ public class EventEndpoint {
                         .type(Organization.class)
                         .id(organizationId)
                         .now();
-                Document doc = Document.newBuilder()
-                        .setId(key.getId() + "")
-                        .addField(Field.newBuilder().setName("title").setText(event.getTitle()))
-                        .addField(Field.newBuilder().setName("addressCity").setText(event.getAddressCity()))
-                        .addField(Field.newBuilder().setName("addressNeighborhood").setText(event.getAddressNeighborhood()))
-                        .addField(Field.newBuilder().setName("addressState").setText(event.getAddressState()))
-                        .addField(Field.newBuilder().setName("addressStreet").setText(event.getAddressStreet()))
-                        .addField(Field.newBuilder().setName("skill1").setText(event.getSkill1()))
-                        .addField(Field.newBuilder().setName("skill2").setText(event.getSkill2()))
-                        .addField(Field.newBuilder().setName("skill3").setText(event.getSkill3()))
-                        .addField(Field.newBuilder().setName("description").setText(event.getDescription()))
-                        .addField(Field.newBuilder().setName("url").setText(event.getUrl()))
-                        .addField(Field.newBuilder().setName("orgName").setText(organization.getName()))
-                        .addField(Field.newBuilder().setName("orgAddress").setText(organization.getAddress()))
-                        .addField(Field.newBuilder().setName("orgUrl").setText(organization.getUrl()))
-                        .build();
-                EVENT_INDEX.indexDocument(doc);
+                updateSearchIndex(event, key, organization);
+                sentPushUpdate(organizationId, event, organization);
             }
         }
         return event;
+    }
+
+    private void sentPushUpdate(@Named("organizationId") long organizationId, Event event, Organization organization) {
+        List<Favorite> favorites = ofy()
+                .load()
+                .type(Favorite.class)
+                .filter("organizationId", organizationId)
+                .list();
+        for(Favorite favorite : favorites) {
+            long userId = favorite.getUserId();
+            User user = ofy()
+                    .load()
+                    .type(User.class)
+                    .id(userId)
+                    .now();
+            PushService.getInstance().sendPush(user, "New event added!", organization.getName() + " added a new volunteering event '" + event.getTitle() + "'!");
+        }
+    }
+
+    private void updateSearchIndex(Event event, Key key, Organization organization) {
+        Document doc = Document.newBuilder()
+                .setId(key.getId() + "")
+                .addField(Field.newBuilder().setName("title").setText(event.getTitle()))
+                .addField(Field.newBuilder().setName("addressCity").setText(event.getAddressCity()))
+                .addField(Field.newBuilder().setName("addressNeighborhood").setText(event.getAddressNeighborhood()))
+                .addField(Field.newBuilder().setName("addressState").setText(event.getAddressState()))
+                .addField(Field.newBuilder().setName("addressStreet").setText(event.getAddressStreet()))
+                .addField(Field.newBuilder().setName("skill1").setText(event.getSkill1()))
+                .addField(Field.newBuilder().setName("skill2").setText(event.getSkill2()))
+                .addField(Field.newBuilder().setName("skill3").setText(event.getSkill3()))
+                .addField(Field.newBuilder().setName("description").setText(event.getDescription()))
+                .addField(Field.newBuilder().setName("url").setText(event.getUrl()))
+                .addField(Field.newBuilder().setName("orgName").setText(organization.getName()))
+                .addField(Field.newBuilder().setName("orgAddress").setText(organization.getAddress()))
+                .addField(Field.newBuilder().setName("orgUrl").setText(organization.getUrl()))
+                .build();
+        EVENT_INDEX.indexDocument(doc);
     }
 
     @ApiMethod(

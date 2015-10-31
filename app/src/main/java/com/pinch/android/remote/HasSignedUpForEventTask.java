@@ -10,27 +10,27 @@ public class HasSignedUpForEventTask extends AsyncTask<SignUp, Void, SignUp> {
 
     HasSignedUpForEventResultListener listener;
 
-        public HasSignedUpForEventTask(HasSignedUpForEventResultListener listener) {
-            this.listener = listener;
-        }
+    public HasSignedUpForEventTask(HasSignedUpForEventResultListener listener) {
+        this.listener = listener;
+    }
 
-        public interface HasSignedUpForEventResultListener {
-            void onHasSignUpResult(SignUp signedUp);
-        }
+    @Override
+    protected void onPostExecute(SignUp signedUp) {
+        listener.onHasSignUpResult(signedUp);
+    }
 
-        @Override
-        protected void onPostExecute(SignUp signedUp) {
-            listener.onHasSignUpResult(signedUp);
-        }
-
-        @Override
-        protected SignUp doInBackground(SignUp... params) {
-            try {
-                SignUp signUp = params[0];
-                return Endpoints.getInstance().signUpEndpoint.query(signUp).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+    @Override
+    protected SignUp doInBackground(SignUp... params) {
+        try {
+            SignUp signUp = params[0];
+            return Endpoints.getInstance().signUpEndpoint.query(signUp).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
+
+    public interface HasSignedUpForEventResultListener {
+        void onHasSignUpResult(SignUp signedUp);
+    }
+}

@@ -79,13 +79,13 @@ public class SearchFiltersActivity extends AppCompatActivity {
         etKeywords = (EditText) findViewById(R.id.etKeywords);
         spinnerDistance = (Spinner) findViewById(R.id.spinnerDistance);
 
-        if(filters.getFromCalendar() != null) {
+        if (filters.getFromCalendar() != null) {
             fromCalendar = filters.getFromCalendar();
             tvFromMonth.setText(new SimpleDateFormat("MMM").format(fromCalendar.getTime()));
             tvFromDate.setText(new SimpleDateFormat("dd").format(fromCalendar.getTime()));
             tvFromYear.setText(new SimpleDateFormat("yyyy").format(fromCalendar.getTime()));
         }
-        if(filters.getToCalendar() != null) {
+        if (filters.getToCalendar() != null) {
             toCalendar = filters.getToCalendar();
             tvToMonth.setText(new SimpleDateFormat("MMM").format(toCalendar.getTime()));
             tvToDate.setText(new SimpleDateFormat("dd").format(toCalendar.getTime()));
@@ -99,7 +99,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
         llFromCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fromCalendar == null) {
+                if (fromCalendar == null) {
                     fromCalendar = Calendar.getInstance();
                 }
                 fromDateDialog = DatePickerDialog.newInstance(
@@ -123,7 +123,7 @@ public class SearchFiltersActivity extends AppCompatActivity {
         llToCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(toCalendar == null) {
+                if (toCalendar == null) {
                     toCalendar = Calendar.getInstance();
                 }
                 toDateDialog = DatePickerDialog.newInstance(

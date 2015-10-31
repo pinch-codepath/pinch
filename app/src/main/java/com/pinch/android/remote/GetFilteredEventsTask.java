@@ -14,10 +14,6 @@ public class GetFilteredEventsTask extends AsyncTask<Search, Void, List<Event>> 
 
     GetFilteredEventsResultsListener listener;
 
-    public interface GetFilteredEventsResultsListener {
-        void onEventsFetched(List<Event> events);
-    }
-
     public GetFilteredEventsTask(GetFilteredEventsResultsListener listener) {
         this.listener = listener;
     }
@@ -35,5 +31,9 @@ public class GetFilteredEventsTask extends AsyncTask<Search, Void, List<Event>> 
     @Override
     protected void onPostExecute(List<Event> events) {
         listener.onEventsFetched(events);
+    }
+
+    public interface GetFilteredEventsResultsListener {
+        void onEventsFetched(List<Event> events);
     }
 }

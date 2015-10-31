@@ -14,10 +14,6 @@ public class GetUserByIdTask extends AsyncTask<Long, Void, User> {
         this.listener = listener;
     }
 
-    public interface GetUserByIdResultListener {
-        void onUserUpdate(User user);
-    }
-
     @Override
     protected void onPostExecute(User user) {
         listener.onUserUpdate(user);
@@ -31,5 +27,9 @@ public class GetUserByIdTask extends AsyncTask<Long, Void, User> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public interface GetUserByIdResultListener {
+        void onUserUpdate(User user);
     }
 }

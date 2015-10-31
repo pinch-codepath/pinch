@@ -38,10 +38,14 @@ public class FacebookLoginDialog extends DialogFragment implements InsertIfMissi
     public FacebookLoginDialog() {
     }
 
+    public static FacebookLoginDialog newInstance() {
+        return new FacebookLoginDialog();
+    }
+
     @Override
     public void onUserUpdate(User user) {
         FacebookLoginDialogListener listener = (FacebookLoginDialogListener) getActivity();
-        if(user != null) {
+        if (user != null) {
             PinchApplication pinchApplication = (PinchApplication) this.getActivity().getApplication();
             pinchApplication.setUser(user);
             writeToSharedPreferences(getActivity(), getString(R.string.user_id), user.getId());
@@ -51,14 +55,6 @@ public class FacebookLoginDialog extends DialogFragment implements InsertIfMissi
             listener.onLoginSuccess();
         }
         dismiss();
-    }
-
-    public interface FacebookLoginDialogListener {
-        void onLoginSuccess();
-    }
-
-    public static FacebookLoginDialog newInstance() {
-        return new FacebookLoginDialog();
     }
 
     @NonNull
@@ -122,5 +118,9 @@ public class FacebookLoginDialog extends DialogFragment implements InsertIfMissi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public interface FacebookLoginDialogListener {
+        void onLoginSuccess();
     }
 }

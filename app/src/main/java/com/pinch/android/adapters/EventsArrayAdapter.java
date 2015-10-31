@@ -1,5 +1,7 @@
 package com.pinch.android.adapters;
 
+import com.google.api.client.util.DateTime;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.api.client.util.DateTime;
 import com.pinch.android.R;
 import com.pinch.android.Utils;
 import com.pinch.backend.eventEndpoint.model.Event;
@@ -17,11 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 public class EventsArrayAdapter extends ArrayAdapter<Event> {
-
-    public enum RowType {
-        DATE,
-        EVENT
-    }
 
     public EventsArrayAdapter(Context context, List<Event> events) {
         super(context, R.layout.item_event, events);
@@ -88,12 +84,12 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         if (convertView == null) {
             eventViewHolder = new EventViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_event, parent, false);
-            eventViewHolder.tvHours = (TextView)convertView.findViewById(R.id.tvHours);
-            eventViewHolder.tvTimeTo = (TextView)convertView.findViewById(R.id.tvTimeTo);
-            eventViewHolder.tvTimeFrom = (TextView)convertView.findViewById(R.id.tvTimeFrom);
-            eventViewHolder.tvLocation = (TextView)convertView.findViewById(R.id.tvLocation);
-            eventViewHolder.tvEventName = (TextView)convertView.findViewById(R.id.tvEventName);
-            eventViewHolder.tvNonProfit = (TextView)convertView.findViewById(R.id.tvNonProfit);
+            eventViewHolder.tvHours = (TextView) convertView.findViewById(R.id.tvHours);
+            eventViewHolder.tvTimeTo = (TextView) convertView.findViewById(R.id.tvTimeTo);
+            eventViewHolder.tvTimeFrom = (TextView) convertView.findViewById(R.id.tvTimeFrom);
+            eventViewHolder.tvLocation = (TextView) convertView.findViewById(R.id.tvLocation);
+            eventViewHolder.tvEventName = (TextView) convertView.findViewById(R.id.tvEventName);
+            eventViewHolder.tvNonProfit = (TextView) convertView.findViewById(R.id.tvNonProfit);
             convertView.setTag(eventViewHolder);
         } else {
             eventViewHolder = (EventViewHolder) convertView.getTag();
@@ -115,13 +111,13 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         if (convertView == null) {
             dateViewHolder = new DateViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_day, parent, false);
-            dateViewHolder.tvDate = (TextView)convertView.findViewById(R.id.tvDate);
-            dateViewHolder.tvHours = (TextView)convertView.findViewById(R.id.tvHours);
-            dateViewHolder.tvTimeTo = (TextView)convertView.findViewById(R.id.tvTimeTo);
-            dateViewHolder.tvTimeFrom = (TextView)convertView.findViewById(R.id.tvTimeFrom);
-            dateViewHolder.tvLocation = (TextView)convertView.findViewById(R.id.tvLocation);
-            dateViewHolder.tvEventName = (TextView)convertView.findViewById(R.id.tvEventName);
-            dateViewHolder.tvNonProfit = (TextView)convertView.findViewById(R.id.tvNonProfit);
+            dateViewHolder.tvDate = (TextView) convertView.findViewById(R.id.tvDate);
+            dateViewHolder.tvHours = (TextView) convertView.findViewById(R.id.tvHours);
+            dateViewHolder.tvTimeTo = (TextView) convertView.findViewById(R.id.tvTimeTo);
+            dateViewHolder.tvTimeFrom = (TextView) convertView.findViewById(R.id.tvTimeFrom);
+            dateViewHolder.tvLocation = (TextView) convertView.findViewById(R.id.tvLocation);
+            dateViewHolder.tvEventName = (TextView) convertView.findViewById(R.id.tvEventName);
+            dateViewHolder.tvNonProfit = (TextView) convertView.findViewById(R.id.tvNonProfit);
             convertView.setTag(dateViewHolder);
         } else {
             dateViewHolder = (DateViewHolder) convertView.getTag();
@@ -143,25 +139,6 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
         return convertView;
     }
 
-    private static class EventViewHolder {
-        TextView tvHours;
-        TextView tvTimeTo;
-        TextView tvTimeFrom;
-        TextView tvLocation;
-        TextView tvEventName;
-        TextView tvNonProfit;
-    }
-
-    private static class DateViewHolder {
-        TextView tvDate;
-        TextView tvHours;
-        TextView tvTimeTo;
-        TextView tvTimeFrom;
-        TextView tvLocation;
-        TextView tvEventName;
-        TextView tvNonProfit;
-    }
-
     private String getHours(DateTime from, DateTime to) {
         Calendar cal = Calendar.getInstance();
 
@@ -181,5 +158,29 @@ public class EventsArrayAdapter extends ArrayAdapter<Event> {
 
         return hourDiffStr + minDiffStr;
 
+    }
+
+    public enum RowType {
+        DATE,
+        EVENT
+    }
+
+    private static class EventViewHolder {
+        TextView tvHours;
+        TextView tvTimeTo;
+        TextView tvTimeFrom;
+        TextView tvLocation;
+        TextView tvEventName;
+        TextView tvNonProfit;
+    }
+
+    private static class DateViewHolder {
+        TextView tvDate;
+        TextView tvHours;
+        TextView tvTimeTo;
+        TextView tvTimeFrom;
+        TextView tvLocation;
+        TextView tvEventName;
+        TextView tvNonProfit;
     }
 }

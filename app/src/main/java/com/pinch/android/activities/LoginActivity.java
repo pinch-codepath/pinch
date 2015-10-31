@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements InsertIfMissingU
             }
         });
 
-        if(AccessToken.getCurrentAccessToken() != null) {
+        if (AccessToken.getCurrentAccessToken() != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             this.finish();
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements InsertIfMissingU
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        if(AccessToken.getCurrentAccessToken() != null) {
+        if (AccessToken.getCurrentAccessToken() != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             this.finish();

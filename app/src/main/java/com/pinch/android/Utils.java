@@ -1,6 +1,7 @@
 package com.pinch.android;
 
 import com.google.api.client.util.DateTime;
+
 import com.pinch.backend.eventEndpoint.model.Organization;
 
 import java.text.SimpleDateFormat;
@@ -52,8 +53,8 @@ public class Utils {
     }
 
     public static String getTimeString(DateTime dateTime) {
-         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-         return sdf.format(dateTime.getValue());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(dateTime.getValue());
     }
 
     public static String getDateString(DateTime dateTime) {

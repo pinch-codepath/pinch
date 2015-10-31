@@ -2,15 +2,10 @@ package com.pinch.android.remote;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import com.google.api.client.http.HttpResponse;
-import com.pinch.backend.eventEndpoint.model.Event;
-import com.pinch.backend.imageEndpoint.ImageEndpoint;
-import com.pinch.backend.organizationEndpoint.model.Organization;
 
-import java.io.File;
+import com.pinch.backend.eventEndpoint.model.Event;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 public class InsertEventTask extends AsyncTask<Void, Void, Void> {
 
@@ -18,10 +13,6 @@ public class InsertEventTask extends AsyncTask<Void, Void, Void> {
     Event event;
     Bitmap imageBitmap;
     long organizationId;
-
-    public interface InsertEventResultsListener {
-        void onEventInsert();
-    }
 
     public InsertEventTask(InsertEventResultsListener listener, long organizationId, Event event, Bitmap imageBitmap) {
         this.listener = listener;
@@ -72,6 +63,10 @@ public class InsertEventTask extends AsyncTask<Void, Void, Void> {
 //        }
 //        System.out.println(str);
 //        return null;
+    }
+
+    public interface InsertEventResultsListener {
+        void onEventInsert();
     }
 }
 
