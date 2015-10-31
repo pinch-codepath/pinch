@@ -12,254 +12,158 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@android:color/white"
         tools:context="com.pinch.android.activities.EventDetailsActivity">
 
         <!-- *********************************
          ************ Org Name ***************
          ************************************** -->
 
-        <TextView
-            android:id="@+id/tvOrgName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:gravity="center"
-            android:text="CREATE EVENT"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
         <!-- *********************************
          **************  Title   *************
          ************************************** -->
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_below="@+id/tvOrgName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Event Title"
-            android:textSize="@dimen/event_create_edit_text_size" />
-
         <EditText
             android:id="@+id/etTitle"
             android:layout_below="@+id/tvTitle"
+            android:hint="Event Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLength="100"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorPrimary"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textSize="@dimen/event_create_edit_text_size"
-            android:background="#50c5c5c5"
-            android:padding="8dp" />
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/white" />
 
-        <!-- *********************************
-         ************  Description ***********
-         ************************************** -->
+        <ImageView
+            android:id="@+id/ivPic"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etTitle"
+            android:layout_marginBottom="10dp"
+            android:src="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/tvDescription"
-            android:layout_below="@+id/etTitle"
+            android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/event_create_edit_text_size"
-            android:text="Event Description" />
-
-        <EditText
-            android:id="@+id/etDescription"
-            android:layout_below="@+id/tvDescription"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:maxLength="350"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:hint="mm/dd/yyyy"
+            android:drawableLeft="@drawable/ic_material_events_dark"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/ivPic"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="top|left"
-            android:textSize="@dimen/event_create_edit_text_size"
-            android:background="#50c5c5c5"
-            android:padding="8dp" />
+            android:layout_marginBottom="10dp"
+            android:focusable="false" />
 
-        <!-- *********************************
-             **************  Address   *************
-             ************************************** -->
+        <TextView
+            android:id="@+id/tvTimeFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:hint="hh:mm"
+            android:drawableLeft="@drawable/ic_material_clock_dark"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tvDate"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/tvLabelTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:hint="to"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_below="@+id/tvDate"
+            android:layout_toRightOf="@+id/tvTimeFrom"
+            android:layout_marginBottom="10dp"
+            android:focusable="false" />
+
+        <TextView
+            android:id="@+id/tvTimeTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:hint="hh:mm"
+            android:drawableLeft="@drawable/ic_material_clock_dark"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tvDate"
+            android:layout_toRightOf="@+id/tvLabelTo"
+            android:layout_marginBottom="10dp"
+            android:focusable="false" />
 
         <TextView
             android:id="@+id/tvAddress"
-            android:layout_below="@+id/etDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Address"
-            android:textSize="@dimen/event_create_edit_text_size" />
-
-        <EditText
-            android:id="@+id/etAddress"
-            android:layout_below="@+id/tvAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLength="200"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:hint="Address"
+            android:drawableLeft="@drawable/ic_material_location_dark"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/tvTimeFrom"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#50c5c5c5"
-            android:padding="8dp"
-            android:textSize="@dimen/event_create_edit_text_size"
+            android:layout_marginBottom="10dp"
             android:focusable="false" />
 
-        <!-- *********************************
-             **************  Skills   *************
-             ************************************** -->
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:lines="4"
+            android:maxLength="350"
+            android:gravity="top|left"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:hint="Enter details of the event"
+            android:background="@android:color/white"
+            android:padding="8dp"
+            android:layout_below="@+id/tvAddress"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:id="@+id/tvSkills"
-            android:layout_below="@+id/etAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Required Skills"
-            android:textSize="@dimen/event_create_edit_text_size" />
-
-        <EditText
-            android:id="@+id/etSkills"
-            android:layout_below="@+id/tvSkills"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLength="200"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:hint="Preferred skills"
+            android:drawableLeft="@drawable/ic_material_checklist_dark"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/etDescription"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#50c5c5c5"
-            android:padding="8dp"
-            android:textSize="@dimen/event_create_edit_text_size"
+            android:layout_marginBottom="10dp"
             android:focusable="false" />
 
-
-        <!-- ******************************
-             ************  Date ***********
-             ****************************** -->
-
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_below="@+id/etSkills"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="3dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/black"
-                android:background="#50c5c5c5"
-                android:hint="Date"
-                android:padding="8dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-                android:textSize="@dimen/event_create_edit_text_size"
-                android:focusable="false" />
-
-        <!-- ******************************
-             ************  Time ***********
-             ****************************** -->
-
-        <RelativeLayout
-            android:id="@+id/rlTime"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tvDate"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:focusable="false">
-
-            <TextView
-                android:id="@+id/tvTimeFrom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#50c5c5c5"
-                android:hint="Time From"
-                android:gravity="center"
-                android:padding="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="@dimen/event_create_edit_text_size"
-                android:textColor="@android:color/black"
-                android:focusable="false"/>
-            <TextView
-                android:id="@+id/tvTimeSeparator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tvTimeFrom"
-                android:background="#50c5c5c5"
-                android:hint="|"
-                android:padding="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="@dimen/event_create_edit_text_size"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/tvTimeTo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tvTimeSeparator"
-                android:background="#50c5c5c5"
-                android:gravity="center"
-                android:hint="Time to       "
-                android:padding="8dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="@dimen/event_create_edit_text_size"
-                android:textColor="@android:color/black"
-                android:focusable="false"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tvPhoto"
-            android:layout_below="@+id/rlTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/rlTime"
-            android:layout_alignTop="@+id/tvDate"
-            android:background="#50c5c5c5"
-            android:hint="Photo"
-            android:padding="8dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="@dimen/event_create_edit_text_size"
-            android:textColor="@android:color/black"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center"/>
-
         <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvSkills"
             android:id="@+id/btnCreate"
-            android:layout_below="@+id/tvPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/event_detail_margin_bottom"
-            android:background="#ffd73c2c"
-            android:text="Create"
-            android:padding="2dp"
-            android:textSize="@dimen/event_create_edit_text_size"
-        />
-
-
-
-
+            android:background="@color/colorPrimaryDark"
+            android:text="Create Event"
+            android:textSize="20sp"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"/>
 
     </RelativeLayout>
 </ScrollView>

@@ -39,14 +39,13 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
     protected View fragmentView;
 
     EditText etTitle;
-    EditText etSkills;
-    EditText etAddress;
-    EditText etDescription;
-
+    ImageView ivPhoto;
     TextView tvDate;
-    TextView tvPhoto;
     TextView tvTimeTo;
     TextView tvTimeFrom;
+    TextView tvAddress;
+    EditText etDescription;
+    TextView tvSkills;
 
     Calendar dateCalendar;
     Calendar timeFromCalendar;
@@ -82,23 +81,23 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
 
     protected void setupViews() {
         etTitle = (EditText) fragmentView.findViewById(R.id.etTitle);
-        etSkills = (EditText) fragmentView.findViewById(R.id.etSkills);
-        etAddress = (EditText) fragmentView.findViewById(R.id.etAddress);
+        tvSkills = (TextView) fragmentView.findViewById(R.id.tvSkills);
+        tvAddress = (TextView) fragmentView.findViewById(R.id.tvAddress);
         etDescription = (EditText) fragmentView.findViewById(R.id.etDescription);
         tvDate = (TextView) fragmentView.findViewById(R.id.tvDate);
         tvTimeFrom = (TextView) fragmentView.findViewById(R.id.tvTimeFrom);
         tvTimeTo = (TextView) fragmentView.findViewById(R.id.tvTimeTo);
-        tvPhoto = (TextView) fragmentView.findViewById(R.id.tvPhoto);
+        ivPhoto = (ImageView) fragmentView.findViewById(R.id.ivPic);
         btnCreate = (Button) fragmentView.findViewById(R.id.btnCreate);
     }
 
     protected void setupListener() {
-        etAddress.setOnClickListener(this);
-        etSkills.setOnClickListener(this);
+        tvAddress.setOnClickListener(this);
+        tvSkills.setOnClickListener(this);
         tvDate.setOnClickListener(this);
         tvTimeFrom.setOnClickListener(this);
         tvTimeTo.setOnClickListener(this);
-        tvPhoto.setOnClickListener(this);
+        ivPhoto.setOnClickListener(this);
         btnCreate.setOnClickListener(this);
     }
 
@@ -106,11 +105,11 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.etAddress:
+            case R.id.tvAddress:
                 showAddressDialog();
                 break;
 
-            case R.id.etSkills:
+            case R.id.tvSkills:
                 showSkillsDialog();
                 break;
 
@@ -126,7 +125,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
                 showTimeToDialog();
                 break;
 
-            case R.id.tvPhoto:
+            case R.id.ivPic:
                 uploadPhoto();
                 break;
 
@@ -149,7 +148,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
 
     public void onFinishAddressDialog(String street, String city, String state, String zip, String neighborhood) {
         String address = street + " (" + neighborhood + "), " + city + ", " + state + ", " + zip;
-        etAddress.setText(address);
+        tvAddress.setText(address);
         this.addressStreet = street;
         this.addressCity = city;
         this.addressZip = zip;
@@ -166,7 +165,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
 
     public void onFinishSkillsDialog(String skill1, String skill2, String skill3) {
         String skills = skill1 + ", " + skill2 + ", " + skill3;
-        etSkills.setText(skills);
+        tvSkills.setText(skills);
         this.skill1 = skill1;
         this.skill2 = skill2;
         this.skill3 = skill3;
@@ -228,7 +227,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 dateCalendar.set(year, monthOfYear, dayOfMonth);
-                tvDate.setText(new SimpleDateFormat("MM/dd").format(dateCalendar.getTime()));
+                tvDate.setText(new SimpleDateFormat("MM/dd/yyyy").format(dateCalendar.getTime()));
             }
         }, year, month, day);
 
@@ -255,7 +254,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
                         hour,
                         minute
                 );
-                tvTimeFrom.setText(hour + ":" + minute);
+                tvTimeFrom.setText(new SimpleDateFormat("HH:mm").format(timeFromCalendar.getTime()));
 
             }
         }, hour, min, true);
@@ -283,7 +282,7 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
                         hour,
                         minute
                 );
-                tvTimeTo.setText(hour + ":" + minute);
+                tvTimeTo.setText(new SimpleDateFormat("HH:mm").format(timeToCalendar.getTime()));
 
             }
         }, hour, min, true);
@@ -312,40 +311,42 @@ public class EventCreateFragment extends Fragment implements OnClickListener, Ad
             return;
         }
 
-        /************************
-         * Create Image View
-         ************************/
-        ImageView ivPic = new ImageView(getContext());
-        ivPic.setId(R.id.ivPic);
-        /************************
-         * Set Layout Params
-         * ************************/
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.etTitle);
-        params.addRule(RelativeLayout.BELOW, R.id.tvOrgName);
-        // params.width = 100;
-        params.height = 100;
-        params.bottomMargin = 15;
-        /************************
-         * Add View
-         * ************************/
-        RelativeLayout topLayout = (RelativeLayout) fragmentView.findViewById(R.id.topLayout);
-        topLayout.addView(ivPic, params);
-        /************************
-         * Set Pic
-         * ************************/
-        ivPic.setImageBitmap(eventImage);
-        /************************
-         * Adjust rest of the content
-         * ************************/
-        RelativeLayout.LayoutParams llParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        llParams.addRule(RelativeLayout.BELOW, 0);
-        llParams.addRule(RelativeLayout.BELOW, R.id.ivPic);
-        llParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        TextView tvTitle = (TextView) fragmentView.findViewById(R.id.tvTitle);
-        tvTitle.setLayoutParams(llParams);
+        ivPhoto.setImageBitmap(eventImage);
+
+//        /************************
+//         * Create Image View
+//         ************************/
+//        ImageView ivPic = new ImageView(getContext());
+//        ivPic.setId(R.id.ivPic);
+//        /************************
+//         * Set Layout Params
+//         * ************************/
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        params.addRule(RelativeLayout.ALIGN_LEFT, R.id.etTitle);
+//        params.addRule(RelativeLayout.BELOW, R.id.tvOrgName);
+//        // params.width = 100;
+//        params.height = 100;
+//        params.bottomMargin = 15;
+//        /************************
+//         * Add View
+//         * ************************/
+//        RelativeLayout topLayout = (RelativeLayout) fragmentView.findViewById(R.id.topLayout);
+//        topLayout.addView(ivPic, params);
+//        /************************
+//         * Set Pic
+//         * ************************/
+//        ivPic.setImageBitmap(eventImage);
+//        /************************
+//         * Adjust rest of the content
+//         * ************************/
+//        RelativeLayout.LayoutParams llParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT);
+//        llParams.addRule(RelativeLayout.BELOW, 0);
+//        llParams.addRule(RelativeLayout.BELOW, R.id.ivPic);
+//        llParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//        TextView tvTitle = (TextView) fragmentView.findViewById(R.id.tvTitle);
+//        tvTitle.setLayoutParams(llParams);
     }
 
 }
