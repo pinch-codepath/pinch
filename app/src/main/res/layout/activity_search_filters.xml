@@ -15,8 +15,8 @@
         android:layout_marginTop="15dp"/>
 
     <LinearLayout
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:id="@+id/llFromCalendar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -26,22 +26,23 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="175dp"
-            android:layout_height="30dp"
+            android:layout_width="125dp"
+            android:layout_height="25dp"
             android:background="#8d8d8d"
-            android:padding="6dp"
+            android:padding="5dp"
             android:text="FROM"
+            android:textSize="12sp"
             android:textAlignment="center"
             android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="4dp"
             android:id="@+id/tvFromMonth"
             android:text="MMM"
             android:textAllCaps="true"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             />
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvFromDate"
             android:text="DD"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             />
@@ -59,15 +60,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvFromYear"
             android:text="YYYY"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
         android:id="@+id/llToCalendar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -77,22 +78,23 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="175dp"
-            android:layout_height="30dp"
+            android:layout_width="125dp"
+            android:layout_height="25dp"
             android:background="#8d8d8d"
-            android:padding="6dp"
+            android:padding="5dp"
             android:text="TO"
+            android:textSize="12sp"
             android:textAlignment="center"
             android:textColor="@android:color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:id="@+id/tvToMonth"
             android:text="MMM"
             android:textAllCaps="true"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             />
@@ -101,7 +103,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvToDate"
             android:text="DD"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             />
@@ -110,7 +112,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvToYear"
             android:text="YYYY"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
             />

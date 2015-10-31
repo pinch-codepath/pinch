@@ -27,7 +27,7 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     public EventsFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
-        tabs.add(new Tab(SEARCH, R.drawable.ic_tab_calendar, R.drawable.ic_tab_calendar));
+        tabs.add(new Tab(SEARCH, R.drawable.ic_tab_calendar, R.drawable.ic_material_home));
     }
 
     @Override
@@ -70,8 +70,8 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
 
     @Override
     public int getPageIconResId(int position) {
-//        return materialTabIcons[i];
-        return tabs.get(position).tabIcon;
+        return tabs.get(position).materialTabIcons;
+//        return tabs.get(position).tabIcon;
     }
 
     public static class Tab {
