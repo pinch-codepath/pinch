@@ -142,6 +142,7 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvOrgAddress = (TextView) findViewById(R.id.tvOrgAddress);
         mTvOrgPhone = (TextView) findViewById(R.id.tvOrgPhoneNumber);
         mTvOrgUrl = (TextView) findViewById(R.id.tvOrgUrl);
+        mBtnFavoriteOrg = (Button) findViewById(R.id.btFollow);
 
         mTvEventDate.setText(this.eventDate);
         mTvEventTime.setText(this.eventTime);
@@ -150,9 +151,9 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvEventDescription.setText(this.eventDescription);
         mTvRequirements.setText(this.eventSkill1 + ", " + this.eventSkill2 + ", " + this.eventSkill3);
         mTvOrgName.setText(this.eventOrgName);
-        mTvOrgAddress.setText(this.eventOrgAddress);
-        mTvOrgPhone.setText(this.eventOrgPhone);
-        mTvOrgUrl.setText(this.eventOrgUrl);
+        mTvOrgAddress.setText("Address:\n" + this.eventOrgAddress);
+        mTvOrgPhone.setText("Ph:(" + this.eventOrgPhone.substring(0, 3) + ")" + this.eventOrgPhone.substring(3,6) + "-" + this.eventOrgPhone.substring(6,10));
+        mTvOrgUrl.setText("Website: " + this.eventOrgUrl);
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -278,7 +279,7 @@ public class EventDetailsActivity extends AppCompatActivity
 
     @Override
     public void onUnfavoriteOrg() {
-        mBtnFavoriteOrg.setText("Favorite Org");
+        mBtnFavoriteOrg.setText("Follow");
         this.favorite = null;
         Toast.makeText(getApplicationContext(), "Not following org!!", Toast.LENGTH_SHORT).show();
         PinchApplication application = (PinchApplication)getApplication();
@@ -287,7 +288,7 @@ public class EventDetailsActivity extends AppCompatActivity
 
     @Override
     public void onFavoriteOrg(Favorite v) {
-        mBtnFavoriteOrg.setText("Following Org!!");
+        mBtnFavoriteOrg.setText("Following!");
         this.favorite = v;
         Toast.makeText(getApplicationContext(), "Following Org!!", Toast.LENGTH_SHORT).show();
         PinchApplication application = (PinchApplication)getApplication();
@@ -298,7 +299,7 @@ public class EventDetailsActivity extends AppCompatActivity
     public void onHasFavoriteResult(Favorite favorite) {
         this.favorite = favorite;
         if(favorite != null && mBtnFavoriteOrg != null) {
-            mBtnFavoriteOrg.setText("Following Org!!");
+            mBtnFavoriteOrg.setText("Following!");
         }
     }
 }

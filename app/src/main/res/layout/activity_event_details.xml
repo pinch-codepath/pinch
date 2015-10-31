@@ -22,6 +22,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@android:color/white"
             tools:context="com.pinch.android.activities.EventDetailsActivity">
 
             <ImageView
@@ -156,9 +157,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="200dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Organization Name"
                 android:id="@+id/tvOrgName"
+                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/divider"
                 android:layout_toRightOf="@+id/ivIconOrg"
                 android:layout_alignLeft="@+id/tvEventDate"
@@ -167,9 +170,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="200dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Organization Address"
                 android:id="@+id/tvOrgAddress"
+                android:layout_marginBottom="10dp"
                 android:layout_alignLeft="@+id/tvEventDate"
                 android:layout_alignStart="@+id/tvEventDate"
                 android:layout_below="@+id/tvOrgName"/>
@@ -177,9 +182,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="200dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Organization Phone Number"
                 android:id="@+id/tvOrgPhoneNumber"
+                android:layout_marginBottom="10dp"
                 android:layout_alignLeft="@+id/tvEventDate"
                 android:layout_alignStart="@+id/tvEventDate"
                 android:layout_below="@+id/tvOrgAddress"/>
@@ -190,10 +197,26 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Organization Email ID"
                 android:id="@+id/tvOrgUrl"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="30dp"
                 android:layout_alignLeft="@+id/tvEventDate"
                 android:layout_alignStart="@+id/tvEventDate"
                 android:layout_below="@+id/tvOrgPhoneNumber"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="Follow"
+                android:textAllCaps="false"
+                android:textColor="#7d0a0b"
+                android:paddingRight="10dp"
+                android:background="@android:color/white"
+                android:drawableLeft="@drawable/ic_action_fav_red"
+                android:id="@+id/btFollow"
+                android:layout_alignTop="@+id/tvOrgName"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="19dp"
+                android:layout_marginEnd="19dp" />
 
         </RelativeLayout>
     </ScrollView>
