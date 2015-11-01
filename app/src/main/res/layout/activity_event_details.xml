@@ -27,6 +27,7 @@
 
             <ImageView
                 android:id="@+id/ivPic"
+                android:transitionName="eventImage"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_alignParentLeft="true"
@@ -53,6 +54,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="mm/dd/yyyy"
                 android:id="@+id/tvEventDate"
+                android:transitionName="eventDate"
                 android:layout_below="@+id/ivPic"
                 android:layout_toRightOf="@+id/ivIconCalendar"
                 android:layout_marginLeft="10dp"/>
@@ -63,6 +65,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="hh:mm - hh:mm"
                 android:id="@+id/tvEventTime"
+                android:transitionName="eventTime"
                 android:layout_marginBottom="10dp"
                 android:layout_alignLeft="@+id/tvEventDate"
                 android:layout_alignStart="@+id/tvEventDate"

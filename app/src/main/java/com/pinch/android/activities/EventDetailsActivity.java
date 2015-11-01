@@ -3,6 +3,7 @@ package com.pinch.android.activities;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.pinch.android.remote.UnfavoriteOrgTask;
 import com.pinch.backend.favoriteEndpoint.model.Favorite;
 import com.pinch.backend.signUpEndpoint.model.SignUp;
 import com.pinch.backend.userEndpoint.model.User;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class EventDetailsActivity extends AppCompatActivity
@@ -85,6 +88,10 @@ public class EventDetailsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_event_details);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        }
 
         eventId = (Long) getIntent().getLongExtra("eventId", 0);
         eventTitle = (String) getIntent().getStringExtra("eventTitle");
@@ -176,7 +183,30 @@ public class EventDetailsActivity extends AppCompatActivity
         }
 
 //        mIvPic.setImageResource(0);
-        Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic, new Callback() {
+                @Override
+                public void onSuccess() {
+                    mIvPic.getViewTreeObserver().addOnPreDrawListener(
+                            new ViewTreeObserver.OnPreDrawListener() {
+                                @Override
+                                public boolean onPreDraw() {
+                                    mIvPic.getViewTreeObserver().removeOnPreDrawListener(this);
+                                    startPostponedEnterTransition();
+                                    return true;
+                                }
+                            });
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+        }
+        else {
+            Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
+        }
 
         if (AccessToken.getCurrentAccessToken() != null) {
             User user = getUser();
