@@ -13,14 +13,14 @@ import android.widget.ProgressBar;
 import com.pinch.android.R;
 
 
-public class UserProfileGoalsFragment extends Fragment {
+public class UserProfileFriendsFragment extends Fragment {
     protected View fragmentView;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.fragment_profile_goals, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_profile_friends, container, false);
         return fragmentView;
     }
 
