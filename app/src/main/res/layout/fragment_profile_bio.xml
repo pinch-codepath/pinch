@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvInterestsHead"
+        android:layout_marginLeft="@dimen/user_profile_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Interests"
+        android:layout_marginTop="12dp"
+        android:textStyle="bold" />
+
+    <ViewSwitcher
+        android:id="@+id/interestsSwitcher"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvInterestsHead"
+        android:layout_marginLeft="@dimen/user_profile_margin"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp">
+
+        <TextView
+            android:id="@+id/tvInterests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:textSize="14sp"
+            android:layout_marginLeft="@dimen/user_profile_tv_margin"
+            android:layout_marginTop="1dp"
+            android:text="Click me to edit" />
+
+        <EditText
+            android:id="@+id/etInterests"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </EditText>
+    </ViewSwitcher>
+
+    <TextView
+        android:id="@+id/tvBioHead"
+        android:layout_below="@id/interestsSwitcher"
+        android:layout_marginLeft="@dimen/user_profile_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Bio"
+        android:textStyle="bold" />
+
+    <ViewSwitcher
+        android:id="@+id/bioSwitcher"
+        android:layout_below="@id/tvBioHead"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/user_profile_margin"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp">
+
+        <TextView
+            android:id="@+id/tvBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/user_profile_tv_margin"
+            android:layout_marginTop="1dp"
+            android:clickable="true"
+            android:text="Click this box to edit. Click again to set. "
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/etBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Bio here"
+            android:textSize="14sp">
+        </EditText>
+    </ViewSwitcher>
+
+</RelativeLayout>
