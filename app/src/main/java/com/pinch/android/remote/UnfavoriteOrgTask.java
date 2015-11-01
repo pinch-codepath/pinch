@@ -12,10 +12,6 @@ public class UnfavoriteOrgTask extends AsyncTask<Long, Void, Void> {
         this.listener = listener;
     }
 
-    public interface UnfavoriteOrgResultListener {
-        void onUnfavoriteOrg();
-    }
-
     @Override
     protected void onPostExecute(Void v) {
         listener.onUnfavoriteOrg();
@@ -29,5 +25,9 @@ public class UnfavoriteOrgTask extends AsyncTask<Long, Void, Void> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public interface UnfavoriteOrgResultListener {
+        void onUnfavoriteOrg();
     }
 }

@@ -11,10 +11,6 @@ import java.util.List;
 public class GetAffiliationsForUserTask extends AsyncTask<Long, Void, List<Organization>> {
     GetSignedUpEventsForUserResultListener listener;
 
-    public interface GetSignedUpEventsForUserResultListener {
-        void onEventsFetched(List<Organization> organizations);
-    }
-
     public GetAffiliationsForUserTask(GetSignedUpEventsForUserResultListener listener) {
         this.listener = listener;
     }
@@ -23,7 +19,7 @@ public class GetAffiliationsForUserTask extends AsyncTask<Long, Void, List<Organ
     protected List<Organization> doInBackground(Long... userIds) {
         try {
             List<Organization> items = Endpoints.getInstance().userEndpoint.getAffiliationsForUser(userIds[0]).execute().getItems();
-            if(items == null) {
+            if (items == null) {
                 items = new ArrayList<>();
             }
             return items;
@@ -36,5 +32,9 @@ public class GetAffiliationsForUserTask extends AsyncTask<Long, Void, List<Organ
     @Override
     protected void onPostExecute(List<Organization> organizations) {
         listener.onEventsFetched(organizations);
+    }
+
+    public interface GetSignedUpEventsForUserResultListener {
+        void onEventsFetched(List<Organization> organizations);
     }
 }

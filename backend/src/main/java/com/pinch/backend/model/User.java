@@ -17,6 +17,7 @@ public class User {
     String authSource;
     private String name;
     private String emailAddress;
+    private String gcmToken;
     @Ignore
     private List<Organization> affiliations;
 
@@ -68,4 +69,11 @@ public class User {
         this.authId = authId;
     }
 
+    public String getGcmToken() {
+        return gcmToken;
+    }
+
+    public void setGcmToken(String gcmToken) {
+        this.gcmToken = gcmToken;
+    }
 }

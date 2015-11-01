@@ -12,10 +12,6 @@ public class GetOpenEventsTask extends AsyncTask<Void, Void, List<Event>> {
 
     GetOpenEventsResultsListener listener;
 
-    public interface GetOpenEventsResultsListener {
-        void onEventsFetched(List<Event> events);
-    }
-
     public GetOpenEventsTask(GetOpenEventsResultsListener listener) {
         this.listener = listener;
     }
@@ -33,5 +29,9 @@ public class GetOpenEventsTask extends AsyncTask<Void, Void, List<Event>> {
     @Override
     protected void onPostExecute(List<Event> events) {
         listener.onEventsFetched(events);
+    }
+
+    public interface GetOpenEventsResultsListener {
+        void onEventsFetched(List<Event> events);
     }
 }

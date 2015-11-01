@@ -15,10 +15,6 @@ public class GetUserByAuthTask extends AsyncTask<String, Void, User> {
         this.listener = listener;
     }
 
-    public interface GetUserByAuthResultListener {
-        void onUserUpdate(User user);
-    }
-
     @Override
     protected void onPostExecute(User user) {
         listener.onUserUpdate(user);
@@ -32,5 +28,9 @@ public class GetUserByAuthTask extends AsyncTask<String, Void, User> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public interface GetUserByAuthResultListener {
+        void onUserUpdate(User user);
     }
 }

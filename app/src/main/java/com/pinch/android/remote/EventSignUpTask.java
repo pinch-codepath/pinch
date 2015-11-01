@@ -14,10 +14,6 @@ public class EventSignUpTask extends AsyncTask<SignUp, Void, SignUp> {
         this.listener = listener;
     }
 
-    public interface EventSignUpTaskResultListener {
-        void onEventSignUp(SignUp signUp);
-    }
-
     @Override
     protected void onPostExecute(SignUp signUp) {
         listener.onEventSignUp(signUp);
@@ -31,5 +27,9 @@ public class EventSignUpTask extends AsyncTask<SignUp, Void, SignUp> {
             e.printStackTrace();
             return params[0];
         }
+    }
+
+    public interface EventSignUpTaskResultListener {
+        void onEventSignUp(SignUp signUp);
     }
 }

@@ -12,10 +12,6 @@ public class RemoveEventSignUpTask extends AsyncTask<Long, Void, Void> {
         this.listener = listener;
     }
 
-    public interface RemoveEventSignUpTaskResultListener {
-        void onRemoveEventSignUp();
-    }
-
     @Override
     protected void onPostExecute(Void v) {
         listener.onRemoveEventSignUp();
@@ -29,5 +25,9 @@ public class RemoveEventSignUpTask extends AsyncTask<Long, Void, Void> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public interface RemoveEventSignUpTaskResultListener {
+        void onRemoveEventSignUp();
     }
 }

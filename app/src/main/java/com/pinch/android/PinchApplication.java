@@ -9,6 +9,7 @@ import com.pinch.android.events.RefreshUserFavoritesEvent;
 import com.pinch.android.events.RefreshUserSignupsEvent;
 import com.pinch.android.events.RemoveUserTabsEvent;
 import com.pinch.android.remote.GetUserByAuthTask;
+import com.pinch.android.remote.UpdateGSMTokenTask;
 import com.pinch.backend.userEndpoint.model.User;
 import com.squareup.otto.Bus;
 
@@ -21,12 +22,11 @@ import com.squareup.otto.Bus;
  *     // use client to send requests to API
  *
  */
-public class PinchApplication extends android.app.Application implements GetUserByAuthTask.GetUserByAuthResultListener {
+public class PinchApplication extends android.app.Application implements GetUserByAuthTask.GetUserByAuthResultListener, UpdateGSMTokenTask.UpdateGSMTokenUserResultListener {
     private static Context context;
-
-    private User user;
-
     public Bus bus = new Bus();
+    private User user;
+    private String gcmToken;
 
     @Override
     public void onCreate() {
@@ -35,7 +35,7 @@ public class PinchApplication extends android.app.Application implements GetUser
     }
 
     public User getUser() {
-        if(user == null && AccessToken.getCurrentAccessToken() != null) {
+        if (user == null && AccessToken.getCurrentAccessToken() != null) {
             new GetUserByAuthTask(this).execute(AccessToken.getCurrentAccessToken().getUserId());
         }
         return user;
@@ -43,14 +43,19 @@ public class PinchApplication extends android.app.Application implements GetUser
 
     public void setUser(User user) {
         this.user = user;
-        if(user == null){
+        if (user == null) {
             bus.post(new RemoveUserTabsEvent());
         } else {
             bus.post(new AddUserTabsEvent());
             bus.post(new RefreshUserFavoritesEvent());
             bus.post(new RefreshUserSignupsEvent());
-            if(user.getAffiliations() != null && user.getAffiliations().size() > 0) {
+            if (user.getAffiliations() != null && user.getAffiliations().size() > 0) {
                 bus.post(new AddOrgTabsEvent());
+            }
+            if(gcmToken != null && user.getGcmToken() != gcmToken){
+                // update gcm token
+                UpdateGSMTokenTask.UpdateGSMTokenRequest request = new UpdateGSMTokenTask.UpdateGSMTokenRequest(user.getId(), gcmToken);
+                new UpdateGSMTokenTask(this).execute(request);
             }
         }
     }
@@ -58,5 +63,23 @@ public class PinchApplication extends android.app.Application implements GetUser
     @Override
     public void onUserUpdate(User user) {
         setUser(user);
+    }
+
+    public String getGcmToken() {
+        return gcmToken;
+    }
+
+    public void setGcmToken(String gcmToken) {
+        this.gcmToken = gcmToken;
+        if(user != null && user.getGcmToken() != gcmToken){
+            UpdateGSMTokenTask.UpdateGSMTokenRequest request = new UpdateGSMTokenTask.UpdateGSMTokenRequest(user.getId(), gcmToken);
+            new UpdateGSMTokenTask(this).execute(request);
+            // update gcm token
+        }
+    }
+
+    @Override
+    public void onGSMTokenUpdate(User user) {
+        this.user = user;
     }
 }

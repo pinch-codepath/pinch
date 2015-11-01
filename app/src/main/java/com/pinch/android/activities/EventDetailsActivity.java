@@ -3,13 +3,15 @@ package com.pinch.android.activities;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,14 +29,11 @@ import com.pinch.android.remote.HasFavoriteForOrgTask;
 import com.pinch.android.remote.HasSignedUpForEventTask;
 import com.pinch.android.remote.RemoveEventSignUpTask;
 import com.pinch.android.remote.UnfavoriteOrgTask;
-import com.pinch.backend.eventEndpoint.model.Event;
 import com.pinch.backend.favoriteEndpoint.model.Favorite;
 import com.pinch.backend.signUpEndpoint.model.SignUp;
 import com.pinch.backend.userEndpoint.model.User;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import static com.pinch.android.util.SharedPreferenceUtil.getSharedPreferenceLongFromKey;
 
 public class EventDetailsActivity extends AppCompatActivity
         implements FacebookLoginDialog.FacebookLoginDialogListener,
@@ -90,25 +89,29 @@ public class EventDetailsActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_event_details);
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+        }
+
         eventId = (Long) getIntent().getLongExtra("eventId", 0);
-        eventTitle = (String)getIntent().getStringExtra("eventTitle");
-        eventDescription = (String)getIntent().getStringExtra("eventDescription");
-        eventAddressStreet = (String)getIntent().getStringExtra("eventAddressStreet");
-        eventAddressCity = (String)getIntent().getStringExtra("eventAddressCity");
-        eventAddressState = (String)getIntent().getStringExtra("eventAddressState");
-        eventAddressNeighborhood = (String)getIntent().getStringExtra("eventAddressNeighborHood");
-        eventAddressZip = (Long)getIntent().getLongExtra("eventAddressZip", 0);
-        eventSkill1 = (String)getIntent().getStringExtra("eventSkill1");
-        eventSkill2 = (String)getIntent().getStringExtra("eventSkill2");
-        eventSkill3 = (String)getIntent().getStringExtra("eventSkill3");
-        eventUrl = (String)getIntent().getStringExtra("eventUrl");
-        eventDate = (String)getIntent().getStringExtra("eventDate");
-        eventTime = (String)getIntent().getStringExtra("eventTime");
-        eventOrgName = (String)getIntent().getStringExtra("eventOrgName");
-        eventOrgAddress = (String)getIntent().getStringExtra("eventOrgAddress");
-        eventOrgPhone = (String)getIntent().getStringExtra("eventOrgPhone");
+        eventTitle = (String) getIntent().getStringExtra("eventTitle");
+        eventDescription = (String) getIntent().getStringExtra("eventDescription");
+        eventAddressStreet = (String) getIntent().getStringExtra("eventAddressStreet");
+        eventAddressCity = (String) getIntent().getStringExtra("eventAddressCity");
+        eventAddressState = (String) getIntent().getStringExtra("eventAddressState");
+        eventAddressNeighborhood = (String) getIntent().getStringExtra("eventAddressNeighborHood");
+        eventAddressZip = (Long) getIntent().getLongExtra("eventAddressZip", 0);
+        eventSkill1 = (String) getIntent().getStringExtra("eventSkill1");
+        eventSkill2 = (String) getIntent().getStringExtra("eventSkill2");
+        eventSkill3 = (String) getIntent().getStringExtra("eventSkill3");
+        eventUrl = (String) getIntent().getStringExtra("eventUrl");
+        eventDate = (String) getIntent().getStringExtra("eventDate");
+        eventTime = (String) getIntent().getStringExtra("eventTime");
+        eventOrgName = (String) getIntent().getStringExtra("eventOrgName");
+        eventOrgAddress = (String) getIntent().getStringExtra("eventOrgAddress");
+        eventOrgPhone = (String) getIntent().getStringExtra("eventOrgPhone");
         eventOrgId = getIntent().getLongExtra("eventOrgId", 0);
-        eventOrgUrl = (String)getIntent().getStringExtra("eventOrgUrl");
+        eventOrgUrl = (String) getIntent().getStringExtra("eventOrgUrl");
 
         setupToolbar();
         setupViewObjects();
@@ -119,7 +122,7 @@ public class EventDetailsActivity extends AppCompatActivity
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        if(ab != null) {
+        if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setTitle(eventTitle);
             Drawable upArrow = ContextCompat.getDrawable(getApplicationContext(), R.drawable.abc_ic_ab_back_mtrl_am_alpha);
@@ -152,7 +155,7 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvRequirements.setText(this.eventSkill1 + ", " + this.eventSkill2 + ", " + this.eventSkill3);
         mTvOrgName.setText(this.eventOrgName);
         mTvOrgAddress.setText("Address:\n" + this.eventOrgAddress);
-        mTvOrgPhone.setText("Ph:(" + this.eventOrgPhone.substring(0, 3) + ")" + this.eventOrgPhone.substring(3,6) + "-" + this.eventOrgPhone.substring(6,10));
+        mTvOrgPhone.setText("Ph:(" + this.eventOrgPhone.substring(0, 3) + ")" + this.eventOrgPhone.substring(3, 6) + "-" + this.eventOrgPhone.substring(6, 10));
         mTvOrgUrl.setText("Website: " + this.eventOrgUrl);
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -166,13 +169,12 @@ public class EventDetailsActivity extends AppCompatActivity
             }
         });
 
-        if(mBtnFavoriteOrg != null) {
+        if (mBtnFavoriteOrg != null) {
             mBtnFavoriteOrg.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if(AccessToken.getCurrentAccessToken() != null) {
+                    if (AccessToken.getCurrentAccessToken() != null) {
                         onFavoriteButtonClicked();
-                    }
-                    else {
+                    } else {
                         lastClick = "favorite";
                         openFacebookLoginDialog();
                     }
@@ -181,11 +183,34 @@ public class EventDetailsActivity extends AppCompatActivity
         }
 
 //        mIvPic.setImageResource(0);
-        Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic, new Callback() {
+                @Override
+                public void onSuccess() {
+                    mIvPic.getViewTreeObserver().addOnPreDrawListener(
+                            new ViewTreeObserver.OnPreDrawListener() {
+                                @Override
+                                public boolean onPreDraw() {
+                                    mIvPic.getViewTreeObserver().removeOnPreDrawListener(this);
+                                    startPostponedEnterTransition();
+                                    return true;
+                                }
+                            });
+                }
 
-        if(AccessToken.getCurrentAccessToken() != null) {
+                @Override
+                public void onError() {
+
+                }
+            });
+        }
+        else {
+            Picasso.with(this).load(eventUrl).fit().centerCrop().into(mIvPic);
+        }
+
+        if (AccessToken.getCurrentAccessToken() != null) {
             User user = getUser();
-            if(user != null) {
+            if (user != null) {
                 SignUp signUp = new SignUp();
                 signUp.setUserId(user.getId());
                 signUp.setEventId(eventId);
@@ -202,11 +227,11 @@ public class EventDetailsActivity extends AppCompatActivity
     }
 
     private void onFavoriteButtonClicked() {
-        if(favorite != null) {
+        if (favorite != null) {
             new UnfavoriteOrgTask(this).execute(favorite.getId());
         } else {
             User user = getUser();
-            if(user != null) {
+            if (user != null) {
                 Favorite favorite = new Favorite();
                 favorite.setUserId(user.getId());
                 favorite.setOrganizationId(eventOrgId);
@@ -221,14 +246,14 @@ public class EventDetailsActivity extends AppCompatActivity
     }
 
     private void onSignupButtonClicked() {
-        if(signUp != null) {
+        if (signUp != null) {
             new RemoveEventSignUpTask(this).execute(signUp.getId());
         } else {
             User user = getUser();
-            if(user != null) {
-                   SignUp signUp = new SignUp();
-                    signUp.setUserId(user.getId());
-                    signUp.setEventId(eventId);
+            if (user != null) {
+                SignUp signUp = new SignUp();
+                signUp.setUserId(user.getId());
+                signUp.setEventId(eventId);
                 new EventSignUpTask(this).execute(signUp);
             }
         }
@@ -242,8 +267,8 @@ public class EventDetailsActivity extends AppCompatActivity
 
     @Override
     public void onLoginSuccess() {
-        if(AccessToken.getCurrentAccessToken() != null) {
-            if(lastClick.equals("sign up")) {
+        if (AccessToken.getCurrentAccessToken() != null) {
+            if (lastClick.equals("sign up")) {
                 onSignupButtonClicked();
             } else {
                 onFavoriteButtonClicked();
@@ -256,7 +281,7 @@ public class EventDetailsActivity extends AppCompatActivity
         mBtnSignUp.setText("Signed Up!!");
         this.signUp = signUp;
         Toast.makeText(getApplicationContext(), "Signed Up!!", Toast.LENGTH_SHORT).show();
-        PinchApplication application = (PinchApplication)getApplication();
+        PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserSignupsEvent());
     }
 
@@ -265,14 +290,14 @@ public class EventDetailsActivity extends AppCompatActivity
         mBtnSignUp.setText("Sign Up");
         this.signUp = null;
         Toast.makeText(getApplicationContext(), "Remove sign up!!", Toast.LENGTH_SHORT).show();
-        PinchApplication application = (PinchApplication)getApplication();
+        PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserSignupsEvent());
     }
 
     @Override
     public void onHasSignUpResult(SignUp signedUp) {
         this.signUp = signedUp;
-        if(signUp != null) {
+        if (signUp != null) {
             mBtnSignUp.setText("Signed Up!!");
         }
     }
@@ -282,7 +307,7 @@ public class EventDetailsActivity extends AppCompatActivity
         mBtnFavoriteOrg.setText("Follow");
         this.favorite = null;
         Toast.makeText(getApplicationContext(), "Not following org!!", Toast.LENGTH_SHORT).show();
-        PinchApplication application = (PinchApplication)getApplication();
+        PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserFavoritesEvent());
     }
 
@@ -291,14 +316,14 @@ public class EventDetailsActivity extends AppCompatActivity
         mBtnFavoriteOrg.setText("Following!");
         this.favorite = v;
         Toast.makeText(getApplicationContext(), "Following Org!!", Toast.LENGTH_SHORT).show();
-        PinchApplication application = (PinchApplication)getApplication();
+        PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserFavoritesEvent());
     }
 
     @Override
     public void onHasFavoriteResult(Favorite favorite) {
         this.favorite = favorite;
-        if(favorite != null && mBtnFavoriteOrg != null) {
+        if (favorite != null && mBtnFavoriteOrg != null) {
             mBtnFavoriteOrg.setText("Following!");
         }
     }

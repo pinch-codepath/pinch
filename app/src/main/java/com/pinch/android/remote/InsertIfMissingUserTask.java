@@ -14,10 +14,6 @@ public class InsertIfMissingUserTask extends AsyncTask<User, Void, User> {
         this.listener = listener;
     }
 
-    public interface InsertIfMissingUserResultListener {
-        void onUserUpdate(User user);
-    }
-
     @Override
     protected void onPostExecute(User user) {
         listener.onUserUpdate(user);
@@ -31,5 +27,9 @@ public class InsertIfMissingUserTask extends AsyncTask<User, Void, User> {
             e.printStackTrace();
             return params[0];
         }
+    }
+
+    public interface InsertIfMissingUserResultListener {
+        void onUserUpdate(User user);
     }
 }

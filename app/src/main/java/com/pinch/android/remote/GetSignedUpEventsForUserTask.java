@@ -11,10 +11,6 @@ import java.util.List;
 public class GetSignedUpEventsForUserTask extends AsyncTask<Long, Void, List<Event>> {
     GetSignedUpEventsForUseResultListener listener;
 
-    public interface GetSignedUpEventsForUseResultListener {
-        void onEventsFetched(List<Event> events);
-    }
-
     public GetSignedUpEventsForUserTask(GetSignedUpEventsForUseResultListener listener) {
         this.listener = listener;
     }
@@ -32,5 +28,9 @@ public class GetSignedUpEventsForUserTask extends AsyncTask<Long, Void, List<Eve
     @Override
     protected void onPostExecute(List<Event> events) {
         listener.onEventsFetched(events);
+    }
+
+    public interface GetSignedUpEventsForUseResultListener {
+        void onEventsFetched(List<Event> events);
     }
 }

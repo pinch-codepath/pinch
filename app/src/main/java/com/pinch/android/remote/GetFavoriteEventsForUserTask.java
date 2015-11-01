@@ -11,10 +11,6 @@ import java.util.List;
 public class GetFavoriteEventsForUserTask extends AsyncTask<Long, Void, List<Event>> {
     GetFavoriteEventsForUserResultListener listener;
 
-    public interface GetFavoriteEventsForUserResultListener {
-        void onEventsFetched(List<Event> events);
-    }
-
     public GetFavoriteEventsForUserTask(GetFavoriteEventsForUserResultListener listener) {
         this.listener = listener;
     }
@@ -32,5 +28,9 @@ public class GetFavoriteEventsForUserTask extends AsyncTask<Long, Void, List<Eve
     @Override
     protected void onPostExecute(List<Event> events) {
         listener.onEventsFetched(events);
+    }
+
+    public interface GetFavoriteEventsForUserResultListener {
+        void onEventsFetched(List<Event> events);
     }
 }

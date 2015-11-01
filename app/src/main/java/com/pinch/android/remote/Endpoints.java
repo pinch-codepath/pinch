@@ -2,11 +2,11 @@ package com.pinch.android.remote;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+
 import com.pinch.backend.eventEndpoint.EventEndpoint;
 import com.pinch.backend.favoriteEndpoint.FavoriteEndpoint;
 import com.pinch.backend.imageEndpoint.ImageEndpoint;
