@@ -1,15 +1,21 @@
 package com.pinch.android.activities;
 
+import com.google.api.client.util.DateTime;
+
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -17,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.facebook.AccessToken;
 import com.pinch.android.PinchApplication;
@@ -36,6 +43,10 @@ import com.pinch.backend.userEndpoint.model.User;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class EventDetailsActivity extends AppCompatActivity
         implements FacebookLoginDialog.FacebookLoginDialogListener,
         EventSignUpTask.EventSignUpTaskResultListener,
@@ -45,9 +56,11 @@ public class EventDetailsActivity extends AppCompatActivity
         FavoriteOrgTask.FavoriteOrgResultListener,
         HasFavoriteForOrgTask.HasFavoriteForOrgResultListener {
 
-    private ImageView mIvPic;
+    @Bind(R.id.ivPic)
+    ImageView mIvPic;
+
     private Button mBtnSignUp;
-    private Button mBtnFavoriteOrg;
+    private ToggleButton mBtnFavoriteOrg;
     private TextView mTvEventDate;
     private TextView mTvEventTime;
     private TextView mTvEventDescription;
@@ -83,12 +96,16 @@ public class EventDetailsActivity extends AppCompatActivity
     private String eventOrgPhone;
     private String eventOrgUrl;
     private String source;
+    private DateTime eventStartTime;
+    private DateTime eventEndTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_event_details);
+
+        ButterKnife.bind(this);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             postponeEnterTransition();
@@ -114,6 +131,9 @@ public class EventDetailsActivity extends AppCompatActivity
         eventOrgId = getIntent().getLongExtra("eventOrgId", 0);
         eventOrgUrl = (String) getIntent().getStringExtra("eventOrgUrl");
         source = getIntent().getStringExtra("source");
+        eventStartTime = (DateTime) getIntent().getSerializableExtra("eventStartTime");
+        eventEndTime = (DateTime) getIntent().getSerializableExtra("eventEndTime");
+
         setupToolbar();
         setupViewObjects();
     }
@@ -146,7 +166,7 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvOrgAddress = (TextView) findViewById(R.id.tvOrgAddress);
         mTvOrgPhone = (TextView) findViewById(R.id.tvOrgPhoneNumber);
         mTvOrgUrl = (TextView) findViewById(R.id.tvOrgUrl);
-        mBtnFavoriteOrg = (Button) findViewById(R.id.btFollow);
+        mBtnFavoriteOrg = (ToggleButton) findViewById(R.id.btFollow);
 
         mTvEventDate.setText(this.eventDate);
         mTvEventTime.setText(this.eventTime);
@@ -155,9 +175,10 @@ public class EventDetailsActivity extends AppCompatActivity
         mTvEventDescription.setText(this.eventDescription);
         mTvRequirements.setText(this.eventSkill1 + ", " + this.eventSkill2 + ", " + this.eventSkill3);
         mTvOrgName.setText(this.eventOrgName);
-        mTvOrgAddress.setText("Address:\n" + this.eventOrgAddress);
-        mTvOrgPhone.setText("Ph:(" + this.eventOrgPhone.substring(0, 3) + ")" + this.eventOrgPhone.substring(3, 6) + "-" + this.eventOrgPhone.substring(6, 10));
-        mTvOrgUrl.setText("Website: " + this.eventOrgUrl);
+        mTvOrgAddress.setText(this.eventOrgAddress);
+        mTvOrgPhone.setText("(" + this.eventOrgPhone.substring(0, 3) + ")" + this.eventOrgPhone.substring(3, 6) + "-" + this.eventOrgPhone.substring(6, 10));
+
+        mTvOrgUrl.setText(Html.fromHtml(this.eventOrgUrl));
 
         mBtnSignUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -227,6 +248,48 @@ public class EventDetailsActivity extends AppCompatActivity
         }
     }
 
+    @OnClick(R.id.ivIconLocation)
+    public void submit(View view) {
+        String map = "http://maps.google.co.in/maps?q=" + this.eventAddressStreet + ", " + this.eventAddressCity + ", " + this.eventAddressState;
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(map));
+        startActivity(i);
+    }
+
+    @OnClick(R.id.ivIconOrgLocation)
+    public void submitOrgLocation(View view) {
+        String map = "http://maps.google.co.in/maps?q=" + this.eventOrgAddress;
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(map));
+        startActivity(i);
+    }
+
+    @OnClick(R.id.ivIconOrgPhone)
+    public void submitOrgPhone(View view) {
+        String uri = "tel:" + this.eventOrgPhone;
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse(uri));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.ivIconUrl)
+    public void submitOrgUrl(View view) {
+        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(this.eventOrgUrl));
+        startActivity(myIntent);
+    }
+
+    @OnClick(R.id.ivIconCalendar)
+    public void submitIconCalendar(View view) {
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setType("vnd.android.cursor.item/event")
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, eventStartTime.getValue())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventEndTime.getValue())
+                .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false) // just included for completeness
+                .putExtra(CalendarContract.Events.TITLE, eventTitle)
+                .putExtra(CalendarContract.Events.DESCRIPTION, eventDescription)
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, this.eventAddressStreet + ", " + this.eventAddressCity + ", " + this.eventAddressState)
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE);
+        startActivity(intent);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -297,18 +360,17 @@ public class EventDetailsActivity extends AppCompatActivity
 
     @Override
     public void onEventSignUp(SignUp signUp) {
-        mBtnSignUp.setText("Signed Up!!");
+        mBtnSignUp.setText("See you there!!");
         this.signUp = signUp;
-        Toast.makeText(getApplicationContext(), "Signed Up!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "You are signed up for this event!!", Toast.LENGTH_SHORT).show();
         PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserSignupsEvent());
     }
 
     @Override
     public void onRemoveEventSignUp() {
-        mBtnSignUp.setText("Sign Up");
+        mBtnSignUp.setText("Volunteer!");
         this.signUp = null;
-        Toast.makeText(getApplicationContext(), "Remove sign up!!", Toast.LENGTH_SHORT).show();
         PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserSignupsEvent());
     }
@@ -317,24 +379,21 @@ public class EventDetailsActivity extends AppCompatActivity
     public void onHasSignUpResult(SignUp signedUp) {
         this.signUp = signedUp;
         if (signUp != null) {
-            mBtnSignUp.setText("Signed Up!!");
+            mBtnSignUp.setText("See you there!!");
         }
     }
 
     @Override
     public void onUnfavoriteOrg() {
-        mBtnFavoriteOrg.setText("Follow");
         this.favorite = null;
-        Toast.makeText(getApplicationContext(), "Not following org!!", Toast.LENGTH_SHORT).show();
         PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserFavoritesEvent());
     }
 
     @Override
     public void onFavoriteOrg(Favorite v) {
-        mBtnFavoriteOrg.setText("Following!");
         this.favorite = v;
-        Toast.makeText(getApplicationContext(), "Following Org!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Following Organization!!", Toast.LENGTH_SHORT).show();
         PinchApplication application = (PinchApplication) getApplication();
         application.bus.post(new RefreshUserFavoritesEvent());
     }
@@ -343,7 +402,7 @@ public class EventDetailsActivity extends AppCompatActivity
     public void onHasFavoriteResult(Favorite favorite) {
         this.favorite = favorite;
         if (favorite != null && mBtnFavoriteOrg != null) {
-            mBtnFavoriteOrg.setText("Following!");
+            mBtnFavoriteOrg.setChecked(true);
         }
     }
 }

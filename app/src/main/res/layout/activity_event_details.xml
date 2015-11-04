@@ -35,16 +35,49 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="@dimen/event_detail_margin_bottom" />
 
+            <TextView
+                android:id="@+id/tvEventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ivPic"
+                android:text="This is an event description."
+                android:layout_margin="15dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconReq"
+                android:layout_below="@+id/tvEventDescription"
+                android:src="@drawable/ic_material_checklist"
+                android:tint="@color/colorAccent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tvRequirements"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Clean, Cook, Change Dialpers"
+                android:layout_toRightOf="@+id/ivIconReq"
+                android:layout_alignTop="@+id/ivIconReq"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ivIconCalendar"
-                android:layout_below="@+id/ivPic"
+                android:layout_below="@+id/tvRequirements"
                 android:src="@drawable/ic_material_events"
-                android:tint="@color/colorAccent"
+                android:tint="@color/colorPrimaryMidLight"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:paddingTop="10dp"
                 android:layout_marginLeft="10dp"
                 />
 
@@ -55,8 +88,9 @@
                 android:text="mm/dd/yyyy"
                 android:id="@+id/tvEventDate"
                 android:transitionName="eventDate"
-                android:layout_below="@+id/ivPic"
+                android:layout_below="@+id/tvRequirements"
                 android:layout_toRightOf="@+id/ivIconCalendar"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"/>
 
             <TextView
@@ -77,7 +111,7 @@
                 android:id="@+id/ivIconLocation"
                 android:layout_below="@+id/tvEventTime"
                 android:src="@drawable/ic_material_location"
-                android:tint="@color/colorAccent"
+                android:tint="@color/colorPrimaryMidLight"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="10dp"
@@ -102,45 +136,12 @@
                 android:layout_marginBottom="10dp"
                 android:text="San Francisco, CA" />
 
-            <TextView
-                android:id="@+id/tvEventDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tvAddressLine2"
-                android:text="This is an event description."
-                android:layout_margin="15dp"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ivIconReq"
-                android:layout_below="@+id/tvEventDescription"
-                android:src="@drawable/ic_material_checklist"
-                android:tint="@color/colorAccent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="10dp"
-                />
-
-            <TextView
-                android:id="@+id/tvRequirements"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Clean, Cook, Change Dialpers"
-                android:layout_toRightOf="@+id/ivIconReq"
-                android:layout_alignTop="@+id/ivIconReq"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"/>
-
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
                 android:background="#d1d1d1"
-                android:layout_below="@+id/tvRequirements"
+                android:layout_below="@+id/tvAddressLine2"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp">
             </View>
@@ -150,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/ivIconOrg"
                 android:layout_below="@+id/divider"
-                android:src="@drawable/ic_material_earth"
+                android:src="@drawable/ic_material_org"
                 android:tint="@color/colorAccent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -164,11 +165,27 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Organization Name"
                 android:id="@+id/tvOrgName"
+                android:layout_marginTop="3dp"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@+id/divider"
                 android:layout_toRightOf="@+id/ivIconOrg"
                 android:layout_alignLeft="@+id/tvEventDate"
-                android:layout_alignStart="@+id/tvEventDate"/>
+                android:layout_alignStart="@+id/tvEventDate"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconOrgLocation"
+                android:layout_below="@+id/ivIconOrg"
+                android:layout_toLeftOf="@+id/tvOrgAddress"
+                android:layout_alignRight="@+id/ivIconOrg"
+                android:src="@drawable/ic_material_location"
+                android:tint="@color/colorPrimaryMidLight"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -182,6 +199,21 @@
                 android:layout_alignStart="@+id/tvEventDate"
                 android:layout_below="@+id/tvOrgName"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconOrgPhone"
+                android:layout_below="@+id/ivIconOrgLocation"
+                android:layout_toLeftOf="@+id/tvOrgPhoneNumber"
+                android:layout_alignRight="@+id/ivIconOrg"
+                android:layout_alignTop="@+id/tvOrgPhoneNumber"
+                android:src="@drawable/ic_material_phone"
+                android:tint="@color/colorPrimaryMidLight"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -192,7 +224,23 @@
                 android:layout_marginBottom="10dp"
                 android:layout_alignLeft="@+id/tvEventDate"
                 android:layout_alignStart="@+id/tvEventDate"
+                android:paddingTop="5dp"
                 android:layout_below="@+id/tvOrgAddress"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivIconUrl"
+                android:layout_below="@+id/ivIconOrgPhone"
+                android:layout_toLeftOf="@+id/tvOrgUrl"
+                android:layout_alignRight="@+id/ivIconOrgPhone"
+                android:layout_alignTop="@+id/tvOrgUrl"
+                android:src="@drawable/ic_material_earth"
+                android:tint="@color/colorPrimaryMidLight"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -200,22 +248,20 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Organization Email ID"
                 android:id="@+id/tvOrgUrl"
+                android:paddingTop="5dp"
                 android:layout_marginBottom="30dp"
                 android:layout_alignLeft="@+id/tvEventDate"
                 android:layout_alignStart="@+id/tvEventDate"
                 android:layout_below="@+id/tvOrgPhoneNumber"/>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:text="Follow"
-                android:textAllCaps="false"
-                android:textColor="#7d0a0b"
+            <ToggleButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:paddingRight="10dp"
-                android:background="@android:color/white"
-                android:drawableLeft="@drawable/ic_action_fav_red"
+                style="@style/toggleButton"
+                android:background="@drawable/follow_button_bg"
                 android:id="@+id/btFollow"
-                android:layout_alignTop="@+id/tvOrgName"
+                android:layout_alignTop="@+id/ivIconOrg"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="19dp"
@@ -230,7 +276,7 @@
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/color_primary"
-        android:text="Sign up"
+        android:text="Volunteer!"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 
