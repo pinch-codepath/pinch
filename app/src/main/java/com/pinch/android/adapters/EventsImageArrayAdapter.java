@@ -107,6 +107,7 @@ public class EventsImageArrayAdapter extends RecyclerView.Adapter<EventsImageArr
                 intent.putExtra("eventOrgAddress", e.getOrganization().getAddress());
                 intent.putExtra("eventOrgPhone", e.getOrganization().getPhoneNumber().getNumber());
                 intent.putExtra("eventOrgUrl", e.getOrganization().getUrl());
+                intent.putExtra("source", "imageView");
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Pair<View, String> p1 = Pair.create((View) ivEventImage, "eventImage");

@@ -82,6 +82,7 @@ public class EventDetailsActivity extends AppCompatActivity
     private String eventOrgAddress;
     private String eventOrgPhone;
     private String eventOrgUrl;
+    private String source;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +113,7 @@ public class EventDetailsActivity extends AppCompatActivity
         eventOrgPhone = (String) getIntent().getStringExtra("eventOrgPhone");
         eventOrgId = getIntent().getLongExtra("eventOrgId", 0);
         eventOrgUrl = (String) getIntent().getStringExtra("eventOrgUrl");
-
+        source = getIntent().getStringExtra("source");
         setupToolbar();
         setupViewObjects();
     }
@@ -232,8 +233,12 @@ public class EventDetailsActivity extends AppCompatActivity
 
         // This refers to the Up navigation button in the action bar
         if (id == android.R.id.home) {
-            finish();
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            if(source.equals("summaryView")){
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            } else {
+                supportFinishAfterTransition();
+            }
             return true;
         }
 

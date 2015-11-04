@@ -89,6 +89,7 @@ public abstract class EventsFragment extends Fragment {
                 intent.putExtra("eventOrgAddress", e.getOrganization().getAddress());
                 intent.putExtra("eventOrgPhone", e.getOrganization().getPhoneNumber().getNumber());
                 intent.putExtra("eventOrgUrl", e.getOrganization().getUrl());
+                intent.putExtra("source", "summaryView");
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
