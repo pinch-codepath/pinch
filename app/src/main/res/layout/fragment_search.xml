@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
+        android:transitionName="search"
         android:id="@+id/fabSearch"
         android:src="@drawable/ic_tab_search"
         app:backgroundTint="@color/colorPrimaryDark"

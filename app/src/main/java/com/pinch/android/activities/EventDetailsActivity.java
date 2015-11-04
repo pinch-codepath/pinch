@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -58,7 +59,6 @@ public class EventDetailsActivity extends AppCompatActivity
     private TextView mTvOrgPhone;
     private TextView mTvOrgUrl;
 
-    private boolean signedUp;
     private SignUp signUp;
     private Favorite favorite;
 
@@ -224,6 +224,20 @@ public class EventDetailsActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Sign Up failed!! Try again in sometime.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        // This refers to the Up navigation button in the action bar
+        if (id == android.R.id.home) {
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void onFavoriteButtonClicked() {

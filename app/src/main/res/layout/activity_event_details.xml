@@ -229,7 +229,7 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/color_primary"
         android:text="Sign up"
         android:textColor="@android:color/white"
         android:textSize="20sp" />

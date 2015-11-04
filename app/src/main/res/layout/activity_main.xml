@@ -26,4 +26,5 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tabs"
         android:background="@android:color/white" />
+
 </RelativeLayout>

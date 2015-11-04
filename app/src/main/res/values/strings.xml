@@ -28,7 +28,7 @@
         <item>Skill3</item>
         <item>Skill4</item>
     </string-array>
-    <string name="title_activity_search_filters">SearchFiltersActivity</string>
+    <string name="title_activity_search_filters">Search for events</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="facebook_app_id">446541765541034</string>
     <string name="shared_preference_file_key">com.pinch.android.PREFERENCE_FILE_KEY</string>

@@ -1,9 +1,12 @@
 package com.pinch.android.fragments;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -40,6 +43,8 @@ public class SearchFragment extends Fragment {
     private FloatingActionButton fabSearch;
     private SearchFilters searchFilters;
 
+    private boolean inSearchMode = false;
+
     private SwipeRefreshLayout mSwipeContainer;
 
     public SearchFragment() {
@@ -60,11 +65,24 @@ public class SearchFragment extends Fragment {
 
         fabSearch = (FloatingActionButton) mFragmentView.findViewById(R.id.fabSearch);
         fabSearch.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
-                Intent searchIntent = new Intent(getActivity(), SearchFiltersActivity.class);
-                searchIntent.putExtra("filters", searchFilters);
-                startActivityForResult(searchIntent, REQUEST_CODE);
+                if(!inSearchMode){
+                    Intent searchIntent = new Intent(getActivity(), SearchFiltersActivity.class);
+                    searchIntent.putExtra("filters", searchFilters);
+                    ActivityOptions options = ActivityOptions
+                            .makeSceneTransitionAnimation(SearchFragment.this.getActivity(), fabSearch, "search");
+                    getActivity().startActivityForResult(searchIntent, REQUEST_CODE, options.toBundle());
+                    fabSearch.setImageResource(R.drawable.ic_action_name);
+                    inSearchMode = true;
+                } else {
+                    fabSearch.setImageResource(R.drawable.ic_tab_search);
+                    inSearchMode = false;
+                    searchFilters = new SearchFilters();
+                    populateEvents();
+                    Toast.makeText(getActivity(), "Cleared search results.", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -100,6 +118,9 @@ public class SearchFragment extends Fragment {
             //populate list with the search filters
             populateEvents();
             Toast.makeText(getActivity(), "UPDATING RESULTS", Toast.LENGTH_LONG).show();
+        } else {
+            fabSearch.setImageResource(R.drawable.ic_tab_search);
+            inSearchMode = false;
         }
     }
 
