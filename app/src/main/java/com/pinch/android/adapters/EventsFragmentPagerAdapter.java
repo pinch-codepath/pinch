@@ -27,7 +27,7 @@ public class EventsFragmentPagerAdapter extends FragmentPagerAdapter implements 
     public EventsFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
-        tabs.add(new Tab(SEARCH, R.drawable.ic_tab_calendar, R.drawable.ic_material_home));
+        tabs.add(new Tab(SEARCH, R.drawable.ic_tab_calendar, R.drawable.ic_material_home_tinted));
     }
 
     @Override

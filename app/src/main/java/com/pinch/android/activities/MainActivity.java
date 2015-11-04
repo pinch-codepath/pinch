@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginDial
         FacebookSdk.sdkInitialize(getApplicationContext());
         // load user if logged in.
         setContentView(R.layout.activity_main);
-
+        //setupWindowAnimations();
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginDial
         mVPager.setAdapter(mEventsPagerAdapter);
         mTabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         mTabStrip.setViewPager(mVPager);
+     //   mTabStrip.setIc(R.color.tab_icon);
     }
 
     @Override

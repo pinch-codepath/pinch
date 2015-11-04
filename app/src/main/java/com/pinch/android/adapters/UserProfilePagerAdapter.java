@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.astuetz.PagerSlidingTabStrip;
 import com.pinch.android.R;
 import com.pinch.android.fragments.UserProfileBioFragment;
+import com.pinch.android.fragments.UserProfileFriendsFragment;
 import com.pinch.android.fragments.UserProfileGoalsFragment;
 
 import java.util.ArrayList;
@@ -26,13 +27,15 @@ public class UserProfilePagerAdapter extends FragmentPagerAdapter implements Pag
 
     public static final String BIO = "Bio";
     public static final String GOALS = "Goals";
+    public static final String Friends = "Friends";
+
     public ArrayList<UserProfileTabs> tabs = new ArrayList<>();
 
     public UserProfilePagerAdapter(FragmentManager fm) {
         super(fm);
         tabs.add(new UserProfileTabs(BIO, R.drawable.ic_tab_profile2));
         tabs.add(new UserProfileTabs(GOALS, R.drawable.ic_tab_calendar));
-        tabs.add(new UserProfileTabs(GOALS, R.drawable.ic_tab_friends));
+        tabs.add(new UserProfileTabs(Friends, R.drawable.ic_tab_friends));
         this.notifyDataSetChanged();
     }
 
@@ -48,6 +51,8 @@ public class UserProfilePagerAdapter extends FragmentPagerAdapter implements Pag
                 return new UserProfileBioFragment();
             case 1:
                 return new UserProfileGoalsFragment();
+            case 2:
+                return new UserProfileFriendsFragment();
             default:
                 return new UserProfileBioFragment();
         }
