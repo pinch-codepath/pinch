@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:textSize="14sp"
         android:background="@drawable/gradient_background"
-        android:textColor="@color/tab_icon"
+        android:textColor="@android:color/white"
         app:pstsDividerColor="@color/colorPrimary"
         app:pstsIndicatorColor="@android:color/white"
         app:pstsIndicatorHeight="4dp"
