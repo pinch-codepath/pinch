@@ -31,7 +31,7 @@
             android:textSize="14sp"
             android:layout_marginLeft="@dimen/user_profile_tv_margin"
             android:layout_marginTop="1dp"
-            android:text="Click me to edit" />
+            android:text="youth, animals, elderly, human rights" />
 
         <EditText
             android:id="@+id/etInterests"
@@ -68,7 +68,7 @@
             android:layout_marginLeft="@dimen/user_profile_tv_margin"
             android:layout_marginTop="1dp"
             android:clickable="true"
-            android:text="Click this box to edit. Click again to set. "
+            android:text="Lived in the Bay Area for 15 years and looking to give back to the community."
             android:textSize="14sp" />
 
         <EditText
