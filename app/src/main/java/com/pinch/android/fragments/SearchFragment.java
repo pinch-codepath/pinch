@@ -71,9 +71,10 @@ public class SearchFragment extends Fragment {
                 if(!inSearchMode){
                     Intent searchIntent = new Intent(getActivity(), SearchFiltersActivity.class);
                     searchIntent.putExtra("filters", searchFilters);
-                    ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(SearchFragment.this.getActivity(), fabSearch, "search");
-                    getActivity().startActivityForResult(searchIntent, REQUEST_CODE, options.toBundle());
+//                    ActivityOptions options = ActivityOptions
+//                            .makeSceneTransitionAnimation(SearchFragment.this.getActivity(), fabSearch, "search");
+//                    getActivity().startActivityForResult(searchIntent, REQUEST_CODE, options.toBundle());
+                    startActivityForResult(searchIntent, REQUEST_CODE);
                     fabSearch.setImageResource(R.drawable.ic_action_name);
                     inSearchMode = true;
                 } else {

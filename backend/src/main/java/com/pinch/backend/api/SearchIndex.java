@@ -12,7 +12,7 @@ import com.google.appengine.api.search.StatusCode;
 enum SearchIndex {
     EVENT_INDEX;
 
-    private IndexSpec indexSpec = IndexSpec.newBuilder().setName("event_index_2").build();
+    private IndexSpec indexSpec = IndexSpec.newBuilder().setName("event_index_3").build();
     private Index index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
 
     public void indexDocument(Document document) {
